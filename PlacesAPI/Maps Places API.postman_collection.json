@@ -1,0 +1,143 @@
+{
+	"info": {
+		"_postman_id": "3c6637e1-335c-4f74-875e-04259f846fc4",
+		"name": "Maps Places API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "FindListOfRestaurants",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=[API_KEY]&location=43.0580569,-88.1075128&keyword=italian&type=restaurant&radius=5000",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"nearbysearch",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "[API_KEY]"
+						},
+						{
+							"key": "location",
+							"value": "43.0580569,-88.1075128"
+						},
+						{
+							"key": "keyword",
+							"value": "italian"
+						},
+						{
+							"key": "type",
+							"value": "restaurant"
+						},
+						{
+							"key": "radius",
+							"value": "5000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "FindListOfBars",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=[API_KEY]&location=43.0580569,-88.1075128&keyword=dive&type=bar&radius=5000",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"nearbysearch",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "[API_KEY]"
+						},
+						{
+							"key": "location",
+							"value": "43.0580569,-88.1075128"
+						},
+						{
+							"key": "keyword",
+							"value": "dive"
+						},
+						{
+							"key": "type",
+							"value": "bar"
+						},
+						{
+							"key": "radius",
+							"value": "5000"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "GetLocationDetails",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "https://maps.googleapis.com/maps/api/place/findplacefromtext/json?key=[API_KEY]&input=Speedway+Inn+Bar&inputtype=textquery&fields=opening_hours,icon,geometry,name,formatted_address,photos,types",
+					"protocol": "https",
+					"host": [
+						"maps",
+						"googleapis",
+						"com"
+					],
+					"path": [
+						"maps",
+						"api",
+						"place",
+						"findplacefromtext",
+						"json"
+					],
+					"query": [
+						{
+							"key": "key",
+							"value": "[API_KEY]"
+						},
+						{
+							"key": "input",
+							"value": "Speedway+Inn+Bar"
+						},
+						{
+							"key": "inputtype",
+							"value": "textquery"
+						},
+						{
+							"key": "fields",
+							"value": "opening_hours,icon,geometry,name,formatted_address,photos,types"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
