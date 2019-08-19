@@ -11,16 +11,16 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
-        public string type { get; set; }
+        public string Type { get; set; }
         [ForeignKey("Category")]
-        public string category { get; set; }
-        public double longitude { get; set; }
-        public double latitude { get; set; }
+        public string Category { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
         [ForeignKey("CommentId")]
-        public int commentId { get; set; }
+        public int CommentId { get; set; }
         [ForeignKey("CityId")]
-        public int cityId { get; set; }
-        public string website { get; set; }
+        public int CityId { get; set; }
+        public string Website { get; set; }
 
 
 
