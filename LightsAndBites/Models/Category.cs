@@ -9,8 +9,8 @@ namespace LightsAndBites.Models
     public class Category
     {
         [Key]
-        int CategoryId { get; set; }
-        string CategoryName { get; set; }
-        string CateogryType { get; set; }
+        public int Id { get; set; }
+        public string CategoryName { get; set; }
+        public string CateogryType { get; set; }
     }
 }

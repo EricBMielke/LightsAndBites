@@ -9,9 +9,9 @@ namespace LightsAndBites.Models
     public class City
     {
         [Key]
-        int CityId { get; set; }
-        string CityName { get; set; }
-        string State { get; set; }
+        public int Id { get; set; }
+        public string CityName { get; set; }
+        public string State { get; set; }
 
     }
 }

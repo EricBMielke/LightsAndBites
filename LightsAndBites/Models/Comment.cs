@@ -10,18 +10,18 @@ namespace LightsAndBites.Models
     public class Comment
     {
         [Key]
-        int CommentId { get; set; }
-        string UserComment { get; set; }
-        DateTime CommentDate { get; set; }
+        public int Id { get; set; }
+        public string UserComment { get; set; }
+        public DateTime CommentDate { get; set; }
 
         [ForeignKey("BarId")]
-        int? BarId { get; set; }
+        public int? BarId { get; set; }
 
         [ForeignKey("RestaurantId")]
-        int? RestaurantId { get; set; }
+        public int? RestaurantId { get; set; }
 
         [ForeignKey("EventId")]
-        int? EventId { get; set; }
+        public int? EventId { get; set; }
 
 
 
