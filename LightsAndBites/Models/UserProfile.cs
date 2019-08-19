@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace LightsAndBites.Models
 {
-    public class User
+    public class UserProfile
     {
         [Key]
         string Email { get; set; }
