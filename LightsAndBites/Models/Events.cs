@@ -10,17 +10,21 @@ namespace LightsAndBites.Models
     public class Events
     {
         [Key]
-        public int Id;
-        public string type;
+        public int EventId { get; set; }
+        public string Type { get; set; }
         [ForeignKey("Category")]
-        public string category;
-        public double longitude;
-        public double latitude;
+        public string CategoryId { get; set; }
+        public double Longitude { get;set }
+        public double Latitude { get; set; }
         [ForeignKey("CommentId")]
-        public int commentId;
+        public int CommentId { get; set; }
         [ForeignKey("CityId")]
-        public int cityId;
-        public string website;
+        public int CityId { get; set; }
+
+        public string Website { get; set; }
+        public string StreetAddress { get; set; }
+        public int Zipcode { get; set; }
+        
 
 
 
