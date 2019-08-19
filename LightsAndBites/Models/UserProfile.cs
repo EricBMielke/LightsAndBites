@@ -10,6 +10,7 @@ namespace LightsAndBites.Models
     public class UserProfile
     {
         [Key]
+        public int Id { get; set; }
         string Email { get; set; }
         string FirstName { get; set; }
         string LastName { get; set; }

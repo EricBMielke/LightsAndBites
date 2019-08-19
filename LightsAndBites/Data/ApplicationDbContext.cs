@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using LightsAndBites.Models;
 
 namespace LightsAndBites.Data
 {
@@ -12,5 +13,6 @@ namespace LightsAndBites.Data
             : base(options)
         {
         }
+        public DbSet<LightsAndBites.Models.UserProfile> UserProfile { get; set; }
     }
 }
