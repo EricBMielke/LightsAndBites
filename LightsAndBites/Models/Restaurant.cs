@@ -23,5 +23,6 @@ namespace LightsAndBites.Models
         [ForeignKey("CityId")]
         public int CityId { get; set; }
         public string Website { get; set; }
+        public string CardPhoto { get; set; }
     }
 }
