@@ -1,11 +1,17 @@
 ﻿@model IEnumerable<LightsAndBites.Models.UserProfile>
 
 @{
-    ViewData["Title"] = "Index";
+    Layout = null;
 }
 
-<h2>Index</h2>
+<!DOCTYPE html>
 
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+</head>
+<body>
 <p>
     <a asp-action="Create">Create New</a>
 </p>
@@ -27,3 +33,5 @@
 }
     </tbody>
 </table>
+</body>
+</html>
