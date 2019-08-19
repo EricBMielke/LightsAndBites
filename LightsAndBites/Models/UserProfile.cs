@@ -11,29 +11,29 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
-        string Email { get; set; }
-        string FirstName { get; set; }
-        string LastName { get; set; }
-        string Hometown { get; set; }
+        public string Email { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public string Hometown { get; set; }
 
         [ForeignKey("BarId")]
-        int BarCategoryIdOne { get; set; }
+        public int BarCategoryIdOne { get; set; }
         [ForeignKey("BarId")]
-        int BarCategoryIdTwo { get; set; }
+        public int BarCategoryIdTwo { get; set; }
 
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdOne { get; set; }
+        public int RestaurantCategoryIdOne { get; set; }
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdTwo { get; set; }
+        public int RestaurantCategoryIdTwo { get; set; }
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdThree { get; set; }
+        public int RestaurantCategoryIdThree { get; set; }
 
         [ForeignKey("EventId")]
-        int EventCategoryIdOne { get; set; }
+        public int EventCategoryIdOne { get; set; }
         [ForeignKey("EventId")]
-        int EventCategoryIdTwo { get; set; }
+        public int EventCategoryIdTwo { get; set; }
         [ForeignKey("EventId")]
-        int EventCategoryIdThree { get; set; }
+        public int EventCategoryIdThree { get; set; }
 
         
     }

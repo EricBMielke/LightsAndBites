@@ -1,10 +1,17 @@
 ﻿@model LightsAndBites.Models.UserProfile
 
 @{
-    ViewData["Title"] = "Create";
+    Layout = null;
 }
 
-<h2>Create</h2>
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Create</title>
+</head>
+<body>
 
 <h4>UserProfile</h4>
 <hr />
@@ -26,3 +33,5 @@
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }
+</body>
+</html>
