@@ -10,18 +10,18 @@ namespace LightsAndBites.Models
     public class Bar
     {
         [Key]
-        public int Id;
-        public string type;
+        public int Id { get; set; }
+        public string Type { get; set; }
         [ForeignKey("Category")]
-        public string category;
-        public double longitude;
-        public double latitude;
-        public int likes;
-        public int dislikes;
+        public string Category { get; set; }
+        public double Longitude { get; set; }
+        public double Latitude { get; set; }
+        public int Likes { get; set; }
+        public int Dislikes { get; set; }
         [ForeignKey("CommentId")]
-        public int? commentId;
+        public int? CommentId { get; set; }
         [ForeignKey("CityId")]
-        public int cityId;
-        public string website;
+        public int CityId { get; set; }
+        public string Website { get; set; }
     }
 }

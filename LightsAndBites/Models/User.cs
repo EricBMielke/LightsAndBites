@@ -18,21 +18,21 @@ namespace LightsAndBites.Models
         [ForeignKey("BarId")]
         int BarCategoryIdOne { get; set; }
         [ForeignKey("BarId")]
-        int BarCategoryIdTwo { get;set }
+        int BarCategoryIdTwo { get; set; }
 
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdOne { get; set }
+        int RestaurantCategoryIdOne { get; set; }
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdTwo { get; set }
+        int RestaurantCategoryIdTwo { get; set; }
         [ForeignKey("RestaurantId")]
-        int RestaurantCategoryIdThree { get; set }
+        int RestaurantCategoryIdThree { get; set; }
 
         [ForeignKey("EventId")]
-        int EventCategoryIdOne { get; set }
+        int EventCategoryIdOne { get; set; }
         [ForeignKey("EventId")]
-        int EventCategoryIdTwo { get; set }
+        int EventCategoryIdTwo { get; set; }
         [ForeignKey("EventId")]
-        int EventCategoryIdThree { get; set }
+        int EventCategoryIdThree { get; set; }
 
         
     }
