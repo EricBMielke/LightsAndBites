@@ -10,18 +10,18 @@ namespace LightsAndBites.Models
     public class Rating
     {
         [Key]
-        int RatingId { get; set; }
-        bool IsPositive { get; set; }
+        public int Id { get; set; }
+        public bool IsPositive { get; set; }
         [ForeignKey("UserId")]
-        string UserEmail { get; set; }
+        public string UserEmail { get; set; }
 
         [ForeignKey("BarId")]
-        int? BarId { get; set; }
+        public int? BarId { get; set; }
 
         [ForeignKey("RestaurantId")]
-        int? RestaurantId { get; set; }
+        public int? RestaurantId { get; set; }
 
         [ForeignKey("EventId")]
-        int? EventId { get; set; }
+        public int? EventId { get; set; }
     }
 }
