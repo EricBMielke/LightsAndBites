@@ -4,10 +4,11 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Threading.Tasks;
+using LightsAndBites.Classes;
 
 namespace LightsAndBites.Models
 {
-    public class Events
+    public class Events : Recommendation
     {
         [Key]
 
