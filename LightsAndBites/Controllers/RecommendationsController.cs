@@ -76,6 +76,8 @@ namespace LightsAndBites.Controllers
                     newBar.Likes = 0;
                     newBar.Dislikes = 0;
                     newBar.Name = j["name"].ToString();
+                    newBar.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
+                    newBar.City = _context.Cities.Where(c => c.Id == newBar.CityId).Single();
 
                     var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude).FirstOrDefault();
                     if (foundMatchingBar == null)
@@ -107,12 +109,16 @@ namespace LightsAndBites.Controllers
                 {
                     Restaurant newRestaurant = new Restaurant();
                     newRestaurant.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
+                    newRestaurant.Category = _context.Categories.Where(c => c.Id == newRestaurant.CategoryId).Single();
                     newRestaurant.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
                     newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
                     newRestaurant.Likes = 0;
                     newRestaurant.Dislikes = 0;
+                    newRestaurant.Name = j["name"].ToString();
+                    newRestaurant.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
+                    newRestaurant.City = _context.Cities.Where(c => c.Id == newRestaurant.CityId).Single();
 
-                    var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude);
+                    var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude).FirstOrDefault();
                     if (foundMatchingBar == null)
                     {
                         _context.Restaurants.Add(newRestaurant);
@@ -148,8 +154,8 @@ namespace LightsAndBites.Controllers
         {
             List<Recommendation> gems = new List<Recommendation>();
 
-            List<Bar> bars = _context.Bars.OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Restaurant> restaurants = _context.Restaurants.OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+            List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+            List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes !=0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
 
             if (bars.Count == 0)
             {
