@@ -157,6 +157,18 @@ namespace LightsAndBites.Controllers
             List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
             List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes !=0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
 
+            List<Bar> unrankedBars = _context.Bars.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+
+            foreach (Bar b in unrankedBars)
+            {
+                bars.Add(b);
+            }
+            foreach (Restaurant r in unrankedRestaurants)
+            {
+                restaurants.Add(r);
+            }
+
             if (bars.Count == 0)
             {
                 for (int i = 0; i < 4; i++)
