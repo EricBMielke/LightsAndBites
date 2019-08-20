@@ -64,11 +64,7 @@ namespace LightsAndBites.Controllers
             List<Bar> allBarsMatching = new List<Bar>();
             foreach (Category category in categories)
             {
-                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category == category.CategoryName).ToList();
-                foreach (Bar bar in allBarsMatchingSingle)
-                {
-                    allBarsMatching.Add(bar);
-                }
+                
                 List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "bar");
                 foreach (JObject j in data)
                 {
@@ -86,6 +82,11 @@ namespace LightsAndBites.Controllers
                     }
                 }
                 _context.SaveChanges();
+                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category == category.CategoryName).ToList();
+                foreach (Bar bar in allBarsMatchingSingle)
+                {
+                    allBarsMatching.Add(bar);
+                }
             }
 
             
@@ -98,11 +99,7 @@ namespace LightsAndBites.Controllers
             List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
             foreach (Category category in categories)
             {
-                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category == category.CategoryName).ToList();
-                foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
-                {
-                    allRestaurantsMatching.Add(restaurant);
-                }
+                
                 List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "restaurant");
                 foreach (JObject j in data)
                 {
@@ -120,6 +117,11 @@ namespace LightsAndBites.Controllers
                     }
                 }
                 _context.SaveChanges();
+                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category == category.CategoryName).ToList();
+                foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
+                {
+                    allRestaurantsMatching.Add(restaurant);
+                }
             }
 
             return allRestaurantsMatching;

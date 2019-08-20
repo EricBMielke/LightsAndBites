@@ -10,3 +10,25 @@
 
 <h2>Index</h2>
 
+@foreach (LightsAndBites.Classes.Recommendation r in Model[0])
+{
+    if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+    {
+        Bar thisBar = (Bar)r;
+        @Html.Display(thisBar.Name);
+    }
+    else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+    {
+        Restaurant thisRestaurant = (Restaurant)r;
+        @Html.Display(thisRestaurant.Name);
+    }
+    else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+    {
+        Events thisEvent = (Events)r;
+        @Html.Display(thisEvent.Name);
+    }
+    else
+    {
+        @Html.Display("Bad data model.");
+    }
+}
