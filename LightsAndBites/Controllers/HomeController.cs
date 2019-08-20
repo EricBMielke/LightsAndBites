@@ -19,8 +19,6 @@ namespace LightsAndBites.Controllers
 {
     public class HomeController : Controller
     {
-
-        private const string URL = "https://api.predicthq.com/v1/events/";
         private string token = ApiKey.eventKey;
         public string Token => token;
 
@@ -36,28 +34,8 @@ namespace LightsAndBites.Controllers
             return View();
         }
 
-        public async Task<IActionResult> About()
+        public IActionResult About()
         {
-            ViewData["Message"] = "You are pulling back event data. Nice.";
-            HttpClient client = new HttpClient();
-            client.BaseAddress = new Uri(URL);
-            // Add an Accept header for JSON format.
-            client.DefaultRequestHeaders.Accept.Add(
-            new MediaTypeWithQualityHeaderValue("application/json"));
-            // List data response.
-            // Must retrieve token from Eric for this to work.
-            HttpResponseMessage response = client.GetAsync("?access_token="+ Token +"&location=@43.0389,-87.90647&within=10mi@43.0389,-87.90647&category=sports").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                string responseBody = await response.Content.ReadAsStringAsync();
-                Console.WriteLine(responseBody);
-            }
-            else
-            {
-                Console.WriteLine("We were unable to find your events.");
-
-            }
-
             return View();
         }
 
@@ -77,6 +55,36 @@ namespace LightsAndBites.Controllers
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+        public void GetEvents()
+        {
+            string html = string.Empty;
+            string url = @"https://api.predicthq.com/v1/events/?access_token=" + Token + "&location=@43.0389,-87.90647&within=10mi@43.0389,-87.90647&category=sports";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                html = reader.ReadToEnd();
+            }
+
+            JObject o = JObject.Parse(html);
+
+            foreach (JObject j in o["results"])
+            {
+                Events eventt = new Events();
+                //eventt.Name = (j["title"]).ToString();
+                eventt.Latitude = Convert.ToDouble((j["location"][0]));
+                eventt.Longitude = Convert.ToDouble((j["location"][1]));
+                eventt.Type = "concert";
+                eventt.CityId = 1;
+                //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
+                _context.Events.Add(eventt);
+            }
+            _context.SaveChanges();
         }
     }
 }
