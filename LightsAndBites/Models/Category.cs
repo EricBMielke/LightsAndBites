@@ -10,7 +10,9 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Category name")]
         public string CategoryName { get; set; }
+        [Display(Name = "Category type")]
         public string CateogryType { get; set; }
     }
 }

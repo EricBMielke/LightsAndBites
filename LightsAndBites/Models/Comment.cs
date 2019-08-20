@@ -11,15 +11,18 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "Comment")]
         public string UserComment { get; set; }
+        [Display(Name = "Date")]
         public DateTime CommentDate { get; set; }
 
+        [Display(Name = "Bar")]
         [ForeignKey("BarId")]
         public int? BarId { get; set; }
-
+        [Display(Name = "Restaurant")]
         [ForeignKey("RestaurantId")]
         public int? RestaurantId { get; set; }
-
+        [Display(Name = "Event")]
         [ForeignKey("EventId")]
         public int? EventId { get; set; }
 

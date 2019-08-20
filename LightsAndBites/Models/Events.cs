@@ -13,20 +13,27 @@ namespace LightsAndBites.Models
         [Key]
 
         public int EventId { get; set; }
+        [Display(Name = "Type")]
         public string Type { get; set; }
+        [Display(Name = "Category")]
         [ForeignKey("Category")]
         public string CategoryId { get; set; }
+        [Display(Name = "Longitude")]
         public double Longitude { get; set; }
-
+        [Display(Name = "Latitude")]
         public double Latitude { get; set; }
+        [Display(Name = "Comment")]
         [ForeignKey("CommentId")]
         public int CommentId { get; set; }
+        [Display(Name = "City")]
         [ForeignKey("CityId")]
         public int CityId { get; set; }
 
-
+        [Display(Name = "Website")]
         public string Website { get; set; }
+        [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
+        [Display(Name = "Zip code")]
         public int ZipCode { get; set; }
         
 
