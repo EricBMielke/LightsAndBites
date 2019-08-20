@@ -27,7 +27,7 @@ namespace LightsAndBites.Models
 
         public string Website { get; set; }
         public string StreetAddress { get; set; }
-        public int Zipcode { get; set; }
+        public int ZipCode { get; set; }
         
 
 
