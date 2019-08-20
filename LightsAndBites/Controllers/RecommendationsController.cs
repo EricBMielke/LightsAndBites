@@ -10,6 +10,7 @@ using LightsAndBites.Data;
 using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
+using LightsAndBites.ApiKeys;
 
 namespace LightsAndBites.Controllers
 {
@@ -68,7 +69,26 @@ namespace LightsAndBites.Controllers
                 {
                     allBarsMatching.Add(bar);
                 }
+                List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "bar");
+                foreach (JObject j in data)
+                {
+                    Bar newBar = new Bar();
+                    newBar.Category = category.CategoryName;
+                    newBar.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
+                    newBar.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
+                    newBar.Likes = 0;
+                    newBar.Dislikes = 0;
+
+                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude);
+                    if (foundMatchingBar == null)
+                    {
+                        _context.Bars.Add(newBar);
+                    }
+                }
+                _context.SaveChanges();
             }
+
+            
 
             return allBarsMatching;
         }
@@ -83,6 +103,23 @@ namespace LightsAndBites.Controllers
                 {
                     allRestaurantsMatching.Add(restaurant);
                 }
+                List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "restaurant");
+                foreach (JObject j in data)
+                {
+                    Restaurant newRestaurant = new Restaurant();
+                    newRestaurant.Category = category.CategoryName;
+                    newRestaurant.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
+                    newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
+                    newRestaurant.Likes = 0;
+                    newRestaurant.Dislikes = 0;
+
+                    var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude);
+                    if (foundMatchingBar == null)
+                    {
+                        _context.Restaurants.Add(newRestaurant);
+                    }
+                }
+                _context.SaveChanges();
             }
 
             return allRestaurantsMatching;
@@ -166,10 +203,10 @@ namespace LightsAndBites.Controllers
             return eventCategories;
         }
 
-        private List<JObject> GetGoogleData(string key, string keyWord, double latitude, double longitude)
+        private List<JObject> GetGoogleData(string keyWord, double latitude, double longitude, string type)
         {
             string data = string.Empty;
-            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + key + @"&location=" + latitude + @"," + longitude + @"&keyword=" + keyWord + @"&type=bar&radius=5000";
+            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + ApiKey.mapsKey + @"&location=" + latitude + @"," + longitude + @"&keyword=" + keyWord + @"&type=" + type +"&radius=5000";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
