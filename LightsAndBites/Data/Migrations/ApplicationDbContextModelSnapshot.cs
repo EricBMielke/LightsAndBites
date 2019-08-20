@@ -123,7 +123,7 @@ namespace LightsAndBites.Data.Migrations
 
                     b.Property<string>("Website");
 
-                    b.Property<int>("Zipcode");
+                    b.Property<int>("ZipCode");
 
                     b.HasKey("EventId");
 
