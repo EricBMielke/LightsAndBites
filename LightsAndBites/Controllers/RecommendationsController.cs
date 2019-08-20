@@ -74,6 +74,7 @@ namespace LightsAndBites.Controllers
                     newBar.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
                     newBar.Likes = 0;
                     newBar.Dislikes = 0;
+                    newBar.Name = j["name"].ToString();
 
                     var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude);
                     if (foundMatchingBar == null)
@@ -109,6 +110,7 @@ namespace LightsAndBites.Controllers
                     newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
                     newRestaurant.Likes = 0;
                     newRestaurant.Dislikes = 0;
+                    newRestaurant.Name = j["name"].ToString();
 
                     var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude);
                     if (foundMatchingBar == null)
