@@ -7,6 +7,7 @@ namespace LightsAndBites.ApiKeys
 {
     public static class ApiKey
     {
-        public static string eventKey = "pADVRom8Yt6NfgH9bOfTaUgBctImlU";
+        public static string eventKey = "[EventApiKey]";
+        public static string mapsKey = "[MapsApiKey]";
     }
 }
