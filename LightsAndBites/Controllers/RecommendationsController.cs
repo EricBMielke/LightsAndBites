@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using LightsAndBites.Models;
 using LightsAndBites.Classes;
 using LightsAndBites.Data;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace LightsAndBites.Controllers
 {
@@ -23,24 +26,16 @@ namespace LightsAndBites.Controllers
         {
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
-            List<Category> barCategories = new List<Category>();
-            barCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.BarCategoryIdOne).Single());
-            barCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.BarCategoryIdTwo).Single());
-
-            List<Category> eventCategories = new List<Category>();
-            eventCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.EventCategoryIdOne).Single());
-            eventCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.EventCategoryIdTwo).Single());
-            eventCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.EventCategoryIdThree).Single());
-
-            List<Category> restaurantCategories = new List<Category>();
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.RestaurantCategoryIdOne).Single());
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.RestaurantCategoryIdTwo).Single());
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == selectedUser.RestaurantCategoryIdThree).Single());
+            List<Category> restaurantCategories = GetRestaurantCategories(selectedUser);
+            List<Category> barCategories = GetBarCategories(selectedUser);
+            List<Category> eventCategories = GetEventCategories(selectedUser);
 
             List<Recommendation> recommendations = new List<Recommendation>();
-            List<Bar> bars = new List<Bar>();
-            List<Restaurant> restaurants = new List<Restaurant>();
-            List<Events> events = new List<Events>();
+
+            List<Bar> bars = GetBars(barCategories);
+            List<Restaurant> restaurants = GetRestaurants(restaurantCategories);
+            List<Events> events = GetEvents(eventCategories);
+
             foreach (Bar b in bars)
             {
                 recommendations.Add(b);
@@ -74,6 +69,52 @@ namespace LightsAndBites.Controllers
         private List<Recommendation> GetNewGems()
         {
 
+        }
+
+        private List<Category> GetBarCategories(UserProfile user)
+        {
+            List<Category> barCategories = new List<Category>();
+            barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdOne).Single());
+            barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdTwo).Single());
+            return barCategories;
+        }
+
+        private List<Category> GetRestaurantCategories(UserProfile user)
+        {
+            List<Category> restaurantCategories = new List<Category>();
+            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdOne).Single());
+            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdTwo).Single());
+            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdThree).Single());
+
+            return restaurantCategories;
+        }
+
+        private List<Category> GetEventCategories(UserProfile user)
+        {
+            List<Category> eventCategories = new List<Category>();
+            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdOne).Single());
+            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdTwo).Single());
+            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
+
+            return eventCategories;
+        }
+
+        private void GetGoogleData(string key, string keyWord)
+        {
+            string data = string.Empty;
+            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + key + @"&location=43.0580569,-88.1075128&keyword=" + keyWord + @"&type=bar&radius=5000";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                data = reader.ReadToEnd();
+            }
+
+            JObject returnData = JObject.Parse(data);
         }
 
         // GET: Recommendations/Details/5
