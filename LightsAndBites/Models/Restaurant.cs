@@ -11,7 +11,8 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
-        public string Type { get; set; }
+        public string Name { get; set; }
+
         [ForeignKey("Category")]
         public string Category { get; set; }
         public double Longitude { get; set; }
