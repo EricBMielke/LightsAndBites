@@ -11,8 +11,8 @@ using System.Threading.Tasks;
 
 namespace LightsAndBites.ApiKeys
 {
-    public class ApiKey
+    public static class ApiKey
     {
-        public string eventKey = "[APIKeyValue]";
+        public static string eventKey = "[APIKeyValue]";
     }
 }
