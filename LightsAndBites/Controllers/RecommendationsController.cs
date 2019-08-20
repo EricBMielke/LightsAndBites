@@ -26,6 +26,8 @@ namespace LightsAndBites.Controllers
         {
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
+            List<Recommendation>[] passedValues = new List<Recommendation>[2];
+
             List<Category> restaurantCategories = GetRestaurantCategories(selectedUser);
             List<Category> barCategories = GetBarCategories(selectedUser);
             List<Category> eventCategories = GetEventCategories(selectedUser);
@@ -48,7 +50,12 @@ namespace LightsAndBites.Controllers
             {
                 recommendations.Add(e);
             }
-            return View();
+
+            passedValues[0] = recommendations;
+
+            passedValues[1] = GetNewGems();
+
+            return View(passedValues);
         }
 
         private List<Bar> GetBars(List<Category> categories)
