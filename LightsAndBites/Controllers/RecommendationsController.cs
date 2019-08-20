@@ -99,10 +99,10 @@ namespace LightsAndBites.Controllers
             return eventCategories;
         }
 
-        private void GetGoogleData(string key, string keyWord)
+        private List<JObject> GetGoogleData(string key, string keyWord, double latitude, double longitude)
         {
             string data = string.Empty;
-            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + key + @"&location=43.0580569,-88.1075128&keyword=" + keyWord + @"&type=bar&radius=5000";
+            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + key + @"&location=" + latitude + @"," + longitude + @"&keyword=" + keyWord + @"&type=bar&radius=5000";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -115,6 +115,13 @@ namespace LightsAndBites.Controllers
             }
 
             JObject returnData = JObject.Parse(data);
+            List<JObject> returnList = new List<JObject>();
+
+            foreach(JObject j in returnData["results"])
+            {
+                returnList.Add(j);
+            }
+            return returnList;
         }
 
         // GET: Recommendations/Details/5
