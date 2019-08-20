@@ -53,17 +53,47 @@ namespace LightsAndBites.Controllers
 
         private List<Bar> GetBars(List<Category> categories)
         {
+            List<Bar> allBarsMatching = new List<Bar>();
+            foreach (Category category in categories)
+            {
+                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category == category.CategoryName).ToList();
+                foreach (Bar bar in allBarsMatchingSingle)
+                {
+                    allBarsMatching.Add(bar);
+                }
+            }
 
+            return allBarsMatching;
         }
 
         private List<Restaurant> GetRestaurants(List<Category> categories)
         {
+            List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
+            foreach (Category category in categories)
+            {
+                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category == category.CategoryName).ToList();
+                foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
+                {
+                    allRestaurantsMatching.Add(restaurant);
+                }
+            }
 
+            return allRestaurantsMatching;
         }
 
         private List<Events> GetEvents(List<Category> categories)
         {
+            List<Events> allEventsMatching = new List<Events>();
+            foreach (Category category in categories)
+            {
+                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.CategoryId == category.CategoryName).ToList();
+                foreach (Events eventItem in allEventsMatchingSingle)
+                {
+                    allEventsMatching.Add(eventItem);
+                }
+            }
 
+            return allEventsMatching;
         }
 
         private List<Recommendation> GetNewGems()
