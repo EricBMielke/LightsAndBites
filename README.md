@@ -2,6 +2,17 @@
 Group capstone 
 
 
-Note: for this to work, you will need to place a file named "config.js" in "LightsAndBites\LightsAndBites\APIKeys". This file should look similar to the below:
+Note: for this to work, you will need to place a new class named "ApiKey.cs" in "LightsAndBites\LightsAndBites\APIKeys" (You must create this new folder). This file should look similar to the below:
 
-var config = { EVENT_KEY: '[APIKeyValue]' }
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace LightsAndBites.ApiKeys
+{
+    public class ApiKey
+    {
+        public string eventKey = "[APIKeyValue]";
+    }
+}
