@@ -54,7 +54,7 @@ namespace LightsAndBites.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id")] UserProfile userProfile)
+        public async Task<IActionResult> Create([Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
         {
             if (ModelState.IsValid)
             {
@@ -86,7 +86,7 @@ namespace LightsAndBites.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id")] UserProfile userProfile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
         {
             if (id != userProfile.Id)
             {
