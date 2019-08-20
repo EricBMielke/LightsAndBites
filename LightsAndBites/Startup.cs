@@ -43,7 +43,7 @@ namespace LightsAndBites
 
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
-            services.AddDbContext<LightsAndBitesContext>(options =>
+            services.AddDbContext<ApplicationDbContext>(options =>
                     options.UseSqlServer(Configuration.GetConnectionString("LightsAndBitesContext")));
         }
 
