@@ -14,7 +14,7 @@ namespace LightsAndBites.Models
 
         public int EventId { get; set; }
         [Display(Name = "Type")]
-        public int Name { get; set; }
+        public string Name { get; set; }
         [Display(Name = "Name")]
         public string Type { get; set; }
         [Display(Name = "Category")]

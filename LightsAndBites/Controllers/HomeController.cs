@@ -19,8 +19,6 @@ namespace LightsAndBites.Controllers
 {
     public class HomeController : Controller
     {
-        private string token = ApiKey.eventKey;
-        public string Token => token;
 
         private ApplicationDbContext _context;
         public HomeController(ApplicationDbContext context)
@@ -56,36 +54,7 @@ namespace LightsAndBites.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public void GetEvents()
-        {
-            string html = string.Empty;
-            string url = @"https://api.predicthq.com/v1/events/?access_token=" + Token + "&location=@43.0389,-87.90647&within=10mi@43.0389,-87.90647&category=sports";
 
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                html = reader.ReadToEnd();
-            }
-
-            JObject o = JObject.Parse(html);
-
-            foreach (JObject j in o["results"])
-            {
-                Events eventt = new Events();
-                //eventt.Name = (j["title"]).ToString();
-                eventt.Latitude = Convert.ToDouble((j["location"][0]));
-                eventt.Longitude = Convert.ToDouble((j["location"][1]));
-                eventt.Type = "concert";
-                eventt.CityId = 1;
-                //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
-                _context.Events.Add(eventt);
-            }
-            _context.SaveChanges();
-        }
     }
 }
 
