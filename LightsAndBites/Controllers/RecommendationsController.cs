@@ -98,7 +98,37 @@ namespace LightsAndBites.Controllers
 
         private List<Recommendation> GetNewGems()
         {
+            List<Recommendation> gems = new List<Recommendation>();
 
+            List<Bar> bars = _context.Bars.OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+            List<Restaurant> restaurants = _context.Restaurants.OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+
+            if (bars.Count == 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    gems.Add(restaurants[i]);
+                }
+            }
+            else if (restaurants.Count == 0)
+            {
+                for (int i = 0; i < 4; i++)
+                {
+                    gems.Add(bars[i]);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    gems.Add(bars[i]);
+                }
+                for (int i = 0; i < 2; i++)
+                {
+                    gems.Add(restaurants[i]);
+                }
+            }
+            return gems;
         }
 
         private List<Category> GetBarCategories(UserProfile user)
@@ -153,80 +183,5 @@ namespace LightsAndBites.Controllers
             }
             return returnList;
         }
-
-        // GET: Recommendations/Details/5
-        //public ActionResult Details(int id)
-        //{
-        //    return View();
-        //}
-
-        //// GET: Recommendations/Create
-        //public ActionResult Create()
-        //{
-        //    return View();
-        //}
-
-        //// POST: Recommendations/Create
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Create(IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add insert logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Recommendations/Edit/5
-        //public ActionResult Edit(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Recommendations/Edit/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Edit(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add update logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
-
-        //// GET: Recommendations/Delete/5
-        //public ActionResult Delete(int id)
-        //{
-        //    return View();
-        //}
-
-        //// POST: Recommendations/Delete/5
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public ActionResult Delete(int id, IFormCollection collection)
-        //{
-        //    try
-        //    {
-        //        // TODO: Add delete logic here
-
-        //        return RedirectToAction(nameof(Index));
-        //    }
-        //    catch
-        //    {
-        //        return View();
-        //    }
-        //}
     }
 }
