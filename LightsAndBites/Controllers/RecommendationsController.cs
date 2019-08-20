@@ -65,25 +65,26 @@ namespace LightsAndBites.Controllers
             foreach (Category category in categories)
             {
                 
-                List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "bar");
+                List<JObject> data = GetGoogleData(category.CategoryType, 43.0580569, -88.1075128, "bar");
                 foreach (JObject j in data)
                 {
                     Bar newBar = new Bar();
-                    newBar.Category = category.CategoryName;
+                    newBar.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
+                    newBar.Category = _context.Categories.Where(c => c.Id == newBar.CategoryId).Single();
                     newBar.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
                     newBar.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
                     newBar.Likes = 0;
                     newBar.Dislikes = 0;
                     newBar.Name = j["name"].ToString();
 
-                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude);
+                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude).FirstOrDefault();
                     if (foundMatchingBar == null)
                     {
                         _context.Bars.Add(newBar);
                     }
                 }
                 _context.SaveChanges();
-                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category == category.CategoryName).ToList();
+                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
                 foreach (Bar bar in allBarsMatchingSingle)
                 {
                     allBarsMatching.Add(bar);
@@ -101,16 +102,15 @@ namespace LightsAndBites.Controllers
             foreach (Category category in categories)
             {
                 
-                List<JObject> data = GetGoogleData(category.CategoryName, 43.0580569, -88.1075128, "restaurant");
+                List<JObject> data = GetGoogleData(category.CategoryType, 43.0580569, -88.1075128, "restaurant");
                 foreach (JObject j in data)
                 {
                     Restaurant newRestaurant = new Restaurant();
-                    newRestaurant.Category = category.CategoryName;
+                    newRestaurant.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
                     newRestaurant.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
                     newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
                     newRestaurant.Likes = 0;
                     newRestaurant.Dislikes = 0;
-                    newRestaurant.Name = j["name"].ToString();
 
                     var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude);
                     if (foundMatchingBar == null)
@@ -119,7 +119,7 @@ namespace LightsAndBites.Controllers
                     }
                 }
                 _context.SaveChanges();
-                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category == category.CategoryName).ToList();
+                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
                 foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
                 {
                     allRestaurantsMatching.Add(restaurant);
@@ -134,7 +134,7 @@ namespace LightsAndBites.Controllers
             List<Events> allEventsMatching = new List<Events>();
             foreach (Category category in categories)
             {
-                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.CategoryId == category.CategoryName).ToList();
+                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).ToList();
                 foreach (Events eventItem in allEventsMatchingSingle)
                 {
                     allEventsMatching.Add(eventItem);

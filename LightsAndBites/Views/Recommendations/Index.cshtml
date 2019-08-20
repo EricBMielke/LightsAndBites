@@ -15,17 +15,20 @@
     if (r.GetType() == typeof(LightsAndBites.Models.Bar))
     {
         Bar thisBar = (Bar)r;
-        @Html.Display(thisBar.Name);
+        @Html.Display(thisBar.Latitude.ToString());
+        @Html.Display(thisBar.Longitude.ToString());
     }
     else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
     {
         Restaurant thisRestaurant = (Restaurant)r;
-        @Html.Display(thisRestaurant.Name);
+        @Html.Display(thisRestaurant.Latitude.ToString());
+        @Html.Display(thisRestaurant.Longitude.ToString());
     }
     else if (r.GetType() == typeof(LightsAndBites.Models.Events))
     {
         Events thisEvent = (Events)r;
-        @Html.Display(thisEvent.Name);
+        @Html.Display(thisEvent.Latitude.ToString());
+        @Html.Display(thisEvent.Longitude.ToString());
     }
     else
     {
