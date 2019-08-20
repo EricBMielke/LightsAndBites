@@ -9,6 +9,11 @@ using System.Net.Http;
 using System.Net.Http.Headers;
 using Newtonsoft.Json;
 using LightsAndBites.ApiKeys;
+using System.Net;
+using System.IO;
+using Newtonsoft.Json.Linq;
+using LightsAndBites.Data;
+
 
 namespace LightsAndBites.Controllers
 {
@@ -17,8 +22,13 @@ namespace LightsAndBites.Controllers
 
         private const string URL = "https://api.predicthq.com/v1/events/";
         private string token = ApiKey.eventKey;
-
         public string Token => token;
+
+        private ApplicationDbContext _context;
+        public HomeController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
         public IActionResult Index()
         {

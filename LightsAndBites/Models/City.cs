@@ -10,7 +10,9 @@ namespace LightsAndBites.Models
     {
         [Key]
         public int Id { get; set; }
+        [Display(Name = "City name")]
         public string CityName { get; set; }
+        [Display(Name = "State")]
         public string State { get; set; }
 
     }

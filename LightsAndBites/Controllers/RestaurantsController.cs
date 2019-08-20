@@ -5,27 +5,26 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LightsAndBites.Data;
 using LightsAndBites.Models;
 
 namespace LightsAndBites.Controllers
 {
-    public class UserProfilesController : Controller
+    public class RestaurantsController : Controller
     {
-        private readonly ApplicationDbContext _context;
+        private readonly LightsAndBitesContext _context;
 
-        public UserProfilesController(ApplicationDbContext context)
+        public RestaurantsController(LightsAndBitesContext context)
         {
             _context = context;
         }
 
-        // GET: UserProfiles
+        // GET: Restaurants
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserProfile.ToListAsync());
+            return View(await _context.Restaurant.ToListAsync());
         }
 
-        // GET: UserProfiles/Details/5
+        // GET: Restaurants/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -33,39 +32,39 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile
+            var restaurant = await _context.Restaurant
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userProfile == null)
+            if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return View(userProfile);
+            return View(restaurant);
         }
 
-        // GET: UserProfiles/Create
+        // GET: Restaurants/Create
         public IActionResult Create()
         {
             return View();
         }
 
-        // POST: UserProfiles/Create
+        // POST: Restaurants/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
+        public async Task<IActionResult> Create([Bind("Id,Name,Category,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userProfile);
+                _context.Add(restaurant);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            return View(userProfile);
+            return View(restaurant);
         }
 
-        // GET: UserProfiles/Edit/5
+        // GET: Restaurants/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -73,22 +72,22 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile.FindAsync(id);
-            if (userProfile == null)
+            var restaurant = await _context.Restaurant.FindAsync(id);
+            if (restaurant == null)
             {
                 return NotFound();
             }
-            return View(userProfile);
+            return View(restaurant);
         }
 
-        // POST: UserProfiles/Edit/5
+        // POST: Restaurants/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,Category,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Restaurant restaurant)
         {
-            if (id != userProfile.Id)
+            if (id != restaurant.Id)
             {
                 return NotFound();
             }
@@ -97,12 +96,12 @@ namespace LightsAndBites.Controllers
             {
                 try
                 {
-                    _context.Update(userProfile);
+                    _context.Update(restaurant);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserProfileExists(userProfile.Id))
+                    if (!RestaurantExists(restaurant.Id))
                     {
                         return NotFound();
                     }
@@ -113,10 +112,10 @@ namespace LightsAndBites.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userProfile);
+            return View(restaurant);
         }
 
-        // GET: UserProfiles/Delete/5
+        // GET: Restaurants/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -124,30 +123,30 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile
+            var restaurant = await _context.Restaurant
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userProfile == null)
+            if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return View(userProfile);
+            return View(restaurant);
         }
 
-        // POST: UserProfiles/Delete/5
+        // POST: Restaurants/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userProfile = await _context.UserProfile.FindAsync(id);
-            _context.UserProfile.Remove(userProfile);
+            var restaurant = await _context.Restaurant.FindAsync(id);
+            _context.Restaurant.Remove(restaurant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserProfileExists(int id)
+        private bool RestaurantExists(int id)
         {
-            return _context.UserProfile.Any(e => e.Id == id);
+            return _context.Restaurant.Any(e => e.Id == id);
         }
     }
 }

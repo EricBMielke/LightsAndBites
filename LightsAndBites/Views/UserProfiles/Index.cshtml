@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<LightsAndBites.Models.UserProfile>
 
 @{
-    Layout = null;
+    Layout = "_Layout";
 }
 
 <!DOCTYPE html>
@@ -18,12 +18,84 @@
 <table class="table">
     <thead>
         <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.LastName)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Hometown)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BarCategoryIdOne)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.BarCategoryIdTwo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantCategoryIdOne)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantCategoryIdTwo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RestaurantCategoryIdThree)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventCategoryIdOne)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventCategoryIdTwo)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.EventCategoryIdThree)
+            </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
 @foreach (var item in Model) {
         <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Email)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.FirstName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Hometown)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BarCategoryIdOne)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.BarCategoryIdTwo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantCategoryIdOne)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantCategoryIdTwo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.RestaurantCategoryIdThree)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventCategoryIdOne)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventCategoryIdTwo)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.EventCategoryIdThree)
+            </td>
             <td>
                 <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
                 <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
