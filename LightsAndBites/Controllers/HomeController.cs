@@ -79,7 +79,7 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("festivals");
             GetDailyEvents("family_fun_kids");
             GetDailyEvents("community");
-            GetDailyEvents("outdoors_recreation");
+            GetDailyEvents("observances");
             GetDailyEvents("performing_arts");
         }
         public void GetDailyQuote()
@@ -143,7 +143,7 @@ namespace LightsAndBites.Controllers
                     case "comedy":
                         eventt.CategoryId = 3;
                         break;
-                    case "outdoor_recreation":
+                    case "observances":
                         eventt.CategoryId = 4;
                         break;
                     case "performing_arts":
