@@ -17,19 +17,22 @@ namespace LightsAndBites.Models
         public string Name { get; set; }
         [Display(Name = "Name")]
         public string Type { get; set; }
+        public int CategoryId { get; set; }
         [Display(Name = "Category")]
-        [ForeignKey("Category")]
-        public string CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
         [Display(Name = "Longitude")]
         public double Longitude { get; set; }
         [Display(Name = "Latitude")]
         public double Latitude { get; set; }
-        [Display(Name = "Comment")]
+        [Display(Name = "Comment Id")]
+        public int? CommentId { get; set; }
         [ForeignKey("CommentId")]
-        public int CommentId { get; set; }
+        public Comment Comment { get; set; }
         [Display(Name = "City")]
-        [ForeignKey("CityId")]
         public int CityId { get; set; }
+        [ForeignKey("CityId")]
+        public City City { get; set; }
 
         [Display(Name = "Website")]
         public string Website { get; set; }
