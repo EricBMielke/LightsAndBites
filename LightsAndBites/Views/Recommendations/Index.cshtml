@@ -9,45 +9,101 @@
 -->
 
 <h2>Index</h2>
-<h3>Recommendations</h3>
-@for (int i = 0; i < Model[0].Count; i++)
-{
-    if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Bar))
-    {
-        Bar thisBar = (Bar)Model[0][i];
-        <p>Bar: @(thisBar.Latitude.ToString() + thisBar.Longitude.ToString()) </p>
-    }
-    else if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Restaurant))
-    {
-        Restaurant thisRestaurant = (Restaurant)Model[0][i];
-        <p>Restaurant: @(thisRestaurant.Latitude.ToString() + thisRestaurant.Longitude.ToString()) </p>
-    }
-    else if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Events))
-    {
-        Events thisEvent = (Events)Model[0][i];
-        <p>Event: @(thisEvent.Latitude.ToString() + thisEvent.Longitude.ToString()) </p>
-    }
-    else
-    {
-        Html.Display("Bad data model.");
-    }
-}
-<br /><br />
-<h3>New Gems</h3>
-@for (int i = 0; i < Model[1].Count; i++)
-{
-    if (Model[1][i].GetType() == typeof(LightsAndBites.Models.Bar))
-    {
-        Bar thisBar = (Bar)Model[1][i];
-        <p>Bar: @(thisBar.Latitude.ToString() + thisBar.Longitude.ToString()) </p>
-    }
-    else if (Model[1][i].GetType() == typeof(LightsAndBites.Models.Restaurant))
-    {
-        Restaurant thisRestaurant = (Restaurant)Model[1][i];
-        <p>Restaurant: @(thisRestaurant.Latitude.ToString() + thisRestaurant.Longitude.ToString()) </p>
-    }
-    else
-    {
-        Html.Display("Bad data model.");
-    }
-}
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 border border-primary rounded">
+            <h2 class="text-center">Recommended</h2>
+           @for (int i = 0; i < 2; i++)
+            {
+        <div class="row text-center">
+               @for (int j = 0; j < Model[0].Count / 2; j++)
+                {
+                    LightsAndBites.Classes.Recommendation recommendation = Model[0][(3 * i) + j];
+                    if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+                    {
+                        Bar thisBar = (Bar)recommendation;
+                        <div class="card col-md m-3 p-2">
+                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            <div class="card-body">
+                                <h5 class="card-title">@(thisBar.Name)</h5>
+                                <p class="card-text">Example Text</p>
+                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                            </div>
+                        </div>
+                    }
+                    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+                    {
+                        Restaurant thisRestaurant = (Restaurant)recommendation;
+                        <div class="card col-md m-3 p-2">
+                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            <div class="card-body">
+                                <h5 class="card-title">@(thisRestaurant.Name)</h5>
+                                <p class="card-text">Example Text</p>
+                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                            </div>
+                        </div>
+                    }
+                    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Events))
+                    {
+                        Events thisEvent = (Events)recommendation;
+                        <div class="card col-md m-3 p-2">
+                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            <div class="card-body">
+                                <h5 class="card-title">@(thisEvent.Name)</h5>
+                                <p class="card-text">Example Text</p>
+                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                            </div>
+                        </div>
+                    }
+                    else
+                    {
+                        Html.Display("Bad data model.");
+                    }
+                }
+        </div>
+            }
+        </div>
+        <div class="col-md-4 order-0 border-secondary" rounded>
+            <h2 class="text-center">New Gems</h2>
+           @for(int i = 0; i < 2; i++)
+            {
+            <div class="row text-center">
+               @for (int j = 0; j < 2; j++)
+               {
+                   LightsAndBites.Classes.Recommendation recommendation = Model[1][(2 * i) + j];
+                   if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+                   {
+                       Bar thisBar = (Bar)recommendation;
+                       <div class="card col-md m-2 p-2">
+                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            <div class="card-body">
+                                <h5 class="card-title">@(thisBar.Name)</h5>
+                                <p class="card-text">More test text</p>
+                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                            </div>
+                       </div>
+                   }
+                   else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+                   {
+                       Restaurant thisRestaurant = (Restaurant)recommendation;
+                       <div class="card col-md m-2 p-2">
+                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            <div class="card-body">
+                                <h5 class="card-title">@(thisRestaurant.Name)</h5>
+                                <p class="card-text">More test text</p>
+                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                            </div>
+                       </div>
+                   }
+                   else
+                   {
+                       Html.Display("Bad data model");
+                   }
+                
+                }
+            </div>
+            }
+        </div>
+    </div>
+</div>
