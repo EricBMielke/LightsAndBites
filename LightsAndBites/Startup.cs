@@ -43,9 +43,10 @@ namespace LightsAndBites
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
+            
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI().AddDefaultTokenProviders();
 
 
 

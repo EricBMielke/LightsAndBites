@@ -24,5 +24,7 @@ namespace LightsAndBites.Data
         public DbSet<LightsAndBites.Models.City> Cities { get; set; }
         public DbSet<LightsAndBites.Models.Category> Categories { get; set; }
         public DbSet<LightsAndBites.Models.Bar> Bars { get; set; }
+
+        public DbSet<LightsAndBites.Models.ApplicationUser> ApplicationUsers { get; set; }
     }
 }
