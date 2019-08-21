@@ -125,6 +125,8 @@ namespace LightsAndBites.Migrations
 
                     b.Property<string>("Name");
 
+                    b.Property<string>("PictureUrl");
+
                     b.Property<string>("StreetAddress");
 
                     b.Property<string>("Type");
