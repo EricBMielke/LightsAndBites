@@ -9,7 +9,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LightsAndBites.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class LightsAndBitesContextModelSnapshot : ModelSnapshot
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {
@@ -116,6 +116,8 @@ namespace LightsAndBites.Migrations
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
+
+                    b.Property<int>("Name");
 
                     b.Property<string>("StreetAddress");
 

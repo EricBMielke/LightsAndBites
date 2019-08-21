@@ -16,8 +16,9 @@ namespace LightsAndBites.Models
         public string Name { get; set; }
 
         [Display(Name = "Category")]
-        [ForeignKey("Category")]
-        public string Category { get; set; }
+        public int CategoryId { get; set; }
+        [ForeignKey("CategoryId")]
+        public Category Category { get; set; }
         [Display(Name = "Longitude")]
         public double Longitude { get; set; }
         [Display(Name = "Latitude")]
@@ -27,11 +28,13 @@ namespace LightsAndBites.Models
         [Display(Name = "Dislikes")]
         public int Dislikes { get; set; }
         [Display(Name = "Comment Id")]
-        [ForeignKey("CommentId")]
         public int? CommentId { get; set; }
+        [ForeignKey("CommentId")]
+        public Comment Comment { get; set; }
         [Display(Name = "City")]
-        [ForeignKey("CityId")]
         public int CityId { get; set; }
+        [ForeignKey("CityId")]
+        public City City { get; set; }
         [Display(Name = "Website")]
         public string Website { get; set; }
         [Display(Name = "Photo")]

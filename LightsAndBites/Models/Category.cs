@@ -13,6 +13,6 @@ namespace LightsAndBites.Models
         [Display(Name = "Category name")]
         public string CategoryName { get; set; }
         [Display(Name = "Category type")]
-        public string CateogryType { get; set; }
+        public string CategoryType { get; set; }
     }
 }

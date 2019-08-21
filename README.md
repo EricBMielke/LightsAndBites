@@ -14,5 +14,6 @@ namespace LightsAndBites.ApiKeys
     public static class ApiKey
     {
         public static string eventKey = "[APIKeyValue]";
+		public static string mapsKey = "[APIKeyValue]";
     }
 }
