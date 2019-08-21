@@ -17,3 +17,23 @@ namespace LightsAndBites.ApiKeys
 		public static string mapsKey = "[APIKeyValue]";
     }
 }
+
+
+
+NOTE: The same thing must be done with connection strings. There should be a "ConnectionStrings" folder created under the solution. This folder should have a "ConnectionString.cs" class file. This file should look like: 
+
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+
+namespace LightsAndBites.ConnectionStrings
+{
+    public static class ConnectionString
+    {
+        public static string connectionString = "[connection string]";
+    }
+}
+
+
+In startup, the explicitly stated connection string can then be replaced with ConnectionString.connectionString.

@@ -330,3 +330,7 @@ ASALocalRun/
 .mfract
 
 ApiKeys/
+
+ConnectionStrings/
+
+appsettings.json

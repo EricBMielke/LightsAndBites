@@ -36,6 +36,8 @@ namespace LightsAndBites.Models
 
         [Display(Name = "Website")]
         public string Website { get; set; }
+        [Display(Name = "PictureUrl")]
+        public string PictureUrl { get; set; }
         [Display(Name = "Street Address")]
         public string StreetAddress { get; set; }
         [Display(Name = "Zip code")]
