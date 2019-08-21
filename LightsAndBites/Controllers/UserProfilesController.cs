@@ -7,6 +7,8 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LightsAndBites.Data;
 using LightsAndBites.Models;
+using LightsAndBites.ViewModels;
+using System.Collections;
 
 namespace LightsAndBites.Controllers
 {
@@ -46,6 +48,11 @@ namespace LightsAndBites.Controllers
         // GET: UserProfiles/Create
         public IActionResult Create()
         {
+
+            UserProfileCreateViewModel userProfileCreateViewModel = new UserProfileCreateViewModel(_context)
+            {               
+            };
+            
             return View();
         }
 
