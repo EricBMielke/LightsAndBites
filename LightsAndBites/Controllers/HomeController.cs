@@ -34,16 +34,16 @@ namespace LightsAndBites.Controllers
         public IActionResult Index()
         {
             ////seeds
-            //ItalianFood();
-            //AmericanFood();
-            //ChineseFood();
-            //MexicanFood();
-            //FineDining();
-            //SportsBar();
-            //CollegeBar();
-            //SpecialtyBar();
-            //IrishPub();
-            //DiveBar();
+            ItalianFood();
+            AmericanFood();
+            ChineseFood();
+            MexicanFood();
+            FineDining();
+            SportsBar();
+            CollegeBar();
+            SpecialtyBar();
+            IrishPub();
+            DiveBar();
             return View();
         }
 
