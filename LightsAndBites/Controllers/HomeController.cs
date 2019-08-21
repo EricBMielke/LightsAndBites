@@ -132,6 +132,15 @@ namespace LightsAndBites.Controllers
                 eventt.Longitude = Convert.ToDouble((j["longitude"]));
                 eventt.Type = eventType;
                 eventt.StreetAddress = ((j["venue_address"]).ToString());
+                try
+                {
+                    eventt.PictureUrl = ((j["image"]["medium"]["url"]).ToString());
+                }
+                catch 
+                {
+                    eventt.PictureUrl = "Default";
+                }
+
                 switch (eventType)
                 {
                     case "music":
