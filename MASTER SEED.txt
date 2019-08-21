@@ -46,7 +46,7 @@ _____________________________________________________________________________
             restaurant.Name = (j["name"]).ToString();
             restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
             restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-            restaurant.Category = "7";
+            restaurant.CategoryId = 7;
             restaurant.CityId = 1;
             //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
             _context.Restaurants.Add(restaurant);
@@ -77,7 +77,7 @@ foreach (JObject j in o["results"])
     restaurant.Name = (j["name"]).ToString();
     restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
     restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-    restaurant.Category = "8";
+    restaurant.CategoryId = 8;
     //restaurant.CityId = 1;
     //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
     _context.Restaurants.Add(restaurant);
@@ -108,7 +108,7 @@ foreach (JObject j in o["results"])
     restaurant.Name = (j["name"]).ToString();
     restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
     restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-    restaurant.Category = "6";
+    restaurant.CategoryId = 6;
     restaurant.CityId = 1;
     //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
     _context.Restaurants.Add(restaurant);
@@ -139,7 +139,7 @@ foreach (JObject j in o["results"])
     restaurant.Name = (j["name"]).ToString();
     restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
     restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-    restaurant.Category = "10";
+    restaurant.CategoryId = 10;
     restaurant.CityId = 1;
     //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
     _context.Restaurants.Add(restaurant);
@@ -169,7 +169,7 @@ foreach (JObject j in o["results"])
     restaurant.Name = (j["name"]).ToString();
     restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
     restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-    restaurant.Category = "9";
+    restaurant.CategoryId = 9;
     restaurant.CityId = 1;
     //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
     _context.Restaurants.Add(restaurant);
@@ -199,7 +199,7 @@ foreach (JObject j in o["results"])
     bar.Name = (j["name"]).ToString();
     bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
     bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-    bar.Category = "1";
+    bar.CategoryId = 1;
     bar.CityId = 1;
     _context.Bars.Add(bar);
 }
@@ -228,7 +228,7 @@ Bar bar = new Bar();
 bar.Name = (j["name"]).ToString();
 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-bar.Category = "2";
+bar.CategoryId = 2;
 bar.CityId = 1;
 _context.Bars.Add(bar);
 }
@@ -257,7 +257,7 @@ Bar bar = new Bar();
 bar.Name = (j["name"]).ToString();
 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-bar.Category = "3";
+bar.CategoryId = 3;
 bar.CityId = 1;
 _context.Bars.Add(bar);
 }
@@ -286,7 +286,7 @@ Bar bar = new Bar();
 bar.Name = (j["name"]).ToString();
 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-bar.Category = "4";
+bar.CategoryId = 4;
 bar.CityId = 1;
 _context.Bars.Add(bar);
 }
@@ -315,7 +315,7 @@ Bar bar = new Bar();
 bar.Name = (j["name"]).ToString();
 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-bar.Category = "5";
+bar.CategoryId = 5;
 bar.CityId = 1;
 _context.Bars.Add(bar);
 }
