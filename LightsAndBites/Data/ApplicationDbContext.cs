@@ -14,6 +14,8 @@ namespace LightsAndBites.Data
         {
 
         }
+
+      
         public DbSet<LightsAndBites.Models.UserProfile> UserProfile { get; set; }
         public DbSet<LightsAndBites.Models.Restaurant> Restaurants { get; set; }
         public DbSet<LightsAndBites.Models.Rating> Rating { get; set; }

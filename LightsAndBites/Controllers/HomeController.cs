@@ -135,28 +135,28 @@ namespace LightsAndBites.Controllers
                 switch (eventType)
                 {
                     case "music":
-                        eventt.CategoryId = "1";
+                        eventt.CategoryId = 1;
                         break;
                     case "festivals":
-                        eventt.CategoryId = "2";
+                        eventt.CategoryId = 2;
                         break;
                     case "comedy":
-                        eventt.CategoryId = "3";
+                        eventt.CategoryId = 3;
                         break;
                     case "outdoor_recreation":
-                        eventt.CategoryId = "4";
+                        eventt.CategoryId = 4;
                         break;
                     case "performing_arts":
-                        eventt.CategoryId = "8";
+                        eventt.CategoryId = 8;
                         break;
                     case "family_fun_kids":
-                        eventt.CategoryId = "5";
+                        eventt.CategoryId = 5;
                         break;
                     case "community":
-                        eventt.CategoryId = "6";
+                        eventt.CategoryId = 6;
                         break;
                     case "conference":
-                        eventt.CategoryId = "7";
+                        eventt.CategoryId = 7;
                         break;
                 }
                 eventt.CityId = 1;
@@ -198,7 +198,7 @@ namespace LightsAndBites.Controllers
                 restaurant.Name = (j["name"]).ToString();
                 restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                restaurant.Category = "7";
+                restaurant.CategoryId = 7;
                 restaurant.CityId = 1;
                 //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
                 _context.Restaurants.Add(restaurant);
@@ -229,7 +229,7 @@ namespace LightsAndBites.Controllers
                 restaurant.Name = (j["name"]).ToString();
                 restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                restaurant.Category = "8";
+                restaurant.CategoryId = 8;
                 restaurant.CityId = 1;
                 //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
                 _context.Restaurants.Add(restaurant);
@@ -261,7 +261,7 @@ namespace LightsAndBites.Controllers
                 restaurant.Name = (j["name"]).ToString();
                 restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                restaurant.Category = "6";
+                restaurant.CategoryId = 6;
                 restaurant.CityId = 1;
                 //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
                 _context.Restaurants.Add(restaurant);
@@ -293,7 +293,7 @@ namespace LightsAndBites.Controllers
                 restaurant.Name = (j["name"]).ToString();
                 restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                restaurant.Category = "10";
+                restaurant.CategoryId = 10;
                 restaurant.CityId = 1;
                 //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
                 _context.Restaurants.Add(restaurant);
@@ -325,7 +325,7 @@ namespace LightsAndBites.Controllers
                 restaurant.Name = (j["name"]).ToString();
                 restaurant.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 restaurant.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                restaurant.Category = "9";
+                restaurant.CategoryId = 9;
                 restaurant.CityId = 1;
                 //restaurant.CardPhoto = (j["photos"]["photo_reference"].ToString());
                 _context.Restaurants.Add(restaurant);
@@ -357,7 +357,7 @@ namespace LightsAndBites.Controllers
                 bar.Name = (j["name"]).ToString();
                 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                bar.Category = "1";
+                bar.CategoryId = 1;
                 bar.CityId = 1;
                 _context.Bars.Add(bar);
             }
@@ -388,7 +388,7 @@ namespace LightsAndBites.Controllers
                 bar.Name = (j["name"]).ToString();
                 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                bar.Category = "2";
+                bar.CategoryId = 2;
                 bar.CityId = 1;
                 _context.Bars.Add(bar);
             }
@@ -418,7 +418,7 @@ namespace LightsAndBites.Controllers
                 bar.Name = (j["name"]).ToString();
                 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                bar.Category = "3";
+                bar.CategoryId = 3;
                 bar.CityId = 1;
                 _context.Bars.Add(bar);
             }
@@ -448,7 +448,7 @@ namespace LightsAndBites.Controllers
                 bar.Name = (j["name"]).ToString();
                 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                bar.Category = "4";
+                bar.CategoryId = 4;
                 bar.CityId = 1;
                 _context.Bars.Add(bar);
             }
@@ -478,7 +478,7 @@ namespace LightsAndBites.Controllers
                 bar.Name = (j["name"]).ToString();
                 bar.Latitude = Convert.ToDouble((j["geometry"]["location"]["lat"]));
                 bar.Longitude = Convert.ToDouble((j["geometry"]["location"]["lng"]));
-                bar.Category = "5";
+                bar.CategoryId = 5;
                 bar.CityId = 1;
                 _context.Bars.Add(bar);
             }
