@@ -79,7 +79,7 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("festivals");
             GetDailyEvents("family_fun_kids");
             GetDailyEvents("community");
-            GetDailyEvents("outdoors_recreation");
+            GetDailyEvents("outdoor_recreation");
             GetDailyEvents("performing_arts");
         }
         public void GetDailyQuote()
