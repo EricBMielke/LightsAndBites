@@ -110,8 +110,16 @@ namespace LightsAndBites.Controllers
                     newBar.Name = j["name"].ToString();
                     newBar.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
                     newBar.City = _context.Cities.Where(c => c.Id == newBar.CityId).Single();
+                    try
+                    {
+                        newBar.CardPhoto = j["photos"][0]["photo_reference"].ToString();
+                    }
+                    catch
+                    {
+                        newBar.CardPhoto = null;
+                    }
 
-                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude).FirstOrDefault();
+                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude).Where(b => b.Name == newBar.Name).FirstOrDefault();
                     if (foundMatchingBar == null)
                     {
                         _context.Bars.Add(newBar);
@@ -154,9 +162,17 @@ namespace LightsAndBites.Controllers
                     newRestaurant.Name = j["name"].ToString();
                     newRestaurant.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
                     newRestaurant.City = _context.Cities.Where(c => c.Id == newRestaurant.CityId).Single();
+                    try
+                    {
+                        newRestaurant.CardPhoto = j["photos"][0]["photo_reference"].ToString();
+                    }
+                    catch
+                    {
+                        newRestaurant.CardPhoto = null;
+                    }
 
-                    var foundMatchingBar = _context.Restaurants.Where(b => b.Latitude == newRestaurant.Latitude).Where(b => b.Longitude == newRestaurant.Longitude).FirstOrDefault();
-                    if (foundMatchingBar == null)
+                    var foundMatchingRestaurant = _context.Restaurants.Where(r => r.Latitude == newRestaurant.Latitude).Where(r => r.Longitude == newRestaurant.Longitude).Where(r => r.Name == newRestaurant.Name).FirstOrDefault();
+                    if (foundMatchingRestaurant == null)
                     {
                         _context.Restaurants.Add(newRestaurant);
                     }
