@@ -14,96 +14,108 @@
     <div class="row">
         <div class="col-md-8 border border-primary rounded">
             <h2 class="text-center">Recommended</h2>
-           @for (int i = 0; i < 2; i++)
+            @for (int i = 0; i < 2; i++)
             {
-        <div class="row text-center">
-               @for (int j = 0; j < Model[0].Count / 2; j++)
-                {
-                    LightsAndBites.Classes.Recommendation recommendation = Model[0][((Model[0].Count) / 2 * i) + j];
-                    if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+                <div class="row text-center">
+                    @for (int j = 0; j < Model[0].Count / 2; j++)
                     {
-                        Bar thisBar = (Bar)recommendation;
-                        <div class="card col-md m-3 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                            <div class="card-body">
-                                <h5 class="card-title">@(thisBar.Name)</h5>
-                                <p class="card-text">Example Text</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                        LightsAndBites.Classes.Recommendation recommendation = Model[0][((Model[0].Count) / 2 * i) + j];
+                        if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+                        {
+                            Bar thisBar = (Bar)recommendation;
+                            <div class="card col-md m-3 p-2">
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@(thisBar.Name)</h5>
+                                    <p class="card-text">Example Text</p>
+                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                </div>
                             </div>
-                        </div>
-                    }
-                    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                    {
-                        Restaurant thisRestaurant = (Restaurant)recommendation;
-                        <div class="card col-md m-3 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                            <div class="card-body">
-                                <h5 class="card-title">@(thisRestaurant.Name)</h5>
-                                <p class="card-text">Example Text</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                        }
+                        else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+                        {
+                            Restaurant thisRestaurant = (Restaurant)recommendation;
+                            <div class="card col-md m-3 p-2">
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@(thisRestaurant.Name)</h5>
+                                    <p class="card-text">Example Text</p>
+                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                </div>
                             </div>
-                        </div>
-                    }
-                    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Events))
-                    {
-                        Events thisEvent = (Events)recommendation;
-                        <div class="card col-md m-3 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                            <div class="card-body">
-                                <h5 class="card-title">@(thisEvent.Name)</h5>
-                                <p class="card-text">Example Text</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                        }
+                        else if (recommendation.GetType() == typeof(LightsAndBites.Models.Events))
+                        {
+                            Events thisEvent = (Events)recommendation;
+                            <div class="card col-md m-3 p-2">
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@(thisEvent.Name)</h5>
+                                    <p class="card-text">Example Text</p>
+                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                </div>
                             </div>
-                        </div>
+                        }
+                        else
+                        {
+                            Html.Display("Bad data model.");
+                        }
                     }
-                    else
-                    {
-                        Html.Display("Bad data model.");
-                    }
-                }
-        </div>
+                </div>
             }
         </div>
         <div class="col-md-4 order-0 border-secondary" rounded>
             <h2 class="text-center">New Gems</h2>
-           @for(int i = 0; i < 2; i++)
+            @for (int i = 0; i < 2; i++)
             {
-            <div class="row text-center">
-               @for (int j = 0; j < 2; j++)
-               {
-                   LightsAndBites.Classes.Recommendation recommendation = Model[1][(2 * i) + j];
-                   if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
-                   {
-                       Bar thisBar = (Bar)recommendation;
-                       <div class="card col-md m-2 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                            <div class="card-body">
-                                <h5 class="card-title">@(thisBar.Name)</h5>
-                                <p class="card-text">More test text</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                <div class="row text-center">
+                    @for (int j = 0; j < 2; j++)
+                    {
+                        LightsAndBites.Classes.Recommendation recommendation = Model[1][(2 * i) + j];
+                        if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+                        {
+                            Bar thisBar = (Bar)recommendation;
+                            <div class="card col-md m-2 p-2">
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@(thisBar.Name)</h5>
+                                    <p class="card-text">More test text</p>
+                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                </div>
                             </div>
-                       </div>
-                   }
-                   else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                   {
-                       Restaurant thisRestaurant = (Restaurant)recommendation;
-                       <div class="card col-md m-2 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                            <div class="card-body">
-                                <h5 class="card-title">@(thisRestaurant.Name)</h5>
-                                <p class="card-text">More test text</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                        }
+                        else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+                        {
+                            Restaurant thisRestaurant = (Restaurant)recommendation;
+                            <div class="card col-md m-2 p-2">
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                                <div class="card-body">
+                                    <h5 class="card-title">@(thisRestaurant.Name)</h5>
+                                    <p class="card-text">More test text</p>
+                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                </div>
                             </div>
-                       </div>
-                   }
-                   else
-                   {
-                       Html.Display("Bad data model");
-                   }
-                
-                }
-            </div>
+                        }
+                        else
+                        {
+                            Html.Display("Bad data model");
+                        }
+
+                    }
+                </div>
             }
+        </div>
+        <div class="card overlay" style="width: 18rem;">
+            <h2 class="text-center">Details</h2></br>
+            <img class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/forest-sm.jpg" alt="Card image cap">
+            <div class="mask flex-center rgba-blue-light">
+                <div class="card-body">
+                    <h5 class="card-title">Location title</h5>
+                    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
+                    <a href="#" class="btn btn-primary like">Like</a>
+                    <a href="#" class="btn btn-primary dislike">Dislike</a>
+                </div>
+            </div>
         </div>
     </div>
 </div>
