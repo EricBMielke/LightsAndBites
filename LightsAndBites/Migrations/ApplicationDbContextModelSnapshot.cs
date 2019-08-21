@@ -27,7 +27,7 @@ namespace LightsAndBites.Migrations
 
                     b.Property<string>("CardPhoto");
 
-                    b.Property<string>("Category");
+                    b.Property<int>("CategoryId");
 
                     b.Property<int>("CityId");
 
@@ -47,6 +47,12 @@ namespace LightsAndBites.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CommentId");
+
                     b.ToTable("Bars");
                 });
 
@@ -58,7 +64,7 @@ namespace LightsAndBites.Migrations
 
                     b.Property<string>("CategoryName");
 
-                    b.Property<string>("CateogryType");
+                    b.Property<string>("CategoryType");
 
                     b.HasKey("Id");
 
@@ -107,17 +113,17 @@ namespace LightsAndBites.Migrations
                         .ValueGeneratedOnAdd()
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("CategoryId");
+                    b.Property<int>("CategoryId");
 
                     b.Property<int>("CityId");
 
-                    b.Property<int>("CommentId");
+                    b.Property<int?>("CommentId");
 
                     b.Property<double>("Latitude");
 
                     b.Property<double>("Longitude");
 
-                    b.Property<int>("Name");
+                    b.Property<string>("Name");
 
                     b.Property<string>("StreetAddress");
 
@@ -128,6 +134,12 @@ namespace LightsAndBites.Migrations
                     b.Property<int>("ZipCode");
 
                     b.HasKey("EventId");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CommentId");
 
                     b.ToTable("Events");
                 });
@@ -161,7 +173,7 @@ namespace LightsAndBites.Migrations
 
                     b.Property<string>("CardPhoto");
 
-                    b.Property<string>("Category");
+                    b.Property<int>("CategoryId");
 
                     b.Property<int>("CityId");
 
@@ -180,6 +192,12 @@ namespace LightsAndBites.Migrations
                     b.Property<string>("Website");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CategoryId");
+
+                    b.HasIndex("CityId");
+
+                    b.HasIndex("CommentId");
 
                     b.ToTable("Restaurants");
                 });
@@ -382,6 +400,57 @@ namespace LightsAndBites.Migrations
                     b.HasKey("UserId", "LoginProvider", "Name");
 
                     b.ToTable("AspNetUserTokens");
+                });
+
+            modelBuilder.Entity("LightsAndBites.Models.Bar", b =>
+                {
+                    b.HasOne("LightsAndBites.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+                });
+
+            modelBuilder.Entity("LightsAndBites.Models.Events", b =>
+                {
+                    b.HasOne("LightsAndBites.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
+                });
+
+            modelBuilder.Entity("LightsAndBites.Models.Restaurant", b =>
+                {
+                    b.HasOne("LightsAndBites.Models.Category", "Category")
+                        .WithMany()
+                        .HasForeignKey("CategoryId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.City", "City")
+                        .WithMany()
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade);
+
+                    b.HasOne("LightsAndBites.Models.Comment", "Comment")
+                        .WithMany()
+                        .HasForeignKey("CommentId");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
