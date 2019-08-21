@@ -9,29 +9,45 @@
 -->
 
 <h2>Index</h2>
-
-@foreach (LightsAndBites.Classes.Recommendation r in Model[0])
+<h3>Recommendations</h3>
+@for (int i = 0; i < Model[0].Count; i++)
 {
-    if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+    if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Bar))
     {
-        Bar thisBar = (Bar)r;
-        @Html.Display(thisBar.Latitude.ToString());
-        @Html.Display(thisBar.Longitude.ToString());
+        Bar thisBar = (Bar)Model[0][i];
+        <p>Bar: @(thisBar.Latitude.ToString() + thisBar.Longitude.ToString()) </p>
     }
-    else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+    else if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Restaurant))
     {
-        Restaurant thisRestaurant = (Restaurant)r;
-        @Html.Display(thisRestaurant.Latitude.ToString());
-        @Html.Display(thisRestaurant.Longitude.ToString());
+        Restaurant thisRestaurant = (Restaurant)Model[0][i];
+        <p>Restaurant: @(thisRestaurant.Latitude.ToString() + thisRestaurant.Longitude.ToString()) </p>
     }
-    else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+    else if (Model[0][i].GetType() == typeof(LightsAndBites.Models.Events))
     {
-        Events thisEvent = (Events)r;
-        @Html.Display(thisEvent.Latitude.ToString());
-        @Html.Display(thisEvent.Longitude.ToString());
+        Events thisEvent = (Events)Model[0][i];
+        <p>Event: @(thisEvent.Latitude.ToString() + thisEvent.Longitude.ToString()) </p>
     }
     else
     {
-        @Html.Display("Bad data model.");
+        Html.Display("Bad data model.");
+    }
+}
+<br /><br />
+<h3>New Gems</h3>
+@for (int i = 0; i < Model[1].Count; i++)
+{
+    if (Model[1][i].GetType() == typeof(LightsAndBites.Models.Bar))
+    {
+        Bar thisBar = (Bar)Model[1][i];
+        <p>Bar: @(thisBar.Latitude.ToString() + thisBar.Longitude.ToString()) </p>
+    }
+    else if (Model[1][i].GetType() == typeof(LightsAndBites.Models.Restaurant))
+    {
+        Restaurant thisRestaurant = (Restaurant)Model[1][i];
+        <p>Restaurant: @(thisRestaurant.Latitude.ToString() + thisRestaurant.Longitude.ToString()) </p>
+    }
+    else
+    {
+        Html.Display("Bad data model.");
     }
 }

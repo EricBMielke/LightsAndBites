@@ -39,17 +39,49 @@ namespace LightsAndBites.Controllers
             List<Restaurant> restaurants = GetRestaurants(restaurantCategories);
             List<Events> events = GetEvents(eventCategories);
 
-            foreach (Bar b in bars)
+            if (bars.Count <= 2)
             {
-                recommendations.Add(b);
+                foreach (Bar b in bars)
+                {
+                    recommendations.Add(b);
+                }
             }
-            foreach (Restaurant r in restaurants)
+            else
             {
-                recommendations.Add(r);
+                for (int i = 0; i < 2; i++)
+                {
+                    recommendations.Add(bars[i]);
+                }
             }
-            foreach (Events e in events)
+
+            if (restaurants.Count <= 2)
             {
-                recommendations.Add(e);
+                foreach (Restaurant r in restaurants)
+                {
+                    recommendations.Add(r);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    recommendations.Add(restaurants[i]);
+                }
+            }
+
+            if (events.Count <= 2)
+            {
+                foreach (Events e in events)
+                {
+                    recommendations.Add(e);
+                }
+            }
+            else
+            {
+                for (int i = 0; i < 2; i++)
+                {
+                    recommendations.Add(events[i]);
+                }
             }
 
             passedValues[0] = recommendations;
@@ -92,10 +124,15 @@ namespace LightsAndBites.Controllers
                     allBarsMatching.Add(bar);
                 }
             }
+            List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
-            
+            foreach(Bar b in unrankedBars)
+            {
+                sortedBars.Add(b);
+            }
 
-            return allBarsMatching;
+            return sortedBars;
         }
 
         private List<Restaurant> GetRestaurants(List<Category> categories)
@@ -132,7 +169,15 @@ namespace LightsAndBites.Controllers
                 }
             }
 
-            return allRestaurantsMatching;
+            List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+
+            foreach (Restaurant r in unrankedRestaurants)
+            {
+                sortedRestaurants.Add(r);
+            }
+
+            return sortedRestaurants;
         }
 
         private List<Events> GetEvents(List<Category> categories)
