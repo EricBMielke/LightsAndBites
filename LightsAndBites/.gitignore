@@ -331,4 +331,6 @@ ASALocalRun/
 
 ApiKeys/
 
+ConnectionStrings/
+
 appsettings.json

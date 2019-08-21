@@ -13,6 +13,7 @@ using LightsAndBites.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LightsAndBites.Models;
+using LightsAndBites.ConnectionStrings;
 
 namespace LightsAndBites
 {
@@ -35,7 +36,9 @@ namespace LightsAndBites
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=Capstone;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+
+            var connection = ConnectionString.connectionString;
 
 
             services.AddDbContext<ApplicationDbContext>(options =>

@@ -332,3 +332,5 @@ ASALocalRun/
 ApiKeys/
 
 Migrations/
+
+appsettings.json
