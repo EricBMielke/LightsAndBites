@@ -334,3 +334,4 @@ ApiKeys/
 Migrations/
 
 appsettings.json
+Migrations/ApplicationDbContextModelSnapshot.cs
