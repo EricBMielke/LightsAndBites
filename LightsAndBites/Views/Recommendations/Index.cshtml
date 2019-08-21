@@ -19,7 +19,7 @@
         <div class="row text-center">
                @for (int j = 0; j < Model[0].Count / 2; j++)
                 {
-                    LightsAndBites.Classes.Recommendation recommendation = Model[0][(3 * i) + j];
+                    LightsAndBites.Classes.Recommendation recommendation = Model[0][((Model[0].Count) / 2 * i) + j];
                     if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
                     {
                         Bar thisBar = (Bar)recommendation;
