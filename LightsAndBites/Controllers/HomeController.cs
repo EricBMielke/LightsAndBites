@@ -79,11 +79,7 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("festivals");
             GetDailyEvents("family_fun_kids");
             GetDailyEvents("community");
-<<<<<<< HEAD
-            GetDailyEvents("outdoor_recreation");
-=======
             GetDailyEvents("observances");
->>>>>>> d99d4663ab811d2d117d83e25c8a09e2f5bb1031
             GetDailyEvents("performing_arts");
         }
         public void GetDailyQuote()
@@ -139,28 +135,28 @@ namespace LightsAndBites.Controllers
                 switch (eventType)
                 {
                     case "music":
-                        eventt.CategoryId = 1;
+                        eventt.CategoryId = 11;
                         break;
                     case "festivals":
-                        eventt.CategoryId = 2;
+                        eventt.CategoryId = 12;
                         break;
                     case "comedy":
-                        eventt.CategoryId = 3;
+                        eventt.CategoryId = 13;
                         break;
                     case "observances":
-                        eventt.CategoryId = 4;
+                        eventt.CategoryId = 14;
                         break;
                     case "performing_arts":
-                        eventt.CategoryId = 8;
+                        eventt.CategoryId = 18;
                         break;
                     case "family_fun_kids":
-                        eventt.CategoryId = 5;
+                        eventt.CategoryId = 15;
                         break;
                     case "community":
-                        eventt.CategoryId = 6;
+                        eventt.CategoryId = 16;
                         break;
                     case "conference":
-                        eventt.CategoryId = 7;
+                        eventt.CategoryId = 17;
                         break;
                 }
                 eventt.CityId = 1;
