@@ -135,28 +135,28 @@ namespace LightsAndBites.Controllers
                 switch (eventType)
                 {
                     case "music":
-                        eventt.CategoryId = "1";
+                        eventt.CategoryId = 1;
                         break;
                     case "festivals":
-                        eventt.CategoryId = "2";
+                        eventt.CategoryId = 2;
                         break;
                     case "comedy":
-                        eventt.CategoryId = "3";
+                        eventt.CategoryId = 3;
                         break;
                     case "outdoor_recreation":
-                        eventt.CategoryId = "4";
+                        eventt.CategoryId = 4;
                         break;
                     case "performing_arts":
-                        eventt.CategoryId = "8";
+                        eventt.CategoryId = 8;
                         break;
                     case "family_fun_kids":
-                        eventt.CategoryId = "5";
+                        eventt.CategoryId = 5;
                         break;
                     case "community":
-                        eventt.CategoryId = "6";
+                        eventt.CategoryId = 6;
                         break;
                     case "conference":
-                        eventt.CategoryId = "7";
+                        eventt.CategoryId = 7;
                         break;
                 }
                 eventt.CityId = 1;
