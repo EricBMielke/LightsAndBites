@@ -13,6 +13,7 @@ using LightsAndBites.Data;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using LightsAndBites.Models;
+using LightsAndBites.ConnectionStrings;
 
 namespace LightsAndBites
 {
@@ -35,14 +36,17 @@ namespace LightsAndBites
                 options.MinimumSameSitePolicy = SameSiteMode.None;
             });
 
-            var connection = "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=aspnet-LightsAndBites-426A3B2F-0285-414D-826F-158B7C0E3EDD;Integrated Security=True;Connect Timeout=30;Encrypt=False;TrustServerCertificate=False;ApplicationIntent=ReadWrite;MultiSubnetFailover=False";
+
+
+            var connection = ConnectionString.connectionString;
 
 
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(connection));
+            
 
-            services.AddDefaultIdentity<IdentityUser>()
-                .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddIdentity<IdentityUser, IdentityRole>()
+                .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultUI().AddDefaultTokenProviders();
 
 
 

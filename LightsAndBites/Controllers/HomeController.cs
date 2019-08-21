@@ -79,7 +79,7 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("festivals");
             GetDailyEvents("family_fun_kids");
             GetDailyEvents("community");
-            GetDailyEvents("outdoors_recreation");
+            GetDailyEvents("observances");
             GetDailyEvents("performing_arts");
         }
         public void GetDailyQuote()
@@ -132,31 +132,40 @@ namespace LightsAndBites.Controllers
                 eventt.Longitude = Convert.ToDouble((j["longitude"]));
                 eventt.Type = eventType;
                 eventt.StreetAddress = ((j["venue_address"]).ToString());
+                try
+                {
+                    eventt.PictureUrl = ((j["image"]["medium"]["url"]).ToString());
+                }
+                catch 
+                {
+                    eventt.PictureUrl = "Default";
+                }
+
                 switch (eventType)
                 {
                     case "music":
-                        eventt.CategoryId = 1;
+                        eventt.CategoryId = 11;
                         break;
                     case "festivals":
-                        eventt.CategoryId = 2;
+                        eventt.CategoryId = 12;
                         break;
                     case "comedy":
-                        eventt.CategoryId = 3;
+                        eventt.CategoryId = 13;
                         break;
-                    case "outdoor_recreation":
-                        eventt.CategoryId = 4;
+                    case "observances":
+                        eventt.CategoryId = 14;
                         break;
                     case "performing_arts":
-                        eventt.CategoryId = 8;
+                        eventt.CategoryId = 18;
                         break;
                     case "family_fun_kids":
-                        eventt.CategoryId = 5;
+                        eventt.CategoryId = 15;
                         break;
                     case "community":
-                        eventt.CategoryId = 6;
+                        eventt.CategoryId = 16;
                         break;
                     case "conference":
-                        eventt.CategoryId = 7;
+                        eventt.CategoryId = 17;
                         break;
                 }
                 eventt.CityId = 1;

@@ -53,7 +53,7 @@ namespace LightsAndBites.Controllers
             {               
             };
             
-            return View();
+            return View(userProfileCreateViewModel);
         }
 
         // POST: UserProfiles/Create
