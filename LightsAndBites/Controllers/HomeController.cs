@@ -34,16 +34,16 @@ namespace LightsAndBites.Controllers
         public IActionResult Index()
         {
             ////seeds
-            ItalianFood();
-            AmericanFood();
-            ChineseFood();
-            MexicanFood();
-            FineDining();
-            SportsBar();
-            CollegeBar();
-            SpecialtyBar();
-            IrishPub();
-            DiveBar();
+            //ItalianFood();
+            //AmericanFood();
+            //ChineseFood();
+            //MexicanFood();
+            //FineDining();
+            //SportsBar();
+            //CollegeBar();
+            //SpecialtyBar();
+            //IrishPub();
+            //DiveBar();
             return View();
         }
 
@@ -79,7 +79,11 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("festivals");
             GetDailyEvents("family_fun_kids");
             GetDailyEvents("community");
+<<<<<<< HEAD
             GetDailyEvents("outdoor_recreation");
+=======
+            GetDailyEvents("observances");
+>>>>>>> d99d4663ab811d2d117d83e25c8a09e2f5bb1031
             GetDailyEvents("performing_arts");
         }
         public void GetDailyQuote()
@@ -143,7 +147,7 @@ namespace LightsAndBites.Controllers
                     case "comedy":
                         eventt.CategoryId = 3;
                         break;
-                    case "outdoor_recreation":
+                    case "observances":
                         eventt.CategoryId = 4;
                         break;
                     case "performing_arts":

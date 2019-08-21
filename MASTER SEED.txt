@@ -11,14 +11,14 @@
            ('Restaurant','American'),
            ('Restaurant','Fine Dining'),
            ('Restaurant','Mexican'),
-           ('Events','Politics'),
-           ('Events','Conferences'),
-           ('Events','Expos'),
-           ('Events','Concerts'),
+           ('Events','Music'),
            ('Events','Festivals'),
-           ('Events','Performing Arts'),
-           ('Events','Sports'),
-           ('Events','Community')
+           ('Events','Comedy'),
+           ('Events','Observances'),
+           ('Events','Family Fun For Kids'),
+           ('Events','Community'),
+           ('Events','Conference'),
+           ('Events','Performing Arts')
 _____________________________________________________________________________
 INSERT INTO Cities
 VALUES ('Milwaukee', 'Wisconsin')
