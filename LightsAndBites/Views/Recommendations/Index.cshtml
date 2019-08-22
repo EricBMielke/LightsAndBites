@@ -195,17 +195,17 @@
                     if (r.GetType() == typeof(LightsAndBites.Models.Bar))
                     {
                         Bar thisBar = (Bar)r;
-                        @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name');
+                        @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name', 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
                     }
                     else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
                     {
                         Restaurant thisRestaurant = (Restaurant)r;
-                        @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name');
+                        @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name', 'http://maps.google.com/mapfiles/ms/icons/green-dot.png');
                     }
                     else if (r.GetType() == typeof(LightsAndBites.Models.Events))
                     {
                         Events thisEvent = (Events)r;
-                        @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name');
+                        @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name', 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
                     }
                 }
 
@@ -214,23 +214,23 @@
                     if (r.GetType() == typeof(LightsAndBites.Models.Bar))
                     {
                         Bar thisBar = (Bar)r;
-                        @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name');
+                        @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
                     else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
                     {
                         Restaurant thisRestaurant = (Restaurant)r;
-                        @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name');
+                        @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
                     else if (r.GetType() == typeof(LightsAndBites.Models.Events))
                     {
                         Events thisEvent = (Events)r;
-                        @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name');
+                        @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
                 }
 			}
 		}
 
-		function addMarker(resultsMap, latitude, longitude, textValue)
+		function addMarker(resultsMap, latitude, longitude, textValue, image)
 		{
 			var infoWindow;
 			var marker;
@@ -238,7 +238,10 @@
 				content: textValue
 			});
 			marker = new google.maps.Marker({
-				map: resultsMap,
+                map: resultsMap,
+                icon: {
+                    url: image
+                },
 				position: {
 					lat: latitude,
 					lng: longitude
