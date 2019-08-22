@@ -14,6 +14,10 @@ namespace LightsAndBites.Models
         public string CityName { get; set; }
         [Display(Name = "State")]
         public string State { get; set; }
+        [Display(Name = "Latitude")]
+        public double Latitude { get; set; }
+        [Display(Name = "Longitude")]
+        public double Longitude { get; set; }
 
     }
 }

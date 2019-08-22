@@ -49,15 +49,23 @@ namespace LightsAndBites.Controllers
 
         public IActionResult About()
         {
-            GetDailyQuote();
-
             return View();
         }
 
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-            GetAllDailyEvents();
+            List<City> cities = _context.Cities.ToList();
+            foreach (City c in cities)
+            {
+                GetAllDailyEvents(c);
+            }
+            //City chicagoCity = new City();
+            //chicagoCity.Id = 4;
+            //City milwaukeeCity = new City();
+            //milwaukeeCity.Id = 3;
+            //GetAllDailyEvents(milwaukeeCity);
+            //GetAllDailyEvents(chicagoCity);
             return View();
         }
 
@@ -71,46 +79,23 @@ namespace LightsAndBites.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
-        public void GetAllDailyEvents()
-        {
-            GetDailyEvents("music");
-            GetDailyEvents("conference");
-            GetDailyEvents("comedy");
-            GetDailyEvents("festivals");
-            GetDailyEvents("family_fun_kids");
-            GetDailyEvents("community");
-            GetDailyEvents("observances");
-            GetDailyEvents("performing_arts");
+        public void GetAllDailyEvents(City city)
+        { 
+
+            GetDailyEvents("music", city);
+            GetDailyEvents("conference", city);
+            GetDailyEvents("comedy",city);
+            GetDailyEvents("festivals", city);
+            GetDailyEvents("family_fun_kids", city);
+            GetDailyEvents("community", city);
+            GetDailyEvents("observances", city);
+            GetDailyEvents("performing_arts", city);
         }
-        public void GetDailyQuote()
-        {
-            //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
-            string inspirationalQuoteOfDay = string.Empty;
-            string html = string.Empty;
-            string url = @"http://quotes.rest/qod.json?category=inspire";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                html = reader.ReadToEnd();
-            }
-
-            JObject o = JObject.Parse(html);
-
-            foreach (JObject j in o["contents"]["quotes"])
-            {
-                inspirationalQuoteOfDay =  (j["quote"]).ToString();
-                Console.WriteLine(inspirationalQuoteOfDay);
-            }
-        }
-        public void GetDailyEvents(string eventType)
+        public void GetDailyEvents(string eventType, City city)
         {
             string html = string.Empty;
-            string url = @"http://api.eventful.com/json/events/search?app_key=" + Token + "&category=" + eventType + "&location=" + userProfileHometown + "&sort_order=popularity&page_number=1";
+
+            string url = @"http://api.eventful.com/json/events/search?app_key=" + Token + "&category=" + eventType + "&location=" + city.CityName + "&sort_order=popularity&page_number=1";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
@@ -168,7 +153,8 @@ namespace LightsAndBites.Controllers
                         eventt.CategoryId = 17;
                         break;
                 }
-                eventt.CityId = 1;
+
+                eventt.CityId = city.Id;
                 if ((j["url"]) == null)    
                 {
                     eventt.Website = ((j["venue_url"]).ToString());
