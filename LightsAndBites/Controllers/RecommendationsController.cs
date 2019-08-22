@@ -133,8 +133,11 @@ namespace LightsAndBites.Controllers
                     allBarsMatching.Add(bar);
                 }
             }
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+            Bar linkBar = new Bar();
+            linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
             List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
             foreach(Bar b in unrankedBars)
             {
@@ -186,9 +189,11 @@ namespace LightsAndBites.Controllers
                     allRestaurantsMatching.Add(restaurant);
                 }
             }
-
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+            Restaurant linkRestaurant = new Restaurant();
+            linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
             List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
             foreach (Restaurant r in unrankedRestaurants)
             {
