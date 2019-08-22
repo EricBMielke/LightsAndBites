@@ -324,7 +324,7 @@ namespace LightsAndBites.Controllers
             }
             return returnList;
         }
-        public string GetDailyQuote()
+        public static string GetDailyQuote()
         {
             //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
             string inspirationalQuoteOfDay = string.Empty;
