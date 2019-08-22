@@ -35,8 +35,15 @@ body {
         display: none;
     }
 }
+.div-left {
+    float: left;
+}
 
-/*Align Right */
-.AlignR{
-    text-align:right;
+.div-right {
+    float: right;
+    margin-left: 10px;
+}
+
+.entire-thing {
+    width: 650px;
 }

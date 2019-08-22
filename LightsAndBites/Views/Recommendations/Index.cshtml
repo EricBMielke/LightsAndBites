@@ -105,29 +105,40 @@
                 </div>
             }
         </div>
-        <div class="card overlay" style="width: 100%; padding-left:10px;" ><br />
-            <h2 id="detailsHeader" class="text-center"><strong>Details</strong></h2></br><br />
+        <br /><br /><br />
+        <div class="card overlay" style="width: 100%; padding-left:10px;">
+            <br />
+            <h2 id="detailsHeader" class="text-center"><strong>Details</strong></h2>
+            <strong style="opacity:0.60" class="text-center">Event Dates</strong>
+            </br><br />
             <div>
                 <img style="width:40%; float:right; padding-right: 15px;" id="detailsImg" class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/forest-sm.jpg" alt="Card image cap">
-                <p><strong> Bar/Restaurant/Event Name</strong><br />
-                 "Street Address" <br />
-                 "City, State Zip"<br />
+                <p>
+                    <strong> Bar/Restaurant/Event Name</strong><br />
+                    "Street Address" <br />
+                    "City, State Zip"<br />
                 </p>
-                <hr style="width:75%" />
+                <hr style="width:75%; text-align:right" />
                 <p>
                     <strong> Comments</strong><br />
+                    <p> carosel of comments stored in model</p>
 
                 </p>
-                <br />
+                <br /><br /><br /><br />
             </div>
-                <div class="mask flex-center rgba-blue-light">
-                <div class="card-body">
-                    <a href="#" class="btn btn-primary like">Like</a>
-                    <a href="#" class="btn btn-primary dislike">Dislike</a>
+            <div>
+                <div class="div-left">
+                    <input type="image" src="~/images/heartButton.png" style="width:14.5%; padding-right:20px">                    
+                    <input type ="image" src="~/images/ThumbsDownButton.png"style="width:12.5%" />
                 </div>
-                <div>
-                    <input style="float:right" />
+                <br />
+                <div class="div-right">
+                    <strong>Add a comment below!</strong>
+                    <br />
+                    <input type="text" onfocus="this.value=''" value="Insert comment here" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
+                    <button type="button" class="btn btn-primary">Post</button><br />
                 </div>
+                <br />
             </div>
         </div>
     </div>
