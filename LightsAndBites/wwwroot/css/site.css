@@ -35,3 +35,8 @@ body {
         display: none;
     }
 }
+
+/*Align Right */
+.AlignR{
+    text-align:right;
+}
