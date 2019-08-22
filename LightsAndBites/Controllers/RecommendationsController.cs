@@ -35,8 +35,8 @@ namespace LightsAndBites.Controllers
 
             List<Recommendation> recommendations = new List<Recommendation>();
 
-            List<Bar> bars = GetBars(barCategories);
-            List<Restaurant> restaurants = GetRestaurants(restaurantCategories);
+            List<Bar> bars = GetBars(barCategories, userId);
+            List<Restaurant> restaurants = GetRestaurants(restaurantCategories, userId);
             List<Events> events = GetEvents(eventCategories);
 
             if (bars.Count <= 2)
@@ -86,20 +86,21 @@ namespace LightsAndBites.Controllers
 
             passedValues[0] = recommendations;
 
-            passedValues[1] = GetNewGems();
+            passedValues[1] = GetNewGems(userId);
 
             return View(passedValues);
         }
 
-        private List<Bar> GetBars(List<Category> categories)
+        private List<Bar> GetBars(List<Category> categories, int Id)
         {
             List<Bar> allBarsMatching = new List<Bar>();
             foreach (Category category in categories)
             {
                 
-                List<JObject> data = GetGoogleData(category.CategoryType, 43.0580569, -88.1075128, "bar");
+                List<JObject> data = GetGoogleData(category.CategoryType, Id, "bar");
                 foreach (JObject j in data)
                 {
+                    UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == Id).Single();
                     Bar newBar = new Bar();
                     newBar.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
                     newBar.Category = _context.Categories.Where(c => c.Id == newBar.CategoryId).Single();
@@ -108,7 +109,7 @@ namespace LightsAndBites.Controllers
                     newBar.Likes = 0;
                     newBar.Dislikes = 0;
                     newBar.Name = j["name"].ToString();
-                    newBar.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
+                    newBar.CityId = _context.Cities.Where(c => c.CityName == selectedUser.Hometown).Select(c => c.Id).Single();
                     newBar.City = _context.Cities.Where(c => c.Id == newBar.CityId).Single();
                     try
                     {
@@ -132,8 +133,11 @@ namespace LightsAndBites.Controllers
                     allBarsMatching.Add(bar);
                 }
             }
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+            Bar linkBar = new Bar();
+            linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
             List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
             foreach(Bar b in unrankedBars)
             {
@@ -143,15 +147,16 @@ namespace LightsAndBites.Controllers
             return sortedBars;
         }
 
-        private List<Restaurant> GetRestaurants(List<Category> categories)
+        private List<Restaurant> GetRestaurants(List<Category> categories, int Id)
         {
             List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
             foreach (Category category in categories)
             {
                 
-                List<JObject> data = GetGoogleData(category.CategoryType, 43.0580569, -88.1075128, "restaurant");
+                List<JObject> data = GetGoogleData(category.CategoryType, Id, "restaurant");
                 foreach (JObject j in data)
                 {
+                    UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == Id).Single();
                     Restaurant newRestaurant = new Restaurant();
                     newRestaurant.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
                     newRestaurant.Category = _context.Categories.Where(c => c.Id == newRestaurant.CategoryId).Single();
@@ -160,7 +165,7 @@ namespace LightsAndBites.Controllers
                     newRestaurant.Likes = 0;
                     newRestaurant.Dislikes = 0;
                     newRestaurant.Name = j["name"].ToString();
-                    newRestaurant.CityId = _context.Cities.Where(c => c.CityName == "Milwaukee").Select(c => c.Id).Single();
+                    newRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUser.Hometown).Select(c => c.Id).Single();
                     newRestaurant.City = _context.Cities.Where(c => c.Id == newRestaurant.CityId).Single();
                     try
                     {
@@ -184,9 +189,11 @@ namespace LightsAndBites.Controllers
                     allRestaurantsMatching.Add(restaurant);
                 }
             }
-
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+            Restaurant linkRestaurant = new Restaurant();
+            linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
             List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
             foreach (Restaurant r in unrankedRestaurants)
             {
@@ -211,15 +218,19 @@ namespace LightsAndBites.Controllers
             return allEventsMatching;
         }
 
-        private List<Recommendation> GetNewGems()
+        private List<Recommendation> GetNewGems(int Id)
         {
             List<Recommendation> gems = new List<Recommendation>();
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
 
             List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
             List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes !=0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-
-            List<Bar> unrankedBars = _context.Bars.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
-            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+            Restaurant linkedRestaurant = new Restaurant();
+            linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+            Bar linkedBar = new Bar();
+            linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+            List<Bar> unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId)&&(b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
 
             foreach (Bar b in unrankedBars)
             {
@@ -286,10 +297,12 @@ namespace LightsAndBites.Controllers
             return eventCategories;
         }
 
-        private List<JObject> GetGoogleData(string keyWord, double latitude, double longitude, string type)
+        private List<JObject> GetGoogleData(string keyWord, int userId, string type)
         {
+            UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+            City userCity = _context.Cities.Where(u => u.CityName == selectedUser.Hometown).Single();
             string data = string.Empty;
-            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + ApiKey.mapsKey + @"&location=" + latitude + @"," + longitude + @"&keyword=" + keyWord + @"&type=" + type +"&radius=5000";
+            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + ApiKey.mapsKey + @"&location=" + userCity.Latitude + @"," + userCity.Longitude + @"&keyword=" + keyWord + @"&type=" + type +"&radius=5000";
 
             HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
             request.AutomaticDecompression = DecompressionMethods.GZip;
