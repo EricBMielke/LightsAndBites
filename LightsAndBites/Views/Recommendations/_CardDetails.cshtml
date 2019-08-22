@@ -1,5 +1,20 @@
-﻿@model LightsAndBites.ViewModels.RecommendationsDetailsViewModel
-        
+﻿@model LightsAndBites.Classes.Recommendation
+
+
+@{ if (Model.GetType() == typeof(LightsAndBites.Models.Bar))
+    {
+        Bar thisBar = (Bar)Model;
+    }
+    else if (Model.GetType() == typeof(LightsAndBites.Models.Restaurant))
+    {
+        Restaurant thisRestaurant = (Restaurant)Model;
+    }
+    else
+    {
+        Events thisEvent = (Events)Model;
+    }
+}
+
 <br />
 <br />
 <br />
@@ -11,7 +26,7 @@
     <div>
         <img style="width:40%; float:right; padding-right: 15px;" id="detailsImg" class="card-img-top" src="https://mdbootstrap.com/img/Photos/Others/forest-sm.jpg" alt="Card image cap">
         <p>
-            <strong> Bar/Restaurant/Event Name</strong><br />
+            <strong> @(thisEvent.)</strong><br />
             "Street Address" <br />
             "City, State Zip"<br />
         </p>
