@@ -63,7 +63,9 @@ h2 {
     display: block;
 }
 .createcontainer {
-    width: 100%;
+    margin-right: auto;
+    margin-left: auto;
+    width: 75%;
     min-height: 100vh;
     display: -webkit-box;
     display: -webkit-flex;
@@ -72,11 +74,6 @@ h2 {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;
-    align-items: center;
     padding: 15px;
     background-color: #ebebeb;
 }
-
-/*------------------------------------------------------------------
-[ Input ]*/
-
