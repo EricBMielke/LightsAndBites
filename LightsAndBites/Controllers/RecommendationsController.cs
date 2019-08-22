@@ -310,5 +310,13 @@ namespace LightsAndBites.Controllers
             }
             return returnList;
         }
+
+
+
+
+        //[Route("bars")]
+        //[HttpGet]
+        //public 
+        
     }
 }
