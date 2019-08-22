@@ -11,6 +11,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
 using LightsAndBites.Classes;
+using Microsoft.Extensions.Configuration;
+using LightsAndBites.Data;
 
 namespace LightsAndBites.Areas.Identity.Pages.Account
 {
@@ -67,12 +69,34 @@ namespace LightsAndBites.Areas.Identity.Pages.Account
             ReturnUrl = returnUrl;
         }
 
+        public bool IsUserSuperAdmin(string email)
+        {
+            List<string> superUsers = new List<string>();
+            
+            superUsers.Add("superusertest2@test.com");
+            superUsers.Add("superusertest3@test.com");
+            superUsers.Add("superusertest4@test.com");
+
+            if (superUsers.Contains(email))
+            {
+                Input.isSuperAdmin = true;
+                return Input.isSuperAdmin;
+            }
+            else
+            {
+                Input.isSuperAdmin = false;
+                return Input.isSuperAdmin;
+            }
+            
+        }
+
         public async Task<IActionResult> OnPostAsync(string returnUrl = null) //post handler
         {
             returnUrl = returnUrl ?? Url.Content("~/");
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email };
+               
+                var user = new ApplicationUser { UserName = Input.Email, Email = Input.Email, isSuperAdmin = IsUserSuperAdmin(Input.Email) };
                 var result = await _userManager.CreateAsync(user, Input.Password);
                 if (result.Succeeded)
                 {

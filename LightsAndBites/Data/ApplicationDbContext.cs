@@ -26,5 +26,7 @@ namespace LightsAndBites.Data
         public DbSet<LightsAndBites.Models.Bar> Bars { get; set; }
 
         public DbSet<LightsAndBites.Models.ApplicationUser> ApplicationUsers { get; set; }
+
+        public DbSet<LightsAndBites.Models.ApprovedSuperUser> ApprovedSuperUsers { get; set; }
     }
 }
