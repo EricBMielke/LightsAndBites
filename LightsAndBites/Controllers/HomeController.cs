@@ -57,12 +57,17 @@ namespace LightsAndBites.Controllers
         public IActionResult Contact()
         {
             ViewData["Message"] = "Your contact page.";
-            City chicagoCity = new City();
-            chicagoCity.Id = 4;
-            City milwaukeeCity = new City();
-            milwaukeeCity.Id = 3;
-            GetAllDailyEvents(milwaukeeCity);
-            GetAllDailyEvents(chicagoCity);
+            List<City> cities = _context.Cities.ToList();
+            foreach (City c in cities)
+            {
+                GetAllDailyEvents(c);
+            }
+            //City chicagoCity = new City();
+            //chicagoCity.Id = 4;
+            //City milwaukeeCity = new City();
+            //milwaukeeCity.Id = 3;
+            //GetAllDailyEvents(milwaukeeCity);
+            //GetAllDailyEvents(chicagoCity);
             return View();
         }
 
