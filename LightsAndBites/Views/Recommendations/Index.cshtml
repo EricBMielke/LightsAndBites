@@ -28,7 +28,7 @@
                                 <div class="card-body">
                                     <h5 id="BarName" class="card-title">@(thisBar.Name)</h5>
                                     <p class="card-text">Example Text</p>
-                                    <a href="#" class="btn btn-primary">Go Somewhere</a> @*Pulls data sends to details*@
+                                    <a href="#" id="@(thisBar.Id)"class="btn btn-primary">Go Somewhere</a> @*Pulls data sends to details*@
                                 </div>
                             </div>
                         }
@@ -40,7 +40,7 @@
                                 <div class="card-body">
                                     <h5 id="RestaurantName" class="card-title">@(thisRestaurant.Name)</h5>
                                     <p class="card-text">Example Text</p>
-                                    <a href="#" class="btn btn-primary">Go Somewhere</a> @*Pulls data and sends to the details*@
+                                    <a href="#" id="@(thisRestaurant.Id)"class="btn btn-primary">Go Somewhere</a> @*Pulls data and sends to the details*@
                                 </div>
                             </div>
                         }
@@ -52,7 +52,7 @@
                                 <div class="card-body">
                                     <h5 id="EventsName" class="card-title">@(thisEvent.Name)</h5>
                                     <p class="card-text">Example Text</p>
-                                    <a href="#" class="btn btn-primary">Go Somewhere</a> @*Pulls data and sends to the details*@
+                                    <a href="#" id="@(thisEvent.EventId)"class="btn btn-primary">Go Somewhere</a> @*Pulls data and sends to the details*@
                                 </div>
                             </div>
                         }
@@ -80,7 +80,7 @@
                                 <div class="card-body">
                                     <h5 id="GemBarName" class="card-title">@(thisBar.Name)</h5>
                                     <p class="card-text">More test text</p>
-                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                    <a href="#" id="@(thisBar.Id)" class="btn btn-primary">Go Somewhere</a>
                                 </div>
                             </div>
                         }
@@ -92,7 +92,7 @@
                                 <div class="card-body">
                                     <h5 id="GemRestaurantName" class="card-title">@(thisRestaurant.Name)</h5>
                                     <p class="card-text">More test text</p>
-                                    <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                    <a href="#" id="@(thisRestaurant.Id)" class="btn btn-primary">Go Somewhere</a>
                                 </div>
                             </div>
                         }
