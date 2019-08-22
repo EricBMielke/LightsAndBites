@@ -25,7 +25,7 @@ namespace LightsAndBites.Controllers
         // GET: Recommendations
         public ActionResult Index(int userId)
         {
-            GetDailyQuote();
+ //           GetDailyQuote();
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
@@ -324,7 +324,7 @@ namespace LightsAndBites.Controllers
             }
             return returnList;
         }
-        public string GetDailyQuote()
+        public static string GetDailyQuote()
         {
             //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
             string inspirationalQuoteOfDay = string.Empty;
