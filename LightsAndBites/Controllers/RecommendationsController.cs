@@ -25,7 +25,7 @@ namespace LightsAndBites.Controllers
         // GET: Recommendations
         public ActionResult Index(int userId)
         {
-            GetDailyQuote();
+ //           GetDailyQuote();
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
