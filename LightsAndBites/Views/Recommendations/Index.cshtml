@@ -9,7 +9,7 @@
 -->
 
 <h2>Light and Bites</h2>
-
+<center><p class="quote-text">Enter inspirational quote here</p></center>
 <div class="row">
     <div class="col-md-12 text-center">
         <br /><br />
@@ -123,12 +123,13 @@
                 <a href="#" class="btn btn-primary dislike">Dislike</a>
             </div>
         </div>
+
     </div>
 </div>
 
-    
 
-@{ 
+
+@{
     int count = 0;
     double latTotal = 0;
     double lngTotal = 0;
@@ -252,7 +253,7 @@
 			});
 		}
 </script>
-@{ 
+@{
     string src = "https://maps.googleapis.com/maps/api/js?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&callback=initMap";
 }
 <script src="@(src)" async defer></script>
