@@ -38,7 +38,7 @@ namespace LightsAndBites.Controllers
 
             List<Bar> bars = GetBars(barCategories, userId);
             List<Restaurant> restaurants = GetRestaurants(restaurantCategories, userId);
-            List<Events> events = GetEvents(eventCategories);
+            List<Events> events = GetEvents(eventCategories, selectedUser.Id);
 
             if (bars.Count <= 2)
             {
@@ -204,12 +204,13 @@ namespace LightsAndBites.Controllers
             return sortedRestaurants;
         }
 
-        private List<Events> GetEvents(List<Category> categories)
+        private List<Events> GetEvents(List<Category> categories, int userId)
         {
+            UserProfile foundUser = _context.UserProfile.Where(u => u.Id == userId).Single();
             List<Events> allEventsMatching = new List<Events>();
             foreach (Category category in categories)
             {
-                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).ToList();
+                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
                 foreach (Events eventItem in allEventsMatchingSingle)
                 {
                     allEventsMatching.Add(eventItem);
