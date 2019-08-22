@@ -25,6 +25,7 @@ namespace LightsAndBites.Controllers
         // GET: Recommendations
         public ActionResult Index(int userId)
         {
+            GetDailyQuote();
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
@@ -322,6 +323,32 @@ namespace LightsAndBites.Controllers
                 returnList.Add(j);
             }
             return returnList;
+        }
+        public string GetDailyQuote()
+        {
+            //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
+            string inspirationalQuoteOfDay = string.Empty;
+            string html = string.Empty;
+            string url = @"http://quotes.rest/qod.json?category=inspire";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                html = reader.ReadToEnd();
+            }
+
+            JObject o = JObject.Parse(html);
+
+            foreach (JObject j in o["contents"]["quotes"])
+            {
+                inspirationalQuoteOfDay = (j["quote"]).ToString();
+            }
+
+            return inspirationalQuoteOfDay;
         }
     }
 }
