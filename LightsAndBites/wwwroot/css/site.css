@@ -44,3 +44,39 @@ body {
 h2 {
     text-align: center;
 }
+
+/*==================================================================
+[ Form ]*/
+
+.create {
+    width: 100%;
+}
+
+.create {
+    font-family: Raleway-Medium;
+    font-size: 30px;
+    color: #555555;
+    line-height: 1.2;
+    text-transform: uppercase;
+    text-align: left;
+    width: 100%;
+    display: block;
+}
+.createcontainer {
+    width: 100%;
+    min-height: 100vh;
+    display: -webkit-box;
+    display: -webkit-flex;
+    display: -moz-box;
+    display: -ms-flexbox;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    padding: 15px;
+    background-color: #ebebeb;
+}
+
+/*------------------------------------------------------------------
+[ Input ]*/
+
