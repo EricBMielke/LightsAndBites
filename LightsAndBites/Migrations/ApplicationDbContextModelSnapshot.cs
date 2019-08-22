@@ -19,6 +19,19 @@ namespace LightsAndBites.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128)
                 .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
+            modelBuilder.Entity("LightsAndBites.Models.ApprovedSuperUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("ApprovedSuperUsers");
+                });
+
             modelBuilder.Entity("LightsAndBites.Models.Bar", b =>
                 {
                     b.Property<int>("Id")
@@ -410,6 +423,8 @@ namespace LightsAndBites.Migrations
                     b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
 
                     b.Property<string>("FirstName");
+
+                    b.Property<bool>("isSuperAdmin");
 
                     b.ToTable("ApplicationUser");
 
