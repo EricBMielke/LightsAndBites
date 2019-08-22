@@ -1,0 +1,26 @@
+﻿
+@{
+    Layout = "_Layout";
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>RoleTest</title>
+</head>
+<body>
+    @{
+        if (this.User.IsInRole("c4f5572c-3b98-4b47-a669-a0f2256443d6") || this.User.IsInRole("Admin") || this.User.IsInRole("ADMIN"))
+        {
+            <p>user is in admin role</p>
+        }
+        else if (this.User.IsInRole("8e2f40a1-fe4d-46d7-b7aa-02615a20c3bc") || this.User.IsInRole("Super Admin") || this.User.IsInRole("SUPER ADMIN"))
+        {
+            <p>user is in super admin role</p>
+        }
+
+    }
+</body>
+</html>
