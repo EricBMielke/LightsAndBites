@@ -9,7 +9,7 @@
 -->
 
 <h2>Light and Bites</h2>
-
+<center><p class="quote-text">Enter inspirational quote here</p></center>
 <div class="row">
     <div class="col-md-12 text-center">
         <br /><br />
@@ -123,20 +123,13 @@
                 <a href="#" class="btn btn-primary dislike">Dislike</a>
             </div>
         </div>
-        <div class="col-md-4 order-0 border-secondary" style="width: 18rem;">
-            <h2 class="text-center">Why do this</h2></br>
-            <div class="mask flex-center rgba-blue-light">
-                <div class="card-body">
-                    <p class="quote-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                </div>
-            </div>
-        </div>
+
     </div>
 </div>
 
-    
 
-@{ 
+
+@{
     int count = 0;
     double latTotal = 0;
     double lngTotal = 0;
@@ -260,7 +253,7 @@
 			});
 		}
 </script>
-@{ 
+@{
     string src = "https://maps.googleapis.com/maps/api/js?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&callback=initMap";
 }
 <script src="@(src)" async defer></script>
