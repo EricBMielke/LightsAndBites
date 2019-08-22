@@ -86,7 +86,7 @@ namespace LightsAndBites.Controllers
 
             passedValues[0] = recommendations;
 
-            passedValues[1] = GetNewGems();
+            passedValues[1] = GetNewGems(userId);
 
             return View(passedValues);
         }
@@ -218,15 +218,19 @@ namespace LightsAndBites.Controllers
             return allEventsMatching;
         }
 
-        private List<Recommendation> GetNewGems()
+        private List<Recommendation> GetNewGems(int Id)
         {
             List<Recommendation> gems = new List<Recommendation>();
+            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
 
             List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
             List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes !=0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-
-            List<Bar> unrankedBars = _context.Bars.Where(b => (b.Likes == 0) && (b.Dislikes == 0)).ToList();
-            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+            Restaurant linkedRestaurant = new Restaurant();
+            linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+            Bar linkedBar = new Bar();
+            linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+            List<Bar> unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId)&&(b.Likes == 0) && (b.Dislikes == 0)).ToList();
+            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
 
             foreach (Bar b in unrankedBars)
             {
