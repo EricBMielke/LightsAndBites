@@ -97,37 +97,6 @@ namespace LightsAndBites.Controllers
             List<Bar> allBarsMatching = new List<Bar>();
             foreach (Category category in categories)
             {
-                
-                List<JObject> data = GetGoogleData(category.CategoryType, Id, "bar");
-                foreach (JObject j in data)
-                {
-                    UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == Id).Single();
-                    Bar newBar = new Bar();
-                    newBar.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
-                    newBar.Category = _context.Categories.Where(c => c.Id == newBar.CategoryId).Single();
-                    newBar.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
-                    newBar.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
-                    newBar.Likes = 0;
-                    newBar.Dislikes = 0;
-                    newBar.Name = j["name"].ToString();
-                    newBar.CityId = _context.Cities.Where(c => c.CityName == selectedUser.Hometown).Select(c => c.Id).Single();
-                    newBar.City = _context.Cities.Where(c => c.Id == newBar.CityId).Single();
-                    try
-                    {
-                        newBar.CardPhoto = j["photos"][0]["photo_reference"].ToString();
-                    }
-                    catch
-                    {
-                        newBar.CardPhoto = null;
-                    }
-
-                    var foundMatchingBar = _context.Bars.Where(b => b.Latitude == newBar.Latitude).Where(b => b.Longitude == newBar.Longitude).Where(b => b.Name == newBar.Name).FirstOrDefault();
-                    if (foundMatchingBar == null)
-                    {
-                        _context.Bars.Add(newBar);
-                    }
-                }
-                _context.SaveChanges();
                 List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
                 foreach (Bar bar in allBarsMatchingSingle)
                 {
@@ -153,37 +122,6 @@ namespace LightsAndBites.Controllers
             List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
             foreach (Category category in categories)
             {
-                
-                List<JObject> data = GetGoogleData(category.CategoryType, Id, "restaurant");
-                foreach (JObject j in data)
-                {
-                    UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == Id).Single();
-                    Restaurant newRestaurant = new Restaurant();
-                    newRestaurant.CategoryId = _context.Categories.Where(c => c.CategoryType == category.CategoryType).Where(c => c.CategoryName == category.CategoryName).Select(c => c.Id).Single();
-                    newRestaurant.Category = _context.Categories.Where(c => c.Id == newRestaurant.CategoryId).Single();
-                    newRestaurant.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
-                    newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
-                    newRestaurant.Likes = 0;
-                    newRestaurant.Dislikes = 0;
-                    newRestaurant.Name = j["name"].ToString();
-                    newRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUser.Hometown).Select(c => c.Id).Single();
-                    newRestaurant.City = _context.Cities.Where(c => c.Id == newRestaurant.CityId).Single();
-                    try
-                    {
-                        newRestaurant.CardPhoto = j["photos"][0]["photo_reference"].ToString();
-                    }
-                    catch
-                    {
-                        newRestaurant.CardPhoto = null;
-                    }
-
-                    var foundMatchingRestaurant = _context.Restaurants.Where(r => r.Latitude == newRestaurant.Latitude).Where(r => r.Longitude == newRestaurant.Longitude).Where(r => r.Name == newRestaurant.Name).FirstOrDefault();
-                    if (foundMatchingRestaurant == null)
-                    {
-                        _context.Restaurants.Add(newRestaurant);
-                    }
-                }
-                _context.SaveChanges();
                 List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
                 foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
                 {
@@ -236,10 +174,12 @@ namespace LightsAndBites.Controllers
 
             foreach (Bar b in unrankedBars)
             {
+                b.Category = _context.Categories.Where(c => c.Id == b.CategoryId).Single();
                 bars.Add(b);
             }
             foreach (Restaurant r in unrankedRestaurants)
             {
+                r.Category = _context.Categories.Where(c => c.Id == r.CategoryId).Single();
                 restaurants.Add(r);
             }
 
@@ -297,33 +237,6 @@ namespace LightsAndBites.Controllers
             eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
 
             return eventCategories;
-        }
-
-        private List<JObject> GetGoogleData(string keyWord, int userId, string type)
-        {
-            UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
-            City userCity = _context.Cities.Where(u => u.CityName == selectedUser.Hometown).Single();
-            string data = string.Empty;
-            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + ApiKey.mapsKey + @"&location=" + userCity.Latitude + @"," + userCity.Longitude + @"&keyword=" + keyWord + @"&type=" + type +"&radius=5000";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                data = reader.ReadToEnd();
-            }
-
-            JObject returnData = JObject.Parse(data);
-            List<JObject> returnList = new List<JObject>();
-
-            foreach(JObject j in returnData["results"])
-            {
-                returnList.Add(j);
-            }
-            return returnList;
         }
         public static string GetDailyQuote()
         {

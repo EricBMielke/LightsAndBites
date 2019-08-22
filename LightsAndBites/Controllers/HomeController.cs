@@ -59,6 +59,7 @@ namespace LightsAndBites.Controllers
             foreach (City c in cities)
             {
                 GetAllDailyEvents(c);
+                GetAllBarsAndRestaurantsDaily(c);
             }
             //City chicagoCity = new City();
             //chicagoCity.Id = 4;
@@ -90,6 +91,21 @@ namespace LightsAndBites.Controllers
             GetDailyEvents("community", city);
             GetDailyEvents("observances", city);
             GetDailyEvents("performing_arts", city);
+        }
+
+        public void GetAllBarsAndRestaurantsDaily(City city)
+        {
+            GetGoogleData("Sports", city, "Bar");
+            GetGoogleData("College", city, "Bar");
+            GetGoogleData("Specialty", city, "Bar");
+            GetGoogleData("Irish Pub", city, "Bar");
+            GetGoogleData("Dive", city, "Bar");
+
+            GetGoogleData("Chinese", city, "Restaurant");
+            GetGoogleData("Italian", city, "Restaurant");
+            GetGoogleData("American", city, "Restaurant");
+            GetGoogleData("Fine Dining", city, "Restaurant");
+            GetGoogleData("Mexican", city, "Restaurant");
         }
         public void GetDailyEvents(string eventType, City city)
         {
@@ -478,6 +494,89 @@ namespace LightsAndBites.Controllers
                 _context.Bars.Add(bar);
             }
             _context.SaveChanges();
+        }
+
+        private void GetGoogleData(string keyWord, City city, string type)
+        {
+            string data = string.Empty;
+            string url = @"https://maps.googleapis.com/maps/api/place/nearbysearch/json?key=" + ApiKey.mapsKey + @"&location=" + city.Latitude + @"," + city.Longitude + @"&keyword=" + keyWord + @"&type=" + type.ToLower() + "&radius=5000";
+
+            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+            request.AutomaticDecompression = DecompressionMethods.GZip;
+
+            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+            using (Stream stream = response.GetResponseStream())
+            using (StreamReader reader = new StreamReader(stream))
+            {
+                data = reader.ReadToEnd();
+            }
+
+            JObject returnData = JObject.Parse(data);
+            List<JObject> returnList = new List<JObject>();
+
+            foreach (JObject j in returnData["results"])
+            {
+                if (type == "Bar")
+                {
+                    Bar newBar = new Bar();
+                    newBar.CategoryId = _context.Categories.Where(c => c.CategoryType == keyWord).Where(c => c.CategoryName == type).Select(c => c.Id).Single();
+                    newBar.Category = _context.Categories.Where(c => c.Id == newBar.CategoryId).Single();
+                    newBar.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
+                    newBar.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
+                    newBar.Likes = 0;
+                    newBar.Dislikes = 0;
+                    newBar.Name = j["name"].ToString();
+                    newBar.CityId = _context.Cities.Where(c => c.CityName == city.CityName).Select(c => c.Id).Single();
+                    newBar.City = _context.Cities.Where(c => c.Id == newBar.CityId).Single();
+                    try
+                    {
+                        newBar.CardPhoto = j["photos"][0]["photo_reference"].ToString();
+                    }
+                    catch
+                    {
+                        newBar.CardPhoto = null;
+                    }
+
+                    var foundMatchingRestaurant = _context.Restaurants.Where(r => r.Latitude == newBar.Latitude).Where(r => r.Longitude == newBar.Longitude).Where(r => r.Name == newBar.Name).FirstOrDefault();
+                    if (foundMatchingRestaurant == null)
+                    {
+                        _context.Bars.Add(newBar);
+                    }
+                }
+                else if (type == "Restaurant")
+                {
+                    Restaurant newRestaurant = new Restaurant();
+                    newRestaurant.CategoryId = _context.Categories.Where(c => c.CategoryType == keyWord).Where(c => c.CategoryName == type).Select(c => c.Id).Single();
+                    newRestaurant.Category = _context.Categories.Where(c => c.Id == newRestaurant.CategoryId).Single();
+                    newRestaurant.Latitude = Convert.ToDouble(j["geometry"]["location"]["lat"]);
+                    newRestaurant.Longitude = Convert.ToDouble(j["geometry"]["location"]["lng"]);
+                    newRestaurant.Likes = 0;
+                    newRestaurant.Dislikes = 0;
+                    newRestaurant.Name = j["name"].ToString();
+                    newRestaurant.CityId = _context.Cities.Where(c => c.CityName == city.CityName).Select(c => c.Id).Single();
+                    newRestaurant.City = _context.Cities.Where(c => c.Id == newRestaurant.CityId).Single();
+                    try
+                    {
+                        newRestaurant.CardPhoto = j["photos"][0]["photo_reference"].ToString();
+                    }
+                    catch
+                    {
+                        newRestaurant.CardPhoto = null;
+                    }
+
+                    var foundMatchingRestaurant = _context.Restaurants.Where(r => r.Latitude == newRestaurant.Latitude).Where(r => r.Longitude == newRestaurant.Longitude).Where(r => r.Name == newRestaurant.Name).FirstOrDefault();
+                    if (foundMatchingRestaurant == null)
+                    {
+                        _context.Restaurants.Add(newRestaurant);
+                    }
+                }
+
+                else
+                {
+                    throw new ArgumentException("Must be searching either a bar or restaurant.");
+                }
+                _context.SaveChanges();
+            }
         }
 
 
