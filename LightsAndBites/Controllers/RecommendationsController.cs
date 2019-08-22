@@ -311,18 +311,18 @@ namespace LightsAndBites.Controllers
             return returnList;
         }
 
-        public Recommendation PassBar(int id)
+        public ActionResult PassBar(int id)
         {
             Recommendation bar = new Recommendation();
             bar = _context.Bars.Where(b => b.Id == id).FirstOrDefault();
-            return bar;
-                
+            return PartialView("_CardDetails", bar);
+
         }
-        public Recommendation PassRestaurant(int id)
+        public ActionResult PassRestaurant(int id)
         {
             Recommendation restaurant = new Recommendation();
             restaurant = _context.Restaurants.Where(r => r.Id == id).FirstOrDefault();
-            return restaurant;
+            return PartialView("_CardDetails", restaurant);
         }
         public ActionResult PassEvents(int id)
         {
