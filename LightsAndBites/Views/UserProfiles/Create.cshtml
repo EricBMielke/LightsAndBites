@@ -13,78 +13,69 @@
     <title>Create</title>
 </head>
 <body>
+    <div class="createcontainer">
+        <hr />
+        <div class="col">
+            <h4>UserProfile</h4>
+            <form asp-action="Create" id="create">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.FirstName" class="control-label"></label>
+                    <input asp-for="UserProfile.FirstName" class="form-control" />
+                    <span asp-validation-for="UserProfile.FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.LastName" class="control-label"></label>
+                    <input asp-for="UserProfile.LastName" class="form-control" />
+                    <span asp-validation-for="UserProfile.LastName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="UserProfile.Hometown" class="control-label"></label>
+                    <input asp-for="UserProfile.Hometown" class="form-control" />
+                    <span asp-validation-for="UserProfile.Hometown" class="text-danger"></span>
+                </div>
+                <div>
+                    <label class="control-label">First Bar Category</label>
+                    @Html.DropDownListFor(m => m.UserProfile.BarCategoryIdOne, Model.BarCategoryList, "First Category")<br />
+                    <label class="control-label">Second Bar Category</label>
+                    @Html.DropDownListFor(m => m.UserProfile.BarCategoryIdTwo, Model.BarCategoryList, "Second Category")<br />
+                </div>
+                <div>
+                    <label class="control-label">Events One</label>
+                    @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdOne, Model.EventsCategoryList, "First Events Category")<br />
 
-<h4>UserProfile</h4>
-<hr />
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="Create">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="UserProfile.Email" class="control-label"></label>
-                <input asp-for="UserProfile.Email" class="form-control" />
-                <span asp-validation-for="UserProfile.Email" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserProfile.FirstName" class="control-label"></label>
-                <input asp-for="UserProfile.FirstName" class="form-control" />
-                <span asp-validation-for="UserProfile.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserProfile.LastName" class="control-label"></label>
-                <input asp-for="UserProfile.LastName" class="form-control" />
-                <span asp-validation-for="UserProfile.LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="UserProfile.Hometown" class="control-label"></label>
-                <input asp-for="UserProfile.Hometown" class="form-control" />
-                <span asp-validation-for="UserProfile.Hometown" class="text-danger"></span>
-            </div>
+                    <label class="control-label">Events Two</label>
+                    @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdTwo, Model.EventsCategoryList, "Second Events Category")<br />
 
-            <div>
-                <label class="control-label">Select First Bar Category</label>
-                @Html.DropDownListFor(m => m.UserProfile.BarCategoryIdOne, Model.BarCategoryList, "First Category")
+                    <label class="control-label">Events Three</label>
+                    @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdThree, Model.EventsCategoryList, "Third Events Category")<br />
+                </div>
 
+                <div>
+                    <label class="control-label">Restaurants One</label>
+                    @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdOne, Model.RestaurantCategoryList, "First Restaurant Category")<br />
 
-                <label class="control-label">Select Second Bar Category</label>
-                @Html.DropDownListFor(m => m.UserProfile.BarCategoryIdTwo, Model.BarCategoryList, "Second Category")
-            </div>
-            <div>
-                <label class="control-label">Events One</label>
-                @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdOne, Model.EventsCategoryList, "First Events Category")
+                    <label class="control-label">Restaurants Two</label>
+                    @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdTwo, Model.RestaurantCategoryList, "Second Restaurant Category")<br />
 
-                <label class="control-label">Events Two</label>
-                @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdTwo, Model.EventsCategoryList, "Second Events Category")
-
-                <label class="control-label">Events Three</label>
-                @Html.DropDownListFor(m => m.UserProfile.EventCategoryIdThree, Model.EventsCategoryList, "Third Events Category")
-            </div>
-
-            <div>
-                <label class="control-label">Restaurants One</label>
-                @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdOne, Model.RestaurantCategoryList, "First Restaurant Category")
-
-                <label class="control-label">Events Two</label>
-                @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdTwo, Model.RestaurantCategoryList, "Second Restaurant Category")
-
-                <label class="control-label">Events Three</label>
-                @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdThree, Model.RestaurantCategoryList, "Third Restaurant Category")
-            </div>
+                    <label class="control-label">Restaurants Three</label>
+                    @Html.DropDownListFor(m => m.UserProfile.RestaurantCategoryIdThree, Model.RestaurantCategoryList, "Third Restaurant Category")<br />
+                </div>
 
 
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-default" />
-            </div>
-        </form>
-</div>
-</div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="create-btn">
+                </div>
+                <div>
+                    <a asp-action="Index">Back to List</a>
+                </div>
 
-<div>
-    <a asp-action="Index">Back to List</a>
-</div>
+            </form>
 
-@section Scripts {
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
-}
+        </div>
+    </div>
+        @section Scripts {
+            @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+        }
 </body>
 </html>
