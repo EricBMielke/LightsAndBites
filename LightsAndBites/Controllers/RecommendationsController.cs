@@ -17,6 +17,7 @@ namespace LightsAndBites.Controllers
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+ 
 
         public RecommendationsController(ApplicationDbContext context)
         {

@@ -28,8 +28,8 @@
                                 <div class="card-body">
                                     <h5 id="BarName" class="card-title">@(thisBar.Name)</h5>
                                     <p class="card-text">Example Text</p>
-                                    <a href="#" id="@(thisBar.Id)" class="btn btn-primary">Go Somewhere</a> @*Pulls data sends to details*@
-                                </div>
+                                    <a href ="@Url.Action() id="@(thisBar.Id)" class="btn btn-primary">Go Somewhere</a> @*Pulls data sends to details*@
+                                </div>  <a href="@Url.Action("Register","Account", new {id=Item.id })"
                             </div>
                         }
                         else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
