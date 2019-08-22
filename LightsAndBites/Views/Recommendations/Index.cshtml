@@ -11,7 +11,7 @@
 <h2>Light and Bites</h2>
 
 <!--Hit Daily Quote Limit-->
-<!--<center><p class="quote-text">@(LightsAndBites.Controllers.RecommendationsController.GetDailyQuote())</p></center>-->
+<!--<center><p class="quote-text">LightsAndBites.Controllers.RecommendationsController.GetDailyQuote())</p></center>-->
 <div class="row">
     <div class="col-md-12 text-center">
         <br /><br />
@@ -33,10 +33,18 @@
                     {
                         Bar thisBar = (Bar)recommendation;
                         <div class="card col-md m-3 p-2">
+                            @if (thisBar.CardPhoto != null)
+                            {
+                                string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                            }
+                            else
+                            {
                             <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
-                                <p class="card-text">Example Text</p>
+                                <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
                                 <a href="#" class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
@@ -45,10 +53,18 @@
                     {
                         Restaurant thisRestaurant = (Restaurant)recommendation;
                         <div class="card col-md m-3 p-2">
+                            @if (thisRestaurant.CardPhoto != null)
+                            {
+                                string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                            }
+                            else
+                            {
                             <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
-                                <p class="card-text">Example Text</p>
+                                <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
                                 <a href="#" class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
@@ -57,10 +73,22 @@
                     {
                         Events thisEvent = (Events)recommendation;
                         <div class="card col-md m-3 p-2">
-                            <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            @if (thisEvent.PictureUrl == "Default")
+                            {
+                                <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            }
+                            else if (thisEvent.PictureUrl[0] == '/')
+                            {
+                                string imgSrc = "http:" + thisEvent.PictureUrl;
+                                <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" />
+                            }
+                            else
+                            {
+                                <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" />
+                            }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisEvent.Name)</h5>
-                                <p class="card-text">Example Text</p>
+                                <p class="card-text">@(thisEvent.Category.CategoryType) Event</p>
                                 <a href="#" class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
@@ -85,10 +113,18 @@
                     {
                         Bar thisBar = (Bar)recommendation;
                         <div class="card col-md m-2 p-2">
+                            @if (thisBar.CardPhoto != null)
+                            {
+                                string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                            }
+                            else
+                            {
                             <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
-                                <p class="card-text">More test text</p>
+                                <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
                                 <a href="#" class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
@@ -97,10 +133,18 @@
                     {
                         Restaurant thisRestaurant = (Restaurant)recommendation;
                         <div class="card col-md m-2 p-2">
+                            @if (thisRestaurant.CardPhoto != null)
+                            {
+                                string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                            }
+                            else
+                            {
                             <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
+                            }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
-                                <p class="card-text">More test text</p>
+                                <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
                                 <a href="#" class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
