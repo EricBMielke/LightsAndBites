@@ -35,3 +35,12 @@ body {
         display: none;
     }
 }
+
+#map {
+    height: 50%;
+    min-height: 350px;
+}
+
+h2 {
+    text-align: center;
+}
