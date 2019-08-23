@@ -45,7 +45,7 @@ else
                               <div class="card-body">
                                   <h5 class="card-title">@(thisBar.Name)</h5>
                                   <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                  <button OnClick ="PassValue(2)" class="btn btn-primary">Go Somewhere</button>
+                                  <button><a href = @Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a></button>
                                                                    
                               </div>
                               </div>
