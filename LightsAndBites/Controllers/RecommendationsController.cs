@@ -97,6 +97,14 @@ namespace LightsAndBites.Controllers
                     thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
                 }
                 rating.IsPositive = isPositive;
+                if (rating.IsPositive == true)
+                {
+                    thisRestaurant.Likes += 1;
+                }
+                else
+                {
+                    thisRestaurant.Dislikes += 1;
+                }
                 rating.RestaurantId = id;
                 rating.UserEmail = User.Identity.Name;
                 lock (thisLock)
