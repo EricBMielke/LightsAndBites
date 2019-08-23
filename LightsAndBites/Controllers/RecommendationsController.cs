@@ -72,6 +72,14 @@ namespace LightsAndBites.Controllers
                     thisBar = _context.Bars.Where(b => b.Id == id).Single();
                 }
                 rating.IsPositive = isPositive;
+                if (rating.IsPositive == true)
+                {
+                    thisBar.Likes += 1;
+                }
+                else
+                {
+                    thisBar.Dislikes += 1;
+                }
                 rating.BarId = id;
                 rating.UserEmail = User.Identity.Name;
                 lock(thisLock)
