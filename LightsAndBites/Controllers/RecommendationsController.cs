@@ -23,22 +23,31 @@ namespace LightsAndBites.Controllers
             _context = context;
         }
         // GET: Recommendations
-        public ActionResult Index(int userId)
+        public async Task<ActionResult> Index(int userId)
         {
  //           GetDailyQuote();
             UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
 
-            List<Category> restaurantCategories = GetRestaurantCategories(selectedUser);
-            List<Category> barCategories = GetBarCategories(selectedUser);
-            List<Category> eventCategories = GetEventCategories(selectedUser);
+            Task<List<Category>> restaurantCategoriesTask = GetRestaurantCategories(selectedUser);
+            Task<List<Category>> barCategoriesTask = GetBarCategories(selectedUser);
+            Task<List<Category>> eventCategoriesTask = GetEventCategories(selectedUser);
+            Task<List<Recommendation>> newGemsTask = GetNewGems(userId);
+
+            List<Category> restaurantCategories = await restaurantCategoriesTask;
+            List<Category> barCategories = await barCategoriesTask;
+            List<Category> eventCategories = await eventCategoriesTask;
 
             List<Recommendation> recommendations = new List<Recommendation>();
 
-            List<Bar> bars = GetBars(barCategories, userId);
-            List<Restaurant> restaurants = GetRestaurants(restaurantCategories, userId);
-            List<Events> events = GetEvents(eventCategories, selectedUser.Id);
+            Task<List<Bar>> barsTask = GetBars(barCategories, userId);
+            Task<List<Restaurant>> restaurantsTask = GetRestaurants(restaurantCategories, userId);
+            Task<List<Events>> eventsTask = GetEvents(eventCategories, selectedUser.Id);
+
+            List<Bar> bars = await barsTask;
+            List<Restaurant> restaurants = await restaurantsTask;
+            List<Events> events = await eventsTask;
 
             if (bars.Count <= 2)
             {
@@ -87,156 +96,177 @@ namespace LightsAndBites.Controllers
 
             passedValues[0] = recommendations;
 
-            passedValues[1] = GetNewGems(userId);
+            passedValues[1] = await newGemsTask;
 
             return View(passedValues);
         }
 
-        private List<Bar> GetBars(List<Category> categories, int Id)
+        private Task<List<Bar>> GetBars(List<Category> categories, int Id)
         {
-            List<Bar> allBarsMatching = new List<Bar>();
-            foreach (Category category in categories)
+            return Task.Run(() =>
             {
-                List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
-                foreach (Bar bar in allBarsMatchingSingle)
+                List<Bar> allBarsMatching = new List<Bar>();
+                foreach (Category category in categories)
                 {
-                    allBarsMatching.Add(bar);
+                    List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
+                    foreach (Bar bar in allBarsMatchingSingle)
+                    {
+                        allBarsMatching.Add(bar);
+                    }
                 }
-            }
-            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
-            Bar linkBar = new Bar();
-            linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
-            List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Bar> unrankedBars = allBarsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                Bar linkBar = new Bar();
+                linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                List<Bar> unrankedBars = allBarsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
-            foreach(Bar b in unrankedBars)
-            {
-                sortedBars.Add(b);
-            }
+                foreach (Bar b in unrankedBars)
+                {
+                    sortedBars.Add(b);
+                }
 
-            return sortedBars;
+                return sortedBars;
+            });
         }
 
-        private List<Restaurant> GetRestaurants(List<Category> categories, int Id)
+        private Task<List<Restaurant>> GetRestaurants(List<Category> categories, int Id)
         {
-            List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
-            foreach (Category category in categories)
+            return Task.Run(() =>
             {
-                List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
-                foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
+                List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
+                foreach (Category category in categories)
                 {
-                    allRestaurantsMatching.Add(restaurant);
+                    List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
+                    foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
+                    {
+                        allRestaurantsMatching.Add(restaurant);
+                    }
                 }
-            }
-            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
-            Restaurant linkRestaurant = new Restaurant();
-            linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
-            List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                Restaurant linkRestaurant = new Restaurant();
+                linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
-            foreach (Restaurant r in unrankedRestaurants)
-            {
-                sortedRestaurants.Add(r);
-            }
+                foreach (Restaurant r in unrankedRestaurants)
+                {
+                    sortedRestaurants.Add(r);
+                }
 
-            return sortedRestaurants;
+                return sortedRestaurants;
+            });
         }
 
-        private List<Events> GetEvents(List<Category> categories, int userId)
+        private Task<List<Events>> GetEvents(List<Category> categories, int userId)
         {
-            UserProfile foundUser = _context.UserProfile.Where(u => u.Id == userId).Single();
-            List<Events> allEventsMatching = new List<Events>();
-            foreach (Category category in categories)
+            return Task.Run(() =>
             {
-                List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
-                foreach (Events eventItem in allEventsMatchingSingle)
+                UserProfile foundUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+                List<Events> allEventsMatching = new List<Events>();
+                foreach (Category category in categories)
                 {
-                    allEventsMatching.Add(eventItem);
+                    List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
+                    foreach (Events eventItem in allEventsMatchingSingle)
+                    {
+                        allEventsMatching.Add(eventItem);
+                    }
                 }
-            }
 
-            return allEventsMatching;
+                return allEventsMatching;
+            });
         }
 
-        private List<Recommendation> GetNewGems(int Id)
+        private Task<List<Recommendation>> GetNewGems(int Id)
         {
-            List<Recommendation> gems = new List<Recommendation>();
-            UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+            return Task.Run(() =>
+            {
+                List<Recommendation> gems = new List<Recommendation>();
+                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
 
-            List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes !=0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-            Restaurant linkedRestaurant = new Restaurant();
-            linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
-            Bar linkedBar = new Bar();
-            linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
-            List<Bar> unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId)&&(b.Likes == 0) && (b.Dislikes == 0)).ToList();
-            List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+                List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes != 0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                Restaurant linkedRestaurant = new Restaurant();
+                linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                Bar linkedBar = new Bar();
+                linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                List<Bar> unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
 
-            foreach (Bar b in unrankedBars)
-            {
-                b.Category = _context.Categories.Where(c => c.Id == b.CategoryId).Single();
-                bars.Add(b);
-            }
-            foreach (Restaurant r in unrankedRestaurants)
-            {
-                r.Category = _context.Categories.Where(c => c.Id == r.CategoryId).Single();
-                restaurants.Add(r);
-            }
+                foreach (Bar b in unrankedBars)
+                {
+                    b.Category = _context.Categories.Where(c => c.Id == b.CategoryId).Single();
+                    bars.Add(b);
+                }
+                foreach (Restaurant r in unrankedRestaurants)
+                {
+                    r.Category = _context.Categories.Where(c => c.Id == r.CategoryId).Single();
+                    restaurants.Add(r);
+                }
 
-            if (bars.Count == 0)
-            {
-                for (int i = 0; i < 4; i++)
+                if (bars.Count == 0)
                 {
-                    gems.Add(restaurants[i]);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        gems.Add(restaurants[i]);
+                    }
                 }
-            }
-            else if (restaurants.Count == 0)
-            {
-                for (int i = 0; i < 4; i++)
+                else if (restaurants.Count == 0)
                 {
-                    gems.Add(bars[i]);
+                    for (int i = 0; i < 4; i++)
+                    {
+                        gems.Add(bars[i]);
+                    }
                 }
-            }
-            else
-            {
-                for (int i = 0; i < 2; i++)
+                else
                 {
-                    gems.Add(bars[i]);
+                    for (int i = 0; i < 2; i++)
+                    {
+                        gems.Add(bars[i]);
+                    }
+                    for (int i = 0; i < 2; i++)
+                    {
+                        gems.Add(restaurants[i]);
+                    }
                 }
-                for (int i = 0; i < 2; i++)
-                {
-                    gems.Add(restaurants[i]);
-                }
-            }
-            return gems;
+                return gems;
+            });
         }
 
-        private List<Category> GetBarCategories(UserProfile user)
+        private Task<List<Category>> GetBarCategories(UserProfile user)
         {
-            List<Category> barCategories = new List<Category>();
-            barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdOne).Single());
-            barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdTwo).Single());
-            return barCategories;
+            return Task.Run(() =>
+            {
+                List<Category> barCategories = new List<Category>();
+                barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdOne).Single());
+                barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdTwo).Single());
+                return barCategories;
+            });
         }
 
-        private List<Category> GetRestaurantCategories(UserProfile user)
+        private Task<List<Category>> GetRestaurantCategories(UserProfile user)
         {
-            List<Category> restaurantCategories = new List<Category>();
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdOne).Single());
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdTwo).Single());
-            restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdThree).Single());
+            return Task.Run(() =>
+            {
+                List<Category> restaurantCategories = new List<Category>();
+                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdOne).Single());
+                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdTwo).Single());
+                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdThree).Single());
 
-            return restaurantCategories;
+                return restaurantCategories;
+            });
         }
 
-        private List<Category> GetEventCategories(UserProfile user)
+        private Task<List<Category>> GetEventCategories(UserProfile user)
         {
-            List<Category> eventCategories = new List<Category>();
-            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdOne).Single());
-            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdTwo).Single());
-            eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
+            return Task.Run(() =>
+            {
+                List<Category> eventCategories = new List<Category>();
+                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdOne).Single());
+                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdTwo).Single());
+                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
 
-            return eventCategories;
+                return eventCategories;
+            });
         }
         public static string GetDailyQuote()
         {
