@@ -92,6 +92,10 @@ namespace LightsAndBites.Migrations
 
                     b.Property<string>("CityName");
 
+                    b.Property<double>("Latitude");
+
+                    b.Property<double>("Longitude");
+
                     b.Property<string>("State");
 
                     b.HasKey("Id");
