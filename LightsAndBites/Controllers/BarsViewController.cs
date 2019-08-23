@@ -22,7 +22,7 @@ namespace LightsAndBites.Controllers
         // GET: BarsView
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bars.Include(b => b.Category).Include(b => b.City).Include(b => b.Comment);
+            var applicationDbContext = _context.Bars.Include(b => b.Category).Include(b => b.City);
             return View(await applicationDbContext.ToListAsync());
         }
 
@@ -37,7 +37,6 @@ namespace LightsAndBites.Controllers
             var bar = await _context.Bars
                 .Include(b => b.Category)
                 .Include(b => b.City)
-                .Include(b => b.Comment)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bar == null)
             {
@@ -71,7 +70,6 @@ namespace LightsAndBites.Controllers
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            ViewData["CommentId"] = new SelectList(_context.Comments, "Id", "Id", bar.CommentId);
             return View(bar);
         }
 
@@ -90,7 +88,6 @@ namespace LightsAndBites.Controllers
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            ViewData["CommentId"] = new SelectList(_context.Comments, "Id", "Id", bar.CommentId);
             return View(bar);
         }
 
@@ -128,7 +125,6 @@ namespace LightsAndBites.Controllers
             }
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
             ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            ViewData["CommentId"] = new SelectList(_context.Comments, "Id", "Id", bar.CommentId);
             return View(bar);
         }
 
@@ -143,7 +139,6 @@ namespace LightsAndBites.Controllers
             var bar = await _context.Bars
                 .Include(b => b.Category)
                 .Include(b => b.City)
-                .Include(b => b.Comment)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (bar == null)
             {

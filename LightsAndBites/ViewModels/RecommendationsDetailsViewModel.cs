@@ -9,7 +9,6 @@ namespace LightsAndBites.ViewModels
 {
     public class RecommendationsDetailsViewModel
     {
-        private readonly ApplicationDbContext _context;
 
         public Bar Bars { get; set; }
         public Restaurant Restaurants { get; set; }
