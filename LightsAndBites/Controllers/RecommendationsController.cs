@@ -17,6 +17,7 @@ namespace LightsAndBites.Controllers
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
+        private Object thisLock = new Object();
 
         public RecommendationsController(ApplicationDbContext context)
         {
@@ -25,8 +26,12 @@ namespace LightsAndBites.Controllers
         // GET: Recommendations
         public async Task<ActionResult> Index(int userId)
         {
- //           GetDailyQuote();
-            UserProfile selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+            UserProfile selectedUser;
+            //GetDailyQuote();
+            lock (thisLock)
+            {
+                selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+            }
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
 
@@ -108,15 +113,26 @@ namespace LightsAndBites.Controllers
                 List<Bar> allBarsMatching = new List<Bar>();
                 foreach (Category category in categories)
                 {
-                    List<Bar> allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
+                    List<Bar> allBarsMatchingSingle;
+                    lock (thisLock)
+                    {
+                        allBarsMatchingSingle = _context.Bars.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
+                    }
                     foreach (Bar bar in allBarsMatchingSingle)
                     {
                         allBarsMatching.Add(bar);
                     }
                 }
-                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                UserProfile selectedUserCity;
+                lock (thisLock)
+                {
+                    selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                }
                 Bar linkBar = new Bar();
-                linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                lock (thisLock)
+                {
+                    linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                }
                 List<Bar> sortedBars = allBarsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
                 List<Bar> unrankedBars = allBarsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
@@ -136,15 +152,26 @@ namespace LightsAndBites.Controllers
                 List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
                 foreach (Category category in categories)
                 {
-                    List<Restaurant> allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
+                    List<Restaurant> allRestaurantsMatchingSingle;
+                    lock (thisLock)
+                    {
+                        allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
+                    }
                     foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
                     {
                         allRestaurantsMatching.Add(restaurant);
                     }
                 }
-                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                UserProfile selectedUserCity;
+                lock (thisLock)
+                {
+                    selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                }
                 Restaurant linkRestaurant = new Restaurant();
-                linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                lock (thisLock)
+                {
+                    linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                }
                 List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
                 List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
@@ -161,11 +188,19 @@ namespace LightsAndBites.Controllers
         {
             return Task.Run(() =>
             {
-                UserProfile foundUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+                UserProfile foundUser;
+                lock (thisLock)
+                {
+                    foundUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+                }
                 List<Events> allEventsMatching = new List<Events>();
                 foreach (Category category in categories)
                 {
-                    List<Events> allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
+                    List<Events> allEventsMatchingSingle;
+                    lock (thisLock)
+                    {
+                        allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
+                    }
                     foreach (Events eventItem in allEventsMatchingSingle)
                     {
                         allEventsMatching.Add(eventItem);
@@ -181,25 +216,38 @@ namespace LightsAndBites.Controllers
             return Task.Run(() =>
             {
                 List<Recommendation> gems = new List<Recommendation>();
-                UserProfile selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
-
-                List<Bar> bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-                List<Restaurant> restaurants = _context.Restaurants.Where(r => (r.Likes != 0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                UserProfile selectedUserCity;
+                List<Bar> bars;
+                List<Restaurant> restaurants;
                 Restaurant linkedRestaurant = new Restaurant();
-                linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                List<Bar> unrankedBars;
                 Bar linkedBar = new Bar();
-                linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
-                List<Bar> unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
-                List<Restaurant> unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+                List<Restaurant> unrankedRestaurants;
+                lock (thisLock)
+                {
+                    selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
+                    bars = _context.Bars.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                    restaurants = _context.Restaurants.Where(r => (r.Likes != 0) || (r.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
+                    linkedRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                    linkedBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                    unrankedBars = _context.Bars.Where(b => (b.CityId == linkedBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                    unrankedRestaurants = _context.Restaurants.Where(r => (r.CityId == linkedRestaurant.CityId) && (r.Likes == 0) && (r.Dislikes == 0)).ToList();
+                }
 
                 foreach (Bar b in unrankedBars)
                 {
-                    b.Category = _context.Categories.Where(c => c.Id == b.CategoryId).Single();
+                    lock (thisLock)
+                    {
+                        b.Category = _context.Categories.Where(c => c.Id == b.CategoryId).Single();
+                    }
                     bars.Add(b);
                 }
                 foreach (Restaurant r in unrankedRestaurants)
                 {
-                    r.Category = _context.Categories.Where(c => c.Id == r.CategoryId).Single();
+                    lock (thisLock)
+                    {
+                        r.Category = _context.Categories.Where(c => c.Id == r.CategoryId).Single();
+                    }
                     restaurants.Add(r);
                 }
 
@@ -237,8 +285,11 @@ namespace LightsAndBites.Controllers
             return Task.Run(() =>
             {
                 List<Category> barCategories = new List<Category>();
-                barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdOne).Single());
-                barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdTwo).Single());
+                lock (thisLock)
+                {
+                    barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdOne).Single());
+                    barCategories.Add(_context.Categories.Where(c => c.Id == user.BarCategoryIdTwo).Single());
+                }
                 return barCategories;
             });
         }
@@ -248,10 +299,12 @@ namespace LightsAndBites.Controllers
             return Task.Run(() =>
             {
                 List<Category> restaurantCategories = new List<Category>();
-                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdOne).Single());
-                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdTwo).Single());
-                restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdThree).Single());
-
+                lock (thisLock)
+                {
+                    restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdOne).Single());
+                    restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdTwo).Single());
+                    restaurantCategories.Add(_context.Categories.Where(c => c.Id == user.RestaurantCategoryIdThree).Single());
+                }
                 return restaurantCategories;
             });
         }
@@ -261,10 +314,12 @@ namespace LightsAndBites.Controllers
             return Task.Run(() =>
             {
                 List<Category> eventCategories = new List<Category>();
-                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdOne).Single());
-                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdTwo).Single());
-                eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
-
+                lock (thisLock)
+                {
+                    eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdOne).Single());
+                    eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdTwo).Single());
+                    eventCategories.Add(_context.Categories.Where(c => c.Id == user.EventCategoryIdThree).Single());
+                }
                 return eventCategories;
             });
         }
