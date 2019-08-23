@@ -37,6 +37,11 @@ namespace LightsAndBites.Controllers
             return View();
         }
 
+        public IActionResult SplashPage()
+        {
+            return View();
+        }
+
         public IActionResult About()
         {
             return View();
