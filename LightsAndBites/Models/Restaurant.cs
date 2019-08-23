@@ -27,10 +27,6 @@ namespace LightsAndBites.Models
         public int Likes { get; set; }
         [Display(Name = "Dislikes")]
         public int Dislikes { get; set; }
-        [Display(Name = "Comment Id")]
-        public int? CommentId { get; set; }
-        [ForeignKey("CommentId")]
-        public Comment Comment { get; set; }
         [Display(Name = "City")]
         public int CityId { get; set; }
         [ForeignKey("CityId")]

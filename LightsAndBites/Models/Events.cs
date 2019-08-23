@@ -25,10 +25,6 @@ namespace LightsAndBites.Models
         public double Longitude { get; set; }
         [Display(Name = "Latitude")]
         public double Latitude { get; set; }
-        [Display(Name = "Comment Id")]
-        public int? CommentId { get; set; }
-        [ForeignKey("CommentId")]
-        public Comment Comment { get; set; }
         [Display(Name = "City")]
         public int CityId { get; set; }
         [ForeignKey("CityId")]
