@@ -25,8 +25,8 @@ namespace LightsAndBites.Models
         [Display(Name = "Event")]
         [ForeignKey("EventId")]
         public int? EventId { get; set; }
-
-
-
+        [Display(Name = "User email")]
+        [ForeignKey("UserId")]
+        public string UserEmail { get; set; }
     }
 }
