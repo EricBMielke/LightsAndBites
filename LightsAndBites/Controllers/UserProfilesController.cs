@@ -15,6 +15,7 @@ namespace LightsAndBites.Controllers
     public class UserProfilesController : Controller
     {
         private readonly ApplicationDbContext _context;
+        public bool userDoesntExist = true;
 
         public UserProfilesController(ApplicationDbContext context)
         {
@@ -48,11 +49,15 @@ namespace LightsAndBites.Controllers
         // GET: UserProfiles/Create
         public IActionResult Create()
         {
-
-            UserProfileCreateViewModel userProfileCreateViewModel = new UserProfileCreateViewModel(_context)
-            {               
-            };
-            
+            var currentUser = User.Identity.Name;
+            foreach (UserProfile u in _context.UserProfile)
+            {
+                if (u.Email == currentUser)
+                {
+                    return RedirectToAction(nameof(Index), "Recommendations");
+                }
+            }
+            UserProfileCreateViewModel userProfileCreateViewModel = new UserProfileCreateViewModel(_context);
             return View(userProfileCreateViewModel);
         }
 
@@ -67,7 +72,7 @@ namespace LightsAndBites.Controllers
             {
                 _context.Add(userProfile);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Index),"Recommendations");
             }
             return View(userProfile);
         }
