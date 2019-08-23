@@ -268,31 +268,34 @@ namespace LightsAndBites.Controllers
                 return eventCategories;
             });
         }
-        public static string GetDailyQuote()
+        public static Task<string> GetDailyQuote()
         {
-            //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
-            string inspirationalQuoteOfDay = string.Empty;
-            string html = string.Empty;
-            string url = @"http://quotes.rest/qod.json?category=inspire";
-
-            HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
-            request.AutomaticDecompression = DecompressionMethods.GZip;
-
-            using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
-            using (Stream stream = response.GetResponseStream())
-            using (StreamReader reader = new StreamReader(stream))
+            return Task.Run(() =>
             {
-                html = reader.ReadToEnd();
-            }
+                //IF USING THIS FUNCTION = WE MUST ADD CREDIT TO QUOTES API like it states in https://theysaidso.com/api/ 
+                string inspirationalQuoteOfDay = string.Empty;
+                string html = string.Empty;
+                string url = @"http://quotes.rest/qod.json?category=inspire";
 
-            JObject o = JObject.Parse(html);
+                HttpWebRequest request = (HttpWebRequest)WebRequest.Create(url);
+                request.AutomaticDecompression = DecompressionMethods.GZip;
 
-            foreach (JObject j in o["contents"]["quotes"])
-            {
-                inspirationalQuoteOfDay = (j["quote"]).ToString();
-            }
+                using (HttpWebResponse response = (HttpWebResponse)request.GetResponse())
+                using (Stream stream = response.GetResponseStream())
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    html = reader.ReadToEnd();
+                }
 
-            return inspirationalQuoteOfDay;
+                JObject o = JObject.Parse(html);
+
+                foreach (JObject j in o["contents"]["quotes"])
+                {
+                    inspirationalQuoteOfDay = (j["quote"]).ToString();
+                }
+
+                return inspirationalQuoteOfDay;
+            });
         }
     }
 }
