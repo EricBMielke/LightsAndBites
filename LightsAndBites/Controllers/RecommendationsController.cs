@@ -264,5 +264,12 @@ namespace LightsAndBites.Controllers
 
             return inspirationalQuoteOfDay;
         }
+
+        public ActionResult PassBar(int id)
+        {
+            Bar bar = new Bar();
+            bar = _context.Bars.Where(b => b.Id == id).FirstOrDefault();
+            return View();
+        }
     }
 }

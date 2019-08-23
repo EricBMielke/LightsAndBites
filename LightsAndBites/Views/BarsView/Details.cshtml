@@ -1,0 +1,55 @@
+﻿@model LightsAndBites.Models.Bar
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<div>
+    <h2>@Model.Name</h2>
+    <hr />
+    <div class="card overlay" style="width: 100%; padding-left:10px;">
+       
+        <br><br />
+            <div style="text-align:center;">
+            @{ 
+                string embeddedmapsURL;
+                string modelName;
+                modelName= Model.Name.Replace(" ", String.Empty);
+                
+                embeddedmapsURL = @"https://www.google.com/maps/embed/v1/place?q=" + modelName + "+" + Model.City.CityName + "&key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey;
+
+            }
+                <iframe width="600"
+                        height="450"
+                        frameborder="0" style="border:0"
+                        src= @embeddedmapsURL allowfullscreen>
+                </iframe>
+
+
+                <hr style="width:75%; text-align:right" />
+                <p>
+                    <strong> Comments</strong><br />
+                </p>
+
+                <br /><br /><br /><br />
+            </div>
+        <div>
+            <div class="div-left">
+                <input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">
+                <input type="image" src="~/images/dislike.png" style="width:12.5%" />
+            </div>
+            <br />
+            <div class="div-right">
+                <strong>Add your own comment below!</strong>
+                <br />
+                <input type="text" onfocus="this.value=''" value="Insert comment here" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
+                <button type="button" class="btn btn-primary">Post</button><br />
+            </div>
+            <br />
+        </div>
+    </div>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
