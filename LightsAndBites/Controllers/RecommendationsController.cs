@@ -24,13 +24,17 @@ namespace LightsAndBites.Controllers
             _context = context;
         }
         // GET: Recommendations
-        public async Task<ActionResult> Index(int userId)
+        public async Task<ActionResult> Index()
         {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             UserProfile selectedUser;
             //GetDailyQuote();
             lock (thisLock)
             {
-                selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+                selectedUser = _context.UserProfile.Where(u => u.Email == User.Identity.Name).Single();
             }
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
@@ -38,7 +42,7 @@ namespace LightsAndBites.Controllers
             Task<List<Category>> restaurantCategoriesTask = GetRestaurantCategories(selectedUser);
             Task<List<Category>> barCategoriesTask = GetBarCategories(selectedUser);
             Task<List<Category>> eventCategoriesTask = GetEventCategories(selectedUser);
-            Task<List<Recommendation>> newGemsTask = GetNewGems(userId);
+            Task<List<Recommendation>> newGemsTask = GetNewGems(selectedUser.Id);
 
             List<Category> restaurantCategories = await restaurantCategoriesTask;
             List<Category> barCategories = await barCategoriesTask;
@@ -46,8 +50,8 @@ namespace LightsAndBites.Controllers
 
             List<Recommendation> recommendations = new List<Recommendation>();
 
-            Task<List<Bar>> barsTask = GetBars(barCategories, userId);
-            Task<List<Restaurant>> restaurantsTask = GetRestaurants(restaurantCategories, userId);
+            Task<List<Bar>> barsTask = GetBars(barCategories, selectedUser.Id);
+            Task<List<Restaurant>> restaurantsTask = GetRestaurants(restaurantCategories, selectedUser.Id);
             Task<List<Events>> eventsTask = GetEvents(eventCategories, selectedUser.Id);
 
             List<Bar> bars = await barsTask;
