@@ -24,247 +24,248 @@
           <div class="col-md-8 border border-primary rounded">
               <h2 class="text-center">Recommended</h2>
               @for (int i = 0; i < 2; i++)
-              {
+{
                   <div class="row text-center">
                       @for (int j = 0; j < Model[0].Count / 2; j++)
-                      {
-                          LightsAndBites.Classes.Recommendation recommendation = Model[0][((Model[0].Count) / 2 * i) + j];
-                          if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
-                          {
-                              Bar thisBar = (Bar)recommendation;
+{
+    LightsAndBites.Classes.Recommendation recommendation = Model[0][((Model[0].Count) / 2 * i) + j];
+    if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+    {
+        Bar thisBar = (Bar)recommendation;
                               <div class="card col-md m-3 p-2">
                                   @if (thisBar.CardPhoto != null)
-                                  {
-                                      string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
+{
+    string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
                                       <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
-                                  }
-                                  else
-                                  {
+}
+else
+{
                                       <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                                  }
-                                  <div class="card-body">
-                                      <h5 class="card-title">@(thisBar.Name)</h5>
-                                      <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                      <a href="#" class="btn btn-primary">Go Somewhere</a>
-                                  </div>
+}
+                              <div class="card-body">
+                                  <h5 class="card-title">@(thisBar.Name)</h5>
+                                  <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
+                                  <button><a href = @Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                                                   
                               </div>
-                          }
-                          else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                          {
-                              Restaurant thisRestaurant = (Restaurant)recommendation;
+                              </div>
+    }
+    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+    {
+        Restaurant thisRestaurant = (Restaurant)recommendation;
                               <div class="card col-md m-3 p-2">
                                   @if (thisRestaurant.CardPhoto != null)
-                                  {
-                                      string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
+{
+    string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
                                       <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
-                                  }
-                                  else
-                                  {
+}
+else
+{
                                       <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                                  }
+}
                                   <div class="card-body">
                                       <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                       <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
                                       <a href="#" class="btn btn-primary">Go Somewhere</a>
                                   </div>
                               </div>
-                          }
-                          else if (recommendation.GetType() == typeof(LightsAndBites.Models.Events))
-                          {
-                              Events thisEvent = (Events)recommendation;
+    }
+    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Events))
+    {
+        Events thisEvent = (Events)recommendation;
                               <div class="card col-md m-3 p-2">
                                   @if (thisEvent.PictureUrl == "Default")
-                                  {
+{
                                       <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                                  }
-                                  else if (thisEvent.PictureUrl[0] == '/')
-                                  {
-                                      string imgSrc = "http:" + thisEvent.PictureUrl;
+}
+else if (thisEvent.PictureUrl[0] == '/')
+{
+    string imgSrc = "http:" + thisEvent.PictureUrl;
                                       <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" />
-                                  }
-                                  else
-                                  {
+}
+else
+{
                                       <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" />
-                                  }
+}
                                   <div class="card-body">
                                       <h5 class="card-title">@(thisEvent.Name)</h5>
                                       <p class="card-text">@(thisEvent.Category.CategoryType) Event</p>
                                       <a href="#" class="btn btn-primary">Go Somewhere</a>
                                   </div>
                               </div>
-                          }
-                          else
-                          {
-                              Html.Display("Bad data model.");
-                          }
-                      }
+    }
+    else
+    {
+        Html.Display("Bad data model.");
+    }
+}
                   </div>
-              }
+}
           </div>
           <div class="col-md-4 order-0 border-secondary" rounded>
               <h2 class="text-center">New Gems</h2>
               @for (int i = 0; i < 2; i++)
-              {
+{
                   <div class="row text-center">
                       @for (int j = 0; j < 2; j++)
-                      {
-                          LightsAndBites.Classes.Recommendation recommendation = Model[1][(2 * i) + j];
-                          if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
-                          {
-                              Bar thisBar = (Bar)recommendation;
+{
+    LightsAndBites.Classes.Recommendation recommendation = Model[1][(2 * i) + j];
+    if (recommendation.GetType() == typeof(LightsAndBites.Models.Bar))
+    {
+        Bar thisBar = (Bar)recommendation;
                               <div class="card col-md m-2 p-2">
                                   @if (thisBar.CardPhoto != null)
-                                  {
-                                      string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
+{
+    string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
                                       <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
-                                  }
-                                  else
-                                  {
+}
+else
+{
                                       <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                                  }
+}
                                   <div class="card-body">
                                       <h5 class="card-title">@(thisBar.Name)</h5>
                                       <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
                                       <a href="#" class="btn btn-primary">Go Somewhere</a>
                                   </div>
                               </div>
-                          }
-                          else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                          {
-                              Restaurant thisRestaurant = (Restaurant)recommendation;
+    }
+    else if (recommendation.GetType() == typeof(LightsAndBites.Models.Restaurant))
+    {
+        Restaurant thisRestaurant = (Restaurant)recommendation;
                               <div class="card col-md m-2 p-2">
                                   @if (thisRestaurant.CardPhoto != null)
-                                  {
-                                      string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
+{
+    string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
                                       <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
-                                  }
-                                  else
-                                  {
+}
+else
+{
                                       <img class="card-img-top" src="https://placeimg.com/180/100/tech/grayscale" alt="Card image cap" />
-                                  }
+}
                                   <div class="card-body">
                                       <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                       <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
                                       <a href="#" class="btn btn-primary">Go Somewhere</a>
                                   </div>
                               </div>
-                          }
-                          else
-                          {
-                              Html.Display("Bad data model");
-                          }
+    }
+    else
+    {
+        Html.Display("Bad data model");
+    }
 
-                      }
+}
                   </div>
-              }
+}
           </div>
 
-          <div>
-              @{Html.RenderPartial("_CardDetails.cshtml", new LightsAndBites.ViewModels.RecommendationsDetailsViewModel());}
-              </ div>
+          <div id="partialrender">
+              
           </div>
 
 
 
           @{
-              int count = 0;
-              double latTotal = 0;
-              double lngTotal = 0;
-              foreach (LightsAndBites.Classes.Recommendation r in Model[0])
-              {
-                  count++;
-                  if (r.GetType() == typeof(LightsAndBites.Models.Bar))
-                  {
-                      Bar thisBar = (Bar)r;
-                      latTotal += thisBar.Latitude;
-                      lngTotal += thisBar.Longitude;
-                  }
-                  else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                  {
-                      Restaurant thisRestaurant = (Restaurant)r;
-                      latTotal += thisRestaurant.Latitude;
-                      lngTotal += thisRestaurant.Longitude;
-                  }
-                  else if (r.GetType() == typeof(LightsAndBites.Models.Events))
-                  {
-                      Events thisEvent = (Events)r;
-                      latTotal += thisEvent.Latitude;
-                      lngTotal += thisEvent.Longitude;
-                  }
-              }
+    int count = 0;
+    double latTotal = 0;
+    double lngTotal = 0;
+    foreach (LightsAndBites.Classes.Recommendation r in Model[0])
+    {
+        count++;
+        if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+        {
+            Bar thisBar = (Bar)r;
+            latTotal += thisBar.Latitude;
+            lngTotal += thisBar.Longitude;
+        }
+        else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+        {
+            Restaurant thisRestaurant = (Restaurant)r;
+            latTotal += thisRestaurant.Latitude;
+            lngTotal += thisRestaurant.Longitude;
+        }
+        else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+        {
+            Events thisEvent = (Events)r;
+            latTotal += thisEvent.Latitude;
+            lngTotal += thisEvent.Longitude;
+        }
+    }
 
-              foreach (LightsAndBites.Classes.Recommendation r in Model[1])
-              {
-                  count++;
-                  if (r.GetType() == typeof(LightsAndBites.Models.Bar))
-                  {
-                      Bar thisBar = (Bar)r;
-                      latTotal += thisBar.Latitude;
-                      lngTotal += thisBar.Longitude;
-                  }
-                  else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                  {
-                      Restaurant thisRestaurant = (Restaurant)r;
-                      latTotal += thisRestaurant.Latitude;
-                      lngTotal += thisRestaurant.Longitude;
-                  }
-                  else if (r.GetType() == typeof(LightsAndBites.Models.Events))
-                  {
-                      Events thisEvent = (Events)r;
-                      latTotal += thisEvent.Latitude;
-                      lngTotal += thisEvent.Longitude;
-                  }
-              }
+    foreach (LightsAndBites.Classes.Recommendation r in Model[1])
+    {
+        count++;
+        if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+        {
+            Bar thisBar = (Bar)r;
+            latTotal += thisBar.Latitude;
+            lngTotal += thisBar.Longitude;
+        }
+        else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+        {
+            Restaurant thisRestaurant = (Restaurant)r;
+            latTotal += thisRestaurant.Latitude;
+            lngTotal += thisRestaurant.Longitude;
+        }
+        else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+        {
+            Events thisEvent = (Events)r;
+            latTotal += thisEvent.Latitude;
+            lngTotal += thisEvent.Longitude;
+        }
+    }
 
-              double centerLatitude = latTotal / count;
-              double centerLongitude = lngTotal / count;
+    double centerLatitude = latTotal / count;
+    double centerLongitude = lngTotal / count;
           }
 
           <script>
     var curMap;
-		function initMap() {
-			curMap = new google.maps.Map(document.getElementById('map'), {
-			center: {lat: @(centerLatitude), lng: @(centerLongitude)},
+                  function initMap() {
+                      curMap = new google.maps.Map(document.getElementById('map'), {
+            center: {lat: @(centerLatitude), lng: @(centerLongitude)},
 			zoom: 11
-			});
+          
+            });
 			@{
-                foreach (LightsAndBites.Classes.Recommendation r in Model[0])
-                {
-                    if (r.GetType() == typeof(LightsAndBites.Models.Bar))
-                    {
-                        Bar thisBar = (Bar)r;
+    foreach (LightsAndBites.Classes.Recommendation r in Model[0])
+    {
+        if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+        {
+            Bar thisBar = (Bar)r;
                         @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name', 'http://maps.google.com/mapfiles/ms/icons/blue-dot.png');
                     }
-                    else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                    {
-                        Restaurant thisRestaurant = (Restaurant)r;
+        else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+        {
+            Restaurant thisRestaurant = (Restaurant)r;
                         @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name', 'http://maps.google.com/mapfiles/ms/icons/green-dot.png');
                     }
-                    else if (r.GetType() == typeof(LightsAndBites.Models.Events))
-                    {
-                        Events thisEvent = (Events)r;
+        else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+        {
+            Events thisEvent = (Events)r;
                         @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name', 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
                     }
-                }
+    }
 
-                foreach (LightsAndBites.Classes.Recommendation r in Model[1])
-                {
-                    if (r.GetType() == typeof(LightsAndBites.Models.Bar))
-                    {
-                        Bar thisBar = (Bar)r;
+    foreach (LightsAndBites.Classes.Recommendation r in Model[1])
+    {
+        if (r.GetType() == typeof(LightsAndBites.Models.Bar))
+        {
+            Bar thisBar = (Bar)r;
                         @:addMarker(curMap, @thisBar.Latitude, @thisBar.Longitude, '@thisBar.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
-                    else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
-                    {
-                        Restaurant thisRestaurant = (Restaurant)r;
+        else if (r.GetType() == typeof(LightsAndBites.Models.Restaurant))
+        {
+            Restaurant thisRestaurant = (Restaurant)r;
                         @:addMarker(curMap, @thisRestaurant.Latitude, @thisRestaurant.Longitude, '@thisRestaurant.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
-                    else if (r.GetType() == typeof(LightsAndBites.Models.Events))
-                    {
-                        Events thisEvent = (Events)r;
+        else if (r.GetType() == typeof(LightsAndBites.Models.Events))
+        {
+            Events thisEvent = (Events)r;
                         @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name', 'http://maps.google.com/mapfiles/ms/icons/red-dot.png');
                     }
-                }
+    }
 			}
 		}
 
@@ -291,6 +292,6 @@
 		}
           </script>
           @{
-              string src = "https://maps.googleapis.com/maps/api/js?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&callback=initMap";
+    string src = "https://maps.googleapis.com/maps/api/js?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&callback=initMap";
           }
           <script src="@(src)" async defer></script>

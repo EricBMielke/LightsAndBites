@@ -23,14 +23,114 @@ namespace LightsAndBites.Controllers
         {
             _context = context;
         }
-        // GET: Recommendations
-        public async Task<ActionResult> Index(int userId)
+        public ActionResult AddComment(string type, int id, string commentData)
         {
+            if (type.ToLower() == "bar")
+            {
+                Bar thisBar;
+                Comment comment = new Comment();
+                lock (thisLock)
+                {
+                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                }
+                comment.BarId = id;
+                comment.UserEmail = User.Identity.Name;
+                comment.UserComment = commentData;
+                lock (thisLock)
+                {
+                    _context.Comments.Add(comment);
+                    _context.SaveChanges();
+                }
+            }
+            else if (type.ToLower() == "restaurant")
+            {
+                Restaurant thisRestaurant;
+                Comment comment = new Comment();
+                lock (thisLock)
+                {
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                }
+                comment.RestaurantId = id;
+                comment.UserEmail = User.Identity.Name;
+                comment.UserComment = commentData;
+                lock (thisLock)
+                {
+                    _context.Comments.Add(comment);
+                    _context.SaveChanges();
+                }
+            }
+            return View();
+        }
+        public ActionResult AddLike(string type, int id, bool isPositive)
+        {
+            if (type.ToLower() == "bar")
+            {
+                Bar thisBar;
+                Rating rating = new Rating();
+                lock(thisLock)
+                {
+                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                }
+                rating.IsPositive = isPositive;
+                if (rating.IsPositive == true)
+                {
+                    thisBar.Likes += 1;
+                }
+                else
+                {
+                    thisBar.Dislikes += 1;
+                }
+                rating.BarId = id;
+                rating.UserEmail = User.Identity.Name;
+                lock(thisLock)
+                {
+                    _context.Rating.Add(rating);
+                    _context.SaveChanges();
+                }
+            }
+            else if (type.ToLower() == "restaurant")
+            {
+                Restaurant thisRestaurant;
+                Rating rating = new Rating();
+                lock (thisLock)
+                {
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                }
+                rating.IsPositive = isPositive;
+                if (rating.IsPositive == true)
+                {
+                    thisRestaurant.Likes += 1;
+                }
+                else
+                {
+                    thisRestaurant.Dislikes += 1;
+                }
+                rating.RestaurantId = id;
+                rating.UserEmail = User.Identity.Name;
+                lock (thisLock)
+                {
+                    _context.Rating.Add(rating);
+                    _context.SaveChanges();
+                }
+            }
+            return View();
+        }
+        // GET: Recommendations
+        public async Task<ActionResult> Index()
+        {
+            if (!User.Identity.IsAuthenticated)
+            {
+                return RedirectToAction("Index", "Home");
+            }
+
+            var currentUser = User.Identity.Name;
+
             UserProfile selectedUser;
             //GetDailyQuote();
             lock (thisLock)
             {
-                selectedUser = _context.UserProfile.Where(u => u.Id == userId).Single();
+                selectedUser = _context.UserProfile.Where(u => u.Email == User.Identity.Name).Single();
+
             }
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
@@ -38,7 +138,7 @@ namespace LightsAndBites.Controllers
             Task<List<Category>> restaurantCategoriesTask = GetRestaurantCategories(selectedUser);
             Task<List<Category>> barCategoriesTask = GetBarCategories(selectedUser);
             Task<List<Category>> eventCategoriesTask = GetEventCategories(selectedUser);
-            Task<List<Recommendation>> newGemsTask = GetNewGems(userId);
+            Task<List<Recommendation>> newGemsTask = GetNewGems(selectedUser.Id);
 
             List<Category> restaurantCategories = await restaurantCategoriesTask;
             List<Category> barCategories = await barCategoriesTask;
@@ -46,8 +146,8 @@ namespace LightsAndBites.Controllers
 
             List<Recommendation> recommendations = new List<Recommendation>();
 
-            Task<List<Bar>> barsTask = GetBars(barCategories, userId);
-            Task<List<Restaurant>> restaurantsTask = GetRestaurants(restaurantCategories, userId);
+            Task<List<Bar>> barsTask = GetBars(barCategories, selectedUser.Id);
+            Task<List<Restaurant>> restaurantsTask = GetRestaurants(restaurantCategories, selectedUser.Id);
             Task<List<Events>> eventsTask = GetEvents(eventCategories, selectedUser.Id);
 
             List<Bar> bars = await barsTask;
@@ -351,6 +451,13 @@ namespace LightsAndBites.Controllers
 
                 return inspirationalQuoteOfDay;
             });
+        }
+
+        public ActionResult PassBar(int id)
+        {
+            Bar bar = new Bar();
+            bar = _context.Bars.Where(b => b.Id == id).FirstOrDefault();
+            return View();
         }
     }
 }

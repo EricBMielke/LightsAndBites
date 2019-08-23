@@ -7,28 +7,26 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using LightsAndBites.Data;
 using LightsAndBites.Models;
-using LightsAndBites.ViewModels;
-using System.Collections;
 
 namespace LightsAndBites.Controllers
 {
-    public class UserProfilesController : Controller
+    public class BarsViewController : Controller
     {
         private readonly ApplicationDbContext _context;
-        public bool userDoesntExist = true;
 
-        public UserProfilesController(ApplicationDbContext context)
+        public BarsViewController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: UserProfiles
+        // GET: BarsView
         public async Task<IActionResult> Index()
         {
-            return View(await _context.UserProfile.ToListAsync());
+            var applicationDbContext = _context.Bars.Include(b => b.Category).Include(b => b.City);
+            return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: UserProfiles/Details/5
+        // GET: BarsView/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -36,48 +34,46 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile
+            var bar = await _context.Bars
+                .Include(b => b.Category)
+                .Include(b => b.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userProfile == null)
+            if (bar == null)
             {
                 return NotFound();
             }
 
-            return View(userProfile);
+            return View(bar);
         }
 
-        // GET: UserProfiles/Create
+        // GET: BarsView/Create
         public IActionResult Create()
         {
-            var currentUser = User.Identity.Name;
-            foreach (UserProfile u in _context.UserProfile)
-            {
-                if (u.Email == currentUser)
-                {
-                    return RedirectToAction(nameof(Index), "Recommendations");
-                }
-            }
-            UserProfileCreateViewModel userProfileCreateViewModel = new UserProfileCreateViewModel(_context);
-            return View(userProfileCreateViewModel);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id");
+            ViewData["CommentId"] = new SelectList(_context.Comments, "Id", "Id");
+            return View();
         }
 
-        // POST: UserProfiles/Create
+        // POST: BarsView/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
+        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Bar bar)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(userProfile);
+                _context.Add(bar);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index),"Recommendations");
+                return RedirectToAction(nameof(Index));
             }
-            return View(userProfile);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
+            return View(bar);
         }
 
-        // GET: UserProfiles/Edit/5
+        // GET: BarsView/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -85,22 +81,24 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile.FindAsync(id);
-            if (userProfile == null)
+            var bar = await _context.Bars.FindAsync(id);
+            if (bar == null)
             {
                 return NotFound();
             }
-            return View(userProfile);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
+            return View(bar);
         }
 
-        // POST: UserProfiles/Edit/5
+        // POST: BarsView/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Email,FirstName,LastName,Hometown,BarCategoryIdOne,BarCategoryIdTwo,RestaurantCategoryIdOne,RestaurantCategoryIdTwo,RestaurantCategoryIdThree,EventCategoryIdOne,EventCategoryIdTwo,EventCategoryIdThree")] UserProfile userProfile)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Bar bar)
         {
-            if (id != userProfile.Id)
+            if (id != bar.Id)
             {
                 return NotFound();
             }
@@ -109,12 +107,12 @@ namespace LightsAndBites.Controllers
             {
                 try
                 {
-                    _context.Update(userProfile);
+                    _context.Update(bar);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!UserProfileExists(userProfile.Id))
+                    if (!BarExists(bar.Id))
                     {
                         return NotFound();
                     }
@@ -125,10 +123,12 @@ namespace LightsAndBites.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            return View(userProfile);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
+            return View(bar);
         }
 
-        // GET: UserProfiles/Delete/5
+        // GET: BarsView/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -136,30 +136,32 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var userProfile = await _context.UserProfile
+            var bar = await _context.Bars
+                .Include(b => b.Category)
+                .Include(b => b.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (userProfile == null)
+            if (bar == null)
             {
                 return NotFound();
             }
 
-            return View(userProfile);
+            return View(bar);
         }
 
-        // POST: UserProfiles/Delete/5
+        // POST: BarsView/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var userProfile = await _context.UserProfile.FindAsync(id);
-            _context.UserProfile.Remove(userProfile);
+            var bar = await _context.Bars.FindAsync(id);
+            _context.Bars.Remove(bar);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool UserProfileExists(int id)
+        private bool BarExists(int id)
         {
-            return _context.UserProfile.Any(e => e.Id == id);
+            return _context.Bars.Any(e => e.Id == id);
         }
     }
 }
