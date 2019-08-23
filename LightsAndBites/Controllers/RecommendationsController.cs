@@ -23,6 +23,82 @@ namespace LightsAndBites.Controllers
         {
             _context = context;
         }
+        public ActionResult AddComment(string type, int id, string commentData)
+        {
+            if (type.ToLower() == "bar")
+            {
+                Bar thisBar;
+                Comment comment = new Comment();
+                lock (thisLock)
+                {
+                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                }
+                comment.BarId = id;
+                comment.UserEmail = User.Identity.Name;
+                comment.UserComment = commentData;
+                lock (thisLock)
+                {
+                    _context.Comments.Add(comment);
+                    _context.SaveChanges();
+                }
+            }
+            else if (type.ToLower() == "restaurant")
+            {
+                Restaurant thisRestaurant;
+                Comment comment = new Comment();
+                lock (thisLock)
+                {
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                }
+                comment.RestaurantId = id;
+                comment.UserEmail = User.Identity.Name;
+                comment.UserComment = commentData;
+                lock (thisLock)
+                {
+                    _context.Comments.Add(comment);
+                    _context.SaveChanges();
+                }
+            }
+            return View();
+        }
+        public ActionResult AddLike(string type, int id, bool isPositive)
+        {
+            if (type.ToLower() == "bar")
+            {
+                Bar thisBar;
+                Rating rating = new Rating();
+                lock(thisLock)
+                {
+                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                }
+                rating.IsPositive = isPositive;
+                rating.BarId = id;
+                rating.UserEmail = User.Identity.Name;
+                lock(thisLock)
+                {
+                    _context.Rating.Add(rating);
+                    _context.SaveChanges();
+                }
+            }
+            else if (type.ToLower() == "restaurant")
+            {
+                Restaurant thisRestaurant;
+                Rating rating = new Rating();
+                lock (thisLock)
+                {
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                }
+                rating.IsPositive = isPositive;
+                rating.RestaurantId = id;
+                rating.UserEmail = User.Identity.Name;
+                lock (thisLock)
+                {
+                    _context.Rating.Add(rating);
+                    _context.SaveChanges();
+                }
+            }
+            return View();
+        }
         // GET: Recommendations
         public async Task<ActionResult> Index()
         {
