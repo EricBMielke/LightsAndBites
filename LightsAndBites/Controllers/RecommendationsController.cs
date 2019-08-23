@@ -122,11 +122,15 @@ namespace LightsAndBites.Controllers
             {
                 return RedirectToAction("Index", "Home");
             }
+
+            var currentUser = User.Identity.Name;
+
             UserProfile selectedUser;
             //GetDailyQuote();
             lock (thisLock)
             {
                 selectedUser = _context.UserProfile.Where(u => u.Email == User.Identity.Name).Single();
+
             }
 
             List<Recommendation>[] passedValues = new List<Recommendation>[2];
@@ -447,6 +451,13 @@ namespace LightsAndBites.Controllers
 
                 return inspirationalQuoteOfDay;
             });
+        }
+
+        public ActionResult PassBar(int id)
+        {
+            Bar bar = new Bar();
+            bar = _context.Bars.Where(b => b.Id == id).FirstOrDefault();
+            return View();
         }
     }
 }
