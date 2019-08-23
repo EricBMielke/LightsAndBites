@@ -17,7 +17,7 @@ namespace LightsAndBites.Controllers
     public class RecommendationsController : Controller
     {
         private readonly ApplicationDbContext _context;
-        private Object thisLock = new Object();
+        private readonly Object thisLock = new Object();
 
         public RecommendationsController(ApplicationDbContext context)
         {
