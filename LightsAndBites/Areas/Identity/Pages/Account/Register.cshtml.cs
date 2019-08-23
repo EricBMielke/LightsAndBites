@@ -72,7 +72,8 @@ namespace LightsAndBites.Areas.Identity.Pages.Account
         public bool IsUserSuperAdmin(string email)
         {
             List<string> superUsers = new List<string>();
-            
+
+            superUsers.Add("superusertest1@test.com");
             superUsers.Add("superusertest2@test.com");
             superUsers.Add("superusertest3@test.com");
             superUsers.Add("superusertest4@test.com");
