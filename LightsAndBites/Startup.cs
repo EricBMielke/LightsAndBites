@@ -77,7 +77,7 @@ namespace LightsAndBites
             {
                 routes.MapRoute(
                     name: "default",
-                    template: "{controller=Home}/{action=SplashPage}/{id?}");
+                    template: "{controller=Home}/{action=Index}/{id?}");
             });
         }
     }

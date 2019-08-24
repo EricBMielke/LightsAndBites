@@ -13,7 +13,7 @@ using System.Net;
 using System.IO;
 using Newtonsoft.Json.Linq;
 using LightsAndBites.Data;
-
+using System.Security.Claims;
 
 namespace LightsAndBites.Controllers
 {
@@ -34,7 +34,19 @@ namespace LightsAndBites.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            if(User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+            {
+                //make recommendations page happen
+                var recUrl = Url.Content("~/Recommendations/Index");
+                return Redirect(recUrl);
+
+            }
+            else
+            {
+                //make splash page happen
+                var recUrl = Url.Content("~/Home/SplashPage");
+                return Redirect(recUrl);
+            }
         }
 
         public IActionResult SplashPage()
