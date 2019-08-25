@@ -234,6 +234,11 @@ namespace LightsAndBites.Controllers
         {
             return Task.Run(() =>
             {
+                List<Rating> userRatings;
+                lock(thisLock)
+                {
+                    userRatings = _context.Rating.Where(r => r.BarId != null).Where(r => r.UserEmail == User.Identity.Name).ToList();
+                }
                 List<Bar> allBarsMatching = new List<Bar>();
                 foreach (Category category in categories)
                 {
@@ -244,7 +249,19 @@ namespace LightsAndBites.Controllers
                     }
                     foreach (Bar bar in allBarsMatchingSingle)
                     {
-                        allBarsMatching.Add(bar);
+                        bool foundMatchingRating = false;
+                        foreach(Rating r in userRatings)
+                        {
+                            if (r.BarId == bar.Id)
+                            {
+                                foundMatchingRating = true;
+                                break;
+                            }
+                        }
+                        if (foundMatchingRating == false)
+                        {
+                            allBarsMatching.Add(bar);
+                        }
                     }
                 }
                 UserProfile selectedUserCity;
@@ -273,17 +290,34 @@ namespace LightsAndBites.Controllers
         {
             return Task.Run(() =>
             {
+                List<Rating> userRatings;
+                lock (thisLock)
+                {
+                    userRatings = _context.Rating.Where(r => r.RestaurantId != null).Where(r => r.UserEmail == User.Identity.Name).ToList();
+                }
                 List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
                 foreach (Category category in categories)
                 {
                     List<Restaurant> allRestaurantsMatchingSingle;
                     lock (thisLock)
                     {
-                        allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
+                        allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
                     }
                     foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
                     {
-                        allRestaurantsMatching.Add(restaurant);
+                        bool foundMatchingRating = false;
+                        foreach (Rating r in userRatings)
+                        {
+                            if (r.RestaurantId == restaurant.Id)
+                            {
+                                foundMatchingRating = true;
+                                break;
+                            }
+                        }
+                        if (foundMatchingRating == false)
+                        {
+                            allRestaurantsMatching.Add(restaurant);
+                        }
                     }
                 }
                 UserProfile selectedUserCity;
@@ -291,13 +325,13 @@ namespace LightsAndBites.Controllers
                 {
                     selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
                 }
-                Restaurant linkRestaurant = new Restaurant();
+                Bar linkBar = new Bar();
                 lock (thisLock)
                 {
-                    linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                    linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
                 }
                 List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-                List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
                 foreach (Restaurant r in unrankedRestaurants)
                 {
