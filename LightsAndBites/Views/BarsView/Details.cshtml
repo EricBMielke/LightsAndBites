@@ -2,6 +2,9 @@
 
 @{
     ViewData["Title"] = "Details";
+    Rating userRating = (Rating)ViewData["UserRatings"];
+    List<Rating> ratings = (List<Rating>)ViewData["Ratings"];
+    List<Comment> comments = (List<Comment>) ViewData["Comments"];
 }
 
 <div>
@@ -35,26 +38,67 @@
             </div>
         <div>
             <div class="div-left">
-                <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                @if (userRating != null)
+                {
+                    if (userRating.IsPositive)
+                    {
+                        <p>You like this bar!</p>
+                        <form action="http://localhost:65431/Recommendations/AddLike" method="post">
 
-                    <!--string type, int id, bool isPositive-->
-                    <input value="bar" name="type" hidden />
-                    <input value="@Model.Id" name="locationId" hidden />
-                    <input value="true" name="isPositive" hidden />
-                    <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
-                </form>
-                <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                            <!--string type, int id, bool isPositive-->
+                            <input value="bar" name="type" hidden />
+                            <input value="@Model.Id" name="locationId" hidden />
+                            <input value="false" name="isPositive" hidden />
+                            <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
+                        </form>
+                    }
+                    else
+                    {
+                        <form action="http://localhost:65431/Recommendations/AddLike" method="post">
 
-                    <!--string type, int id, bool isPositive-->
-                    <input value="bar" name="type" hidden />
-                    <input value="@Model.Id" name="locationId" hidden />
-                    <input value="false" name="isPositive" hidden />
-                    <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
-                </form>
+                            <!--string type, int id, bool isPositive-->
+                            <input value="bar" name="type" hidden />
+                            <input value="@Model.Id" name="locationId" hidden />
+                            <input value="true" name="isPositive" hidden />
+                            <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
+                        </form>
+                        <p>You dislike this bar!</p>
+                    }
+                }
+                else
+                {
+                    <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+
+                        <!--string type, int id, bool isPositive-->
+                        <input value="bar" name="type" hidden />
+                        <input value="@Model.Id" name="locationId" hidden />
+                        <input value="true" name="isPositive" hidden />
+                        <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
+                    </form>
+                    <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+
+                        <!--string type, int id, bool isPositive-->
+                        <input value="bar" name="type" hidden />
+                        <input value="@Model.Id" name="locationId" hidden />
+                        <input value="false" name="isPositive" hidden />
+                        <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
+                    </form>
+                }
+
                 <!--<input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">-->
                 <!--<input type="image" src="~/images/dislike.png" style="width:12.5%" /> -->
             </div>
             <br />
+            <div class="div-right">
+                @foreach(Comment c in comments)
+                {
+                    string text = c.UserComment;
+                    string user = c.UserEmail;
+                    <h3>@(user)</h3>
+                    <p>@(text)</p>
+                    <br /><br />
+                }
+            </div>
             <div class="div-right">
                 <strong>Add your own comment below!</strong>
                 <br />

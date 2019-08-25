@@ -70,52 +70,70 @@ namespace LightsAndBites.Controllers
             if (type.ToLower() == "bar")
             {
                 Bar thisBar;
-                Rating rating = new Rating();
-                lock(thisLock)
+                var userRating = _context.Rating.Where(r => r.UserEmail == User.Identity.Name).Where(r => r.BarId == locationId).SingleOrDefault();
+                if (userRating != null)
                 {
-                    thisBar = _context.Bars.Where(b => b.Id == locationId).Single();
-                }
-                rating.IsPositive = isPositive;
-                if (rating.IsPositive == true)
-                {
-                    thisBar.Likes += 1;
+                    userRating.IsPositive = isPositive;
+                    _context.SaveChanges();
                 }
                 else
                 {
-                    thisBar.Dislikes += 1;
-                }
-                rating.BarId = locationId;
-                rating.UserEmail = User.Identity.Name;
-                lock(thisLock)
-                {
-                    _context.Rating.Add(rating);
-                    _context.SaveChanges();
+                    Rating rating = new Rating();
+                    lock (thisLock)
+                    {
+                        thisBar = _context.Bars.Where(b => b.Id == locationId).Single();
+                    }
+                    rating.IsPositive = isPositive;
+                    if (rating.IsPositive == true)
+                    {
+                        thisBar.Likes += 1;
+                    }
+                    else
+                    {
+                        thisBar.Dislikes += 1;
+                    }
+                    rating.BarId = locationId;
+                    rating.UserEmail = User.Identity.Name;
+                    lock (thisLock)
+                    {
+                        _context.Rating.Add(rating);
+                        _context.SaveChanges();
+                    }
                 }
                 return RedirectToAction("Details", "BarsView", new {id = locationId });
             }
             else if (type.ToLower() == "restaurant")
             {
                 Restaurant thisRestaurant;
-                Rating rating = new Rating();
-                lock (thisLock)
+                var userRating = _context.Rating.Where(r => r.RestaurantId == locationId).Where(r => r.UserEmail == User.Identity.Name).SingleOrDefault();
+                if (userRating != null)
                 {
-                    thisRestaurant = _context.Restaurants.Where(r => r.Id == locationId).Single();
-                }
-                rating.IsPositive = isPositive;
-                if (rating.IsPositive == true)
-                {
-                    thisRestaurant.Likes += 1;
+                    userRating.IsPositive = isPositive;
+                    _context.SaveChanges();
                 }
                 else
                 {
-                    thisRestaurant.Dislikes += 1;
-                }
-                rating.RestaurantId = locationId;
-                rating.UserEmail = User.Identity.Name;
-                lock (thisLock)
-                {
-                    _context.Rating.Add(rating);
-                    _context.SaveChanges();
+                    Rating rating = new Rating();
+                    lock (thisLock)
+                    {
+                        thisRestaurant = _context.Restaurants.Where(r => r.Id == locationId).Single();
+                    }
+                    rating.IsPositive = isPositive;
+                    if (rating.IsPositive == true)
+                    {
+                        thisRestaurant.Likes += 1;
+                    }
+                    else
+                    {
+                        thisRestaurant.Dislikes += 1;
+                    }
+                    rating.RestaurantId = locationId;
+                    rating.UserEmail = User.Identity.Name;
+                    lock (thisLock)
+                    {
+                        _context.Rating.Add(rating);
+                        _context.SaveChanges();
+                    }
                 }
                 return RedirectToAction("Details", "RestaurantsView", new { id = locationId });
             }
@@ -216,6 +234,11 @@ namespace LightsAndBites.Controllers
         {
             return Task.Run(() =>
             {
+                List<Rating> userRatings;
+                lock(thisLock)
+                {
+                    userRatings = _context.Rating.Where(r => r.BarId != null).Where(r => r.UserEmail == User.Identity.Name).ToList();
+                }
                 List<Bar> allBarsMatching = new List<Bar>();
                 foreach (Category category in categories)
                 {
@@ -226,7 +249,19 @@ namespace LightsAndBites.Controllers
                     }
                     foreach (Bar bar in allBarsMatchingSingle)
                     {
-                        allBarsMatching.Add(bar);
+                        bool foundMatchingRating = false;
+                        foreach(Rating r in userRatings)
+                        {
+                            if (r.BarId == bar.Id)
+                            {
+                                foundMatchingRating = true;
+                                break;
+                            }
+                        }
+                        if (foundMatchingRating == false)
+                        {
+                            allBarsMatching.Add(bar);
+                        }
                     }
                 }
                 UserProfile selectedUserCity;
@@ -255,17 +290,34 @@ namespace LightsAndBites.Controllers
         {
             return Task.Run(() =>
             {
+                List<Rating> userRatings;
+                lock (thisLock)
+                {
+                    userRatings = _context.Rating.Where(r => r.RestaurantId != null).Where(r => r.UserEmail == User.Identity.Name).ToList();
+                }
                 List<Restaurant> allRestaurantsMatching = new List<Restaurant>();
                 foreach (Category category in categories)
                 {
                     List<Restaurant> allRestaurantsMatchingSingle;
                     lock (thisLock)
                     {
-                        allRestaurantsMatchingSingle = _context.Restaurants.Where(r => r.Category.CategoryType == category.CategoryType).ToList();
+                        allRestaurantsMatchingSingle = _context.Restaurants.Where(b => b.Category.CategoryType == category.CategoryType).ToList();
                     }
                     foreach (Restaurant restaurant in allRestaurantsMatchingSingle)
                     {
-                        allRestaurantsMatching.Add(restaurant);
+                        bool foundMatchingRating = false;
+                        foreach (Rating r in userRatings)
+                        {
+                            if (r.RestaurantId == restaurant.Id)
+                            {
+                                foundMatchingRating = true;
+                                break;
+                            }
+                        }
+                        if (foundMatchingRating == false)
+                        {
+                            allRestaurantsMatching.Add(restaurant);
+                        }
                     }
                 }
                 UserProfile selectedUserCity;
@@ -273,13 +325,13 @@ namespace LightsAndBites.Controllers
                 {
                     selectedUserCity = _context.UserProfile.Where(u => u.Id == Id).Single();
                 }
-                Restaurant linkRestaurant = new Restaurant();
+                Bar linkBar = new Bar();
                 lock (thisLock)
                 {
-                    linkRestaurant.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
+                    linkBar.CityId = _context.Cities.Where(c => c.CityName == selectedUserCity.Hometown).Select(c => c.Id).Single();
                 }
                 List<Restaurant> sortedRestaurants = allRestaurantsMatching.Where(b => (b.Likes != 0) || (b.Dislikes != 0)).OrderBy(b => (b.Likes / (b.Likes + b.Dislikes))).ToList();
-                List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkRestaurant.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
+                List<Restaurant> unrankedRestaurants = allRestaurantsMatching.Where(b => (b.CityId == linkBar.CityId) && (b.Likes == 0) && (b.Dislikes == 0)).ToList();
 
                 foreach (Restaurant r in unrankedRestaurants)
                 {

@@ -38,10 +38,16 @@ namespace LightsAndBites.Controllers
                 .Include(b => b.Category)
                 .Include(b => b.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
+            var likes = await _context.Rating.Where(r => r.BarId == bar.Id).ToListAsync();
+            var userLike = await _context.Rating.Where(r => r.BarId == bar.Id).FirstOrDefaultAsync(r => r.UserEmail == User.Identity.Name);
+            var comments = await _context.Comments.Where(c => c.BarId == bar.Id).ToListAsync();
             if (bar == null)
             {
                 return NotFound();
             }
+            ViewData.Add("Comments", comments);
+            ViewData.Add("Ratings", likes);
+            ViewData.Add("UserRatings", userLike);
 
             return View(bar);
         }
