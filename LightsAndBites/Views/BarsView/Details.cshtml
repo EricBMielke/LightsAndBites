@@ -39,7 +39,7 @@
 
                     <!--string type, int id, bool isPositive-->
                     <input value="bar" name="type" hidden />
-                    <input value="@Model.Id" name="id" hidden />
+                    <input value="@Model.Id" name="locationId" hidden />
                     <input value="true" name="isPositive" hidden />
                     <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
                 </form>
@@ -47,7 +47,7 @@
 
                     <!--string type, int id, bool isPositive-->
                     <input value="bar" name="type" hidden />
-                    <input value="@Model.Id" name="id" hidden />
+                    <input value="@Model.Id" name="locationId" hidden />
                     <input value="false" name="isPositive" hidden />
                     <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
                 </form>
@@ -58,8 +58,13 @@
             <div class="div-right">
                 <strong>Add your own comment below!</strong>
                 <br />
-                <input type="text" onfocus="this.value=''" value="Insert comment here" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
-                <button type="button" class="btn btn-primary">Post</button><br />
+                <!-- string type, int id, string commentData -->
+                <form method="post" action="http://localhost:65431/Recommendations/AddComment" >
+                    <input value="bar" name="type" hidden />
+                    <input value="@Model.Id" name="locationId" hidden />
+                    <input type="text" onfocus="this.value=''" value="Insert comment here" name="commentData" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
+                    <button type="submit" class="btn btn-primary">Post</button><br />
+                </form>
             </div>
             <br />
         </div>
