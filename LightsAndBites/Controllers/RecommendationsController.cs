@@ -23,7 +23,7 @@ namespace LightsAndBites.Controllers
         {
             _context = context;
         }
-        public ActionResult AddComment(string type, int id, string commentData)
+        public ActionResult AddComment(string type, int locationId, string commentData)
         {
             if (type.ToLower() == "bar")
             {
@@ -31,16 +31,18 @@ namespace LightsAndBites.Controllers
                 Comment comment = new Comment();
                 lock (thisLock)
                 {
-                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                    thisBar = _context.Bars.Where(b => b.Id == locationId).Single();
                 }
-                comment.BarId = id;
+                comment.BarId = locationId;
                 comment.UserEmail = User.Identity.Name;
                 comment.UserComment = commentData;
+                comment.CommentDate = DateTime.Now;
                 lock (thisLock)
                 {
                     _context.Comments.Add(comment);
                     _context.SaveChanges();
                 }
+                return RedirectToAction("Details", "BarsView", new { id = locationId });
             }
             else if (type.ToLower() == "restaurant")
             {
@@ -48,20 +50,22 @@ namespace LightsAndBites.Controllers
                 Comment comment = new Comment();
                 lock (thisLock)
                 {
-                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == locationId).Single();
                 }
-                comment.RestaurantId = id;
+                comment.RestaurantId = locationId;
                 comment.UserEmail = User.Identity.Name;
                 comment.UserComment = commentData;
+                comment.CommentDate = DateTime.Now;
                 lock (thisLock)
                 {
                     _context.Comments.Add(comment);
                     _context.SaveChanges();
                 }
+                return RedirectToAction("Details", "RestaurantsView", new { id = locationId });
             }
             return View();
         }
-        public ActionResult AddLike(string type, int id, bool isPositive)
+        public ActionResult AddLike(string type, int locationId, bool isPositive)
         {
             if (type.ToLower() == "bar")
             {
@@ -69,7 +73,7 @@ namespace LightsAndBites.Controllers
                 Rating rating = new Rating();
                 lock(thisLock)
                 {
-                    thisBar = _context.Bars.Where(b => b.Id == id).Single();
+                    thisBar = _context.Bars.Where(b => b.Id == locationId).Single();
                 }
                 rating.IsPositive = isPositive;
                 if (rating.IsPositive == true)
@@ -80,13 +84,14 @@ namespace LightsAndBites.Controllers
                 {
                     thisBar.Dislikes += 1;
                 }
-                rating.BarId = id;
+                rating.BarId = locationId;
                 rating.UserEmail = User.Identity.Name;
                 lock(thisLock)
                 {
                     _context.Rating.Add(rating);
                     _context.SaveChanges();
                 }
+                return RedirectToAction("Details", "BarsView", new {id = locationId });
             }
             else if (type.ToLower() == "restaurant")
             {
@@ -94,7 +99,7 @@ namespace LightsAndBites.Controllers
                 Rating rating = new Rating();
                 lock (thisLock)
                 {
-                    thisRestaurant = _context.Restaurants.Where(r => r.Id == id).Single();
+                    thisRestaurant = _context.Restaurants.Where(r => r.Id == locationId).Single();
                 }
                 rating.IsPositive = isPositive;
                 if (rating.IsPositive == true)
@@ -105,13 +110,14 @@ namespace LightsAndBites.Controllers
                 {
                     thisRestaurant.Dislikes += 1;
                 }
-                rating.RestaurantId = id;
+                rating.RestaurantId = locationId;
                 rating.UserEmail = User.Identity.Name;
                 lock (thisLock)
                 {
                     _context.Rating.Add(rating);
                     _context.SaveChanges();
                 }
+                return RedirectToAction("Details", "RestaurantsView", new { id = locationId });
             }
             return View();
         }
