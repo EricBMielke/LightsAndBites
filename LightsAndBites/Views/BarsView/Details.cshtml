@@ -35,8 +35,24 @@
             </div>
         <div>
             <div class="div-left">
-                <input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">
-                <input type="image" src="~/images/dislike.png" style="width:12.5%" />
+                <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+
+                    <!--string type, int id, bool isPositive-->
+                    <input value="bar" name="type" hidden />
+                    <input value="@Model.Id" name="id" hidden />
+                    <input value="true" name="isPositive" hidden />
+                    <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
+                </form>
+                <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+
+                    <!--string type, int id, bool isPositive-->
+                    <input value="bar" name="type" hidden />
+                    <input value="@Model.Id" name="id" hidden />
+                    <input value="false" name="isPositive" hidden />
+                    <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
+                </form>
+                <!--<input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">-->
+                <!--<input type="image" src="~/images/dislike.png" style="width:12.5%" /> -->
             </div>
             <br />
             <div class="div-right">
