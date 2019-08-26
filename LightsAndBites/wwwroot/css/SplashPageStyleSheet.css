@@ -1,5 +1,7 @@
 ﻿body {
-    background: #000000 url("../images/concertBackground.jpg") no-repeat scroll 50% 50%;
+    background: url("../images/concertBackground.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
 } 
 
 
@@ -120,21 +122,6 @@ img {
         -o-transition: opacity 0.5s !important;
         transition: opacity 0.5s !important;
     }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
