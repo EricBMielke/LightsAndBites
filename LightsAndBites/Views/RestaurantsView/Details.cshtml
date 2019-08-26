@@ -42,7 +42,7 @@
                     if (userRating.IsPositive)
                     {
                         <p>You like this restaurant!</p>
-                        <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                        <form action="/Recommendations/AddLike" method="post">
 
                             <!--string type, int id, bool isPositive-->
                             <input value="restaurant" name="type" hidden />
@@ -53,7 +53,7 @@
                     }
                     else
                     {
-                        <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                        <form action="/Recommendations/AddLike" method="post">
 
                             <!--string type, int id, bool isPositive-->
                             <input value="restaurant" name="type" hidden />
@@ -66,7 +66,7 @@
                 }
                 else
                 {
-                    <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                    <form action="/Recommendations/AddLike" method="post">
 
                         <!--string type, int id, bool isPositive-->
                         <input value="restaurant" name="type" hidden />
@@ -74,7 +74,7 @@
                         <input value="true" name="isPositive" hidden />
                         <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
                     </form>
-                    <form action="http://localhost:65431/Recommendations/AddLike" method="post">
+                    <form action="/Recommendations/AddLike" method="post">
 
                         <!--string type, int id, bool isPositive-->
                         <input value="restaurant" name="type" hidden />
@@ -102,7 +102,7 @@
                 <strong>Add your own comment below!</strong>
                 <br />
                 <!-- string type, int id, string commentData -->
-                <form method="post" action="http://localhost:65431/Recommendations/AddComment">
+                <form method="post" action="/Recommendations/AddComment">
                     <input value="restaurant" name="type" hidden />
                     <input value="@Model.Id" name="locationId" hidden />
                     <input type="text" onfocus="this.value=''" value="Insert comment here" name="commentData" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
