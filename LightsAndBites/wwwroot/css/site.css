@@ -77,3 +77,11 @@ h2 {
     padding: 15px;
     background-color: #ebebeb;
 }
+
+
+
+
+
+.resize {
+    max-width: 40%;
+}

@@ -9,6 +9,7 @@ using LightsAndBites.Data;
 using LightsAndBites.Models;
 using LightsAndBites.ViewModels;
 using System.Collections;
+using Microsoft.AspNetCore.Authorization;
 
 namespace LightsAndBites.Controllers
 {
@@ -22,6 +23,8 @@ namespace LightsAndBites.Controllers
             _context = context;
         }
 
+
+        [Authorize(Roles = "Super Admin")]
         // GET: UserProfiles
         public async Task<IActionResult> Index()
         {
@@ -129,6 +132,7 @@ namespace LightsAndBites.Controllers
         }
 
         // GET: UserProfiles/Delete/5
+        [Authorize(Roles = "Super Admin")]
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -147,6 +151,7 @@ namespace LightsAndBites.Controllers
         }
 
         // POST: UserProfiles/Delete/5
+        [Authorize(Roles = "Super Admin")]
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
