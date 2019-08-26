@@ -357,7 +357,7 @@ namespace LightsAndBites.Controllers
                     List<Events> allEventsMatchingSingle;
                     lock (thisLock)
                     {
-                        allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
+                        allEventsMatchingSingle = _context.Events.Where(b => b.Category.CategoryType == category.CategoryType).Where(c => c.Category.CategoryName == category.CategoryName).Where(e => e.City.CityName == foundUser.Hometown).ToList();
                     }
                     foreach (Events eventItem in allEventsMatchingSingle)
                     {

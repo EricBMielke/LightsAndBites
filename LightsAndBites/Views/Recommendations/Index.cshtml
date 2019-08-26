@@ -90,7 +90,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisEvent.Name)</h5>
                                 <p class="card-text">@(thisEvent.Category.CategoryType) Event</p>
-                                <button><a href=@Url.Action("Details","EventsView", new {id=thisEvent.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <button><a href=@Url.Action("Details","EventsView", new {id=thisEvent.EventId}) class="btn btn-primary">Go Somewhere</a></button>
                             </div>
                         </div>
                     }
