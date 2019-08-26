@@ -34,7 +34,7 @@ namespace LightsAndBites.Controllers
 
         public IActionResult Index()
         {
-            if(User.IsInRole("Admin") || User.IsInRole("SuperAdmin"))
+            if(User.IsInRole("Admin") || User.IsInRole("Super Admin"))
             {
                 //make recommendations page happen
                 var recUrl = Url.Content("~/Recommendations/Index");
