@@ -45,7 +45,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
                                 <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                <button><a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a>
 
                             </div>
                         </div>
@@ -66,7 +66,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                 <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
-                                <button><a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
                     }
@@ -90,7 +90,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisEvent.Name)</h5>
                                 <p class="card-text">@(thisEvent.Category.CategoryType) Event</p>
-                                <button><a href=@Url.Action("Details","EventsView", new {id=thisEvent.EventId}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","EventsView", new {id=thisEvent.EventId}) class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
                     }
@@ -126,7 +126,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
                                 <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                <button><a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
                     }
@@ -146,7 +146,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                 <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
-                                <button><a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Somewhere</a>
                             </div>
                         </div>
                     }

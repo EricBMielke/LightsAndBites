@@ -85,8 +85,6 @@
                     </form>
                 }
 
-                <!--<input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">-->
-                <!--<input type="image" src="~/images/dislike.png" style="width:12.5%" /> -->
             </div>
             <br />
             <div class="div-right">
@@ -114,7 +112,6 @@
         </div>
     </div>
 </div>
-<div>
-    <a asp-action="Edit" asp-route-id="@Model.Id">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+<div>    
+    <a href=@Url.Action("Index","Recommendations") class="btn btn-primary">Back to Recommendations</a>
 </div>

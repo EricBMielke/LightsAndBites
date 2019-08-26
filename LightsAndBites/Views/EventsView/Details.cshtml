@@ -22,28 +22,15 @@
             <iframe width="600"
                     height="450"
                     frameborder="0" style="border:0"
-                    src=@embeddedmapsURL allowfullscreen></iframe>
+                    src=@embeddedmapsURL allowfullscreen>
+
+            </iframe>
 
 
             <hr style="width:75%; text-align:right" />
-            <p>
-                <strong> Comments</strong><br />
-            </p>
-
-            <br /><br /><br /><br />
-        </div>
-        <div>
-            <br />
-            <div class="div-right">
-                <strong>Add your own comment below!</strong>
-                <br />
-                <!-- string type, int id, string commentData -->
-            </div>
-            <br />
         </div>
     </div>
 </div>
 <div>
-    <a asp-action="Edit" asp-route-id="@Model.EventId">Edit</a> |
-    <a asp-action="Index">Back to List</a>
+    <a href=@Url.Action("Index","Recommendations") class="btn btn-primary">Back to Recommendations</a>
 </div>
