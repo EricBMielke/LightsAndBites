@@ -36,7 +36,7 @@
                             @if (thisBar.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             else
                             {
@@ -57,7 +57,7 @@
                             @if (thisRestaurant.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             else
                             {
@@ -81,11 +81,11 @@
                             else if (thisEvent.PictureUrl[0] == '/')
                             {
                                 string imgSrc = "http:" + thisEvent.PictureUrl;
-                                <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             else
                             {
-                                <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisEvent.Name)</h5>
@@ -117,7 +117,7 @@
                             @if (thisBar.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             else
                             {
@@ -137,7 +137,7 @@
                             @if (thisRestaurant.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
                             }
                             else
                             {
