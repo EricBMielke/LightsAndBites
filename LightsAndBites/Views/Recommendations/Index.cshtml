@@ -19,8 +19,7 @@
         </div>
     </div>
 </div>
-<br />
-<br />
+<br /><br />
 <div class="row">
     <div class="col-md-8 border border-primary rounded">
         <h2 class="text-center">Recommended</h2>
@@ -37,7 +36,7 @@
                             @if (thisBar.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
                             }
                             else
                             {
@@ -46,7 +45,8 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
                                 <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                <button><a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Somewhere</a></button>
+                                <a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Here!</a>
+
                             </div>
                         </div>
                     }
@@ -57,7 +57,7 @@
                             @if (thisRestaurant.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
                             }
                             else
                             {
@@ -66,7 +66,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                 <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                <a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Here!</a>
                             </div>
                         </div>
                     }
@@ -81,16 +81,16 @@
                             else if (thisEvent.PictureUrl[0] == '/')
                             {
                                 string imgSrc = "http:" + thisEvent.PictureUrl;
-                                <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(imgSrc)" alt="Card image cap" />
                             }
                             else
                             {
-                                <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(thisEvent.PictureUrl)" alt="Card image cap" />
                             }
                             <div class="card-body">
                                 <h5 class="card-title">@(thisEvent.Name)</h5>
                                 <p class="card-text">@(thisEvent.Category.CategoryType) Event</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                <a href=@Url.Action("Details","EventsView", new {id=thisEvent.EventId}) class="btn btn-primary">Go Here!</a>
                             </div>
                         </div>
                     }
@@ -117,7 +117,7 @@
                             @if (thisBar.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisBar.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
                             }
                             else
                             {
@@ -126,7 +126,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisBar.Name)</h5>
                                 <p class="card-text">@(thisBar.Category.CategoryType) Bar</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                <a href=@Url.Action("Details","BarsView", new {id=thisBar.Id}) class="btn btn-primary">Go Here!</a>
                             </div>
                         </div>
                     }
@@ -137,7 +137,7 @@
                             @if (thisRestaurant.CardPhoto != null)
                             {
                                 string imgUrl = "https://maps.googleapis.com/maps/api/place/photo?key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey + "&photoreference=" + thisRestaurant.CardPhoto + "&maxwidth=180";
-                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" onerror=this.src="https://placeimg.com/180/100/tech/grayscale"/>
+                                <img class="card-img-top" src="@(imgUrl)" alt="Card image cap" />
                             }
                             else
                             {
@@ -146,7 +146,7 @@
                             <div class="card-body">
                                 <h5 class="card-title">@(thisRestaurant.Name)</h5>
                                 <p class="card-text">@(thisRestaurant.Category.CategoryType) Restaurant</p>
-                                <a href="#" class="btn btn-primary">Go Somewhere</a>
+                                <a href=@Url.Action("Details","RestaurantsView", new {id=thisRestaurant.Id}) class="btn btn-primary">Go Here!</a>
                             </div>
                         </div>
                     }
@@ -226,7 +226,6 @@
                       curMap = new google.maps.Map(document.getElementById('map'), {
             center: {lat: @(centerLatitude), lng: @(centerLongitude)},
 			zoom: 11
-
             });
 			@{
     foreach (LightsAndBites.Classes.Recommendation r in Model[0])
@@ -247,7 +246,6 @@
                         @:addMarker(curMap, @thisEvent.Latitude, @thisEvent.Longitude, '@thisEvent.Name', 'http://maps.google.com/mapfiles/ms/icons/purple-dot.png');
                     }
     }
-
     foreach (LightsAndBites.Classes.Recommendation r in Model[1])
     {
         if (r.GetType() == typeof(LightsAndBites.Models.Bar))
@@ -268,7 +266,6 @@
     }
 			}
 		}
-
 		function addMarker(resultsMap, latitude, longitude, textValue, image)
 		{
 			var infoWindow;
