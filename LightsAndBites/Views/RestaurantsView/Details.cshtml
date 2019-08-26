@@ -1,52 +1,51 @@
-﻿@model LightsAndBites.Models.Bar
+﻿@model LightsAndBites.Models.Restaurant
 
 @{
     ViewData["Title"] = "Details";
     Rating userRating = (Rating)ViewData["UserRatings"];
     List<Rating> ratings = (List<Rating>)ViewData["Ratings"];
-    List<Comment> comments = (List<Comment>) ViewData["Comments"];
+    List<Comment> comments = (List<Comment>)ViewData["Comments"];
 }
 
 <div>
     <h2>@Model.Name</h2>
     <hr />
     <div class="card overlay" style="width: 100%; padding-left:10px;">
-       
+
         <br><br />
-            <div style="text-align:center;">
-            @{ 
+        <div style="text-align:center;">
+            @{
                 string embeddedmapsURL;
                 string modelName;
-                modelName= Model.Name.Replace(" ", String.Empty);
-                
+                modelName = Model.Name.Replace(" ", String.Empty);
+
                 embeddedmapsURL = @"https://www.google.com/maps/embed/v1/place?q=" + modelName + "+" + Model.City.CityName + "&key=" + LightsAndBites.ApiKeys.ApiKey.mapsKey;
 
             }
-                <iframe width="600"
-                        height="450"
-                        frameborder="0" style="border:0"
-                        src= @embeddedmapsURL allowfullscreen>
-                </iframe>
+            <iframe width="600"
+                    height="450"
+                    frameborder="0" style="border:0"
+                    src=@embeddedmapsURL allowfullscreen></iframe>
 
 
-                <hr style="width:75%; text-align:right" />
-                <p>
-                    <strong> Comments</strong><br />
-                </p>
+            <hr style="width:75%; text-align:right" />
+            <p>
+                <strong> Comments</strong><br />
+            </p>
 
-                <br /><br /><br /><br />
-            </div>
+            <br /><br /><br /><br />
+        </div>
         <div>
             <div class="div-left">
                 @if (userRating != null)
                 {
                     if (userRating.IsPositive)
                     {
-                        <p>You like this bar!</p>
+                        <p>You like this restaurant!</p>
                         <form action="/Recommendations/AddLike" method="post">
 
                             <!--string type, int id, bool isPositive-->
-                            <input value="bar" name="type" hidden />
+                            <input value="restaurant" name="type" hidden />
                             <input value="@Model.Id" name="locationId" hidden />
                             <input value="false" name="isPositive" hidden />
                             <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
@@ -57,12 +56,12 @@
                         <form action="/Recommendations/AddLike" method="post">
 
                             <!--string type, int id, bool isPositive-->
-                            <input value="bar" name="type" hidden />
+                            <input value="restaurant" name="type" hidden />
                             <input value="@Model.Id" name="locationId" hidden />
                             <input value="true" name="isPositive" hidden />
                             <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
                         </form>
-                        <p>You dislike this bar!</p>
+                        <p>You dislike this restaurant!</p>
                     }
                 }
                 else
@@ -70,7 +69,7 @@
                     <form action="/Recommendations/AddLike" method="post">
 
                         <!--string type, int id, bool isPositive-->
-                        <input value="bar" name="type" hidden />
+                        <input value="restaurant" name="type" hidden />
                         <input value="@Model.Id" name="locationId" hidden />
                         <input value="true" name="isPositive" hidden />
                         <button type="submit"><img src="~/images/fullHeart.png" style="width:12.5%" /></button>
@@ -78,17 +77,19 @@
                     <form action="/Recommendations/AddLike" method="post">
 
                         <!--string type, int id, bool isPositive-->
-                        <input value="bar" name="type" hidden />
+                        <input value="restaurant" name="type" hidden />
                         <input value="@Model.Id" name="locationId" hidden />
                         <input value="false" name="isPositive" hidden />
                         <button type="submit"><img src="~/images/dislike.png" style="width:12.5%" /></button>
                     </form>
                 }
 
+                <!--<input type="image" src="~/images/fullHeart.png" style="width:14.5%; padding-right:20px">-->
+                <!--<input type="image" src="~/images/dislike.png" style="width:12.5%" /> -->
             </div>
             <br />
             <div class="div-right">
-                @foreach(Comment c in comments)
+                @foreach (Comment c in comments)
                 {
                     string text = c.UserComment;
                     string user = c.UserEmail;
@@ -101,8 +102,8 @@
                 <strong>Add your own comment below!</strong>
                 <br />
                 <!-- string type, int id, string commentData -->
-                <form method="post" action="/Recommendations/AddComment" >
-                    <input value="bar" name="type" hidden />
+                <form method="post" action="/Recommendations/AddComment">
+                    <input value="restaurant" name="type" hidden />
                     <input value="@Model.Id" name="locationId" hidden />
                     <input type="text" onfocus="this.value=''" value="Insert comment here" name="commentData" style="border:1px solid; width:60%; padding:8px; border-color:blue;"><br />
                     <button type="submit" class="btn btn-primary">Post</button><br />
@@ -113,6 +114,6 @@
     </div>
 </div>
 <br />
-<div>    
+<div>
     <a href=@Url.Action("Index","Recommendations") class="btn btn-primary">Back to Recommendations</a>
 </div>

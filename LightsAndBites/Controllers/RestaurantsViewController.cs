@@ -2,31 +2,32 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using LightsAndBites.Data;
+using LightsAndBites.Models;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
-using LightsAndBites.Data;
-using LightsAndBites.Models;
 
 namespace LightsAndBites.Controllers
 {
-    public class BarsViewController : Controller
+    public class RestaurantsViewController : Controller
     {
         private readonly ApplicationDbContext _context;
 
-        public BarsViewController(ApplicationDbContext context)
+        public RestaurantsViewController(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        // GET: BarsView
+        // GET: RestaurantsView
         public async Task<IActionResult> Index()
         {
-            var applicationDbContext = _context.Bars.Include(b => b.Category).Include(b => b.City);
+            var applicationDbContext = _context.Restaurants.Include(b => b.Category).Include(b => b.City);
             return View(await applicationDbContext.ToListAsync());
         }
 
-        // GET: BarsView/Details/5
+        // GET: RestaurantsView/Details/5
         public async Task<IActionResult> Details(int? id)
         {
             if (id == null)
@@ -34,14 +35,14 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var bar = await _context.Bars
+            var restaurant = await _context.Restaurants
                 .Include(b => b.Category)
                 .Include(b => b.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            var likes = await _context.Rating.Where(r => r.BarId == bar.Id).ToListAsync();
-            var userLike = await _context.Rating.Where(r => r.BarId == bar.Id).FirstOrDefaultAsync(r => r.UserEmail == User.Identity.Name);
-            var comments = await _context.Comments.Where(c => c.BarId == bar.Id).ToListAsync();
-            if (bar == null)
+            var likes = await _context.Rating.Where(r => r.RestaurantId == restaurant.Id).ToListAsync();
+            var userLike = await _context.Rating.Where(r => r.RestaurantId == restaurant.Id).FirstOrDefaultAsync(r => r.UserEmail == User.Identity.Name);
+            var comments = await _context.Comments.Where(c => c.RestaurantId == restaurant.Id).ToListAsync();
+            if (restaurant == null)
             {
                 return NotFound();
             }
@@ -49,10 +50,10 @@ namespace LightsAndBites.Controllers
             ViewData.Add("Ratings", likes);
             ViewData.Add("UserRatings", userLike);
 
-            return View(bar);
+            return View(restaurant);
         }
 
-        // GET: BarsView/Create
+        // GET: RestaurantsView/Create
         public IActionResult Create()
         {
             ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id");
@@ -61,25 +62,25 @@ namespace LightsAndBites.Controllers
             return View();
         }
 
-        // POST: BarsView/Create
+        // POST: RestaurantsView/Create
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Bar bar)
+        public async Task<IActionResult> Create([Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Restaurant restaurant)
         {
             if (ModelState.IsValid)
             {
-                _context.Add(bar);
+                _context.Add(restaurant);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            return View(bar);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", restaurant.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", restaurant.CityId);
+            return View(restaurant);
         }
 
-        // GET: BarsView/Edit/5
+        // GET: RestaurantsView/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
@@ -87,24 +88,24 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var bar = await _context.Bars.FindAsync(id);
-            if (bar == null)
+            var restaurant = await _context.Restaurants.FindAsync(id);
+            if (restaurant == null)
             {
                 return NotFound();
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            return View(bar);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", restaurant.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", restaurant.CityId);
+            return View(restaurant);
         }
 
-        // POST: BarsView/Edit/5
+        // POST: RestaurantsView/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Bar bar)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Name,CategoryId,Longitude,Latitude,Likes,Dislikes,CommentId,CityId,Website,CardPhoto")] Restaurant restaurant)
         {
-            if (id != bar.Id)
+            if (id != restaurant.Id)
             {
                 return NotFound();
             }
@@ -113,12 +114,12 @@ namespace LightsAndBites.Controllers
             {
                 try
                 {
-                    _context.Update(bar);
+                    _context.Update(restaurant);
                     await _context.SaveChangesAsync();
                 }
                 catch (DbUpdateConcurrencyException)
                 {
-                    if (!BarExists(bar.Id))
+                    if (!RestaurantExists(restaurant.Id))
                     {
                         return NotFound();
                     }
@@ -129,12 +130,12 @@ namespace LightsAndBites.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
-            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", bar.CategoryId);
-            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", bar.CityId);
-            return View(bar);
+            ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Id", restaurant.CategoryId);
+            ViewData["CityId"] = new SelectList(_context.Cities, "Id", "Id", restaurant.CityId);
+            return View(restaurant);
         }
 
-        // GET: BarsView/Delete/5
+        // GET: RestaurantsView/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
             if (id == null)
@@ -142,32 +143,32 @@ namespace LightsAndBites.Controllers
                 return NotFound();
             }
 
-            var bar = await _context.Bars
+            var restaurant = await _context.Restaurants
                 .Include(b => b.Category)
                 .Include(b => b.City)
                 .FirstOrDefaultAsync(m => m.Id == id);
-            if (bar == null)
+            if (restaurant == null)
             {
                 return NotFound();
             }
 
-            return View(bar);
+            return View(restaurant);
         }
 
-        // POST: BarsView/Delete/5
+        // POST: RestaurantsView/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var bar = await _context.Bars.FindAsync(id);
-            _context.Bars.Remove(bar);
+            var restaurant = await _context.Restaurants.FindAsync(id);
+            _context.Restaurants.Remove(restaurant);
             await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        private bool BarExists(int id)
+        private bool RestaurantExists(int id)
         {
-            return _context.Bars.Any(e => e.Id == id);
+            return _context.Restaurants.Any(e => e.Id == id);
         }
     }
 }
