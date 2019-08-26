@@ -1,6 +1,7 @@
 # LightsAndBites
 Group capstone 
 
+Trello board: https://trello.com/b/MU9EjWjY/group-capstone
 
 Note: for this to work, you will need to place a new class named "ApiKey.cs" in "LightsAndBites\LightsAndBites\APIKeys" (You must create this new folder). This file should look similar to the below:
 
