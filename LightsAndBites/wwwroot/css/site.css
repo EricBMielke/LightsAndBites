@@ -78,7 +78,23 @@ h2 {
     background-color: #ebebeb;
 }
 
-
+.blacklightsbackground{
+    background-image: url(/images/DarkLightsBackground.jpg);
+    background-repeat: no-repeat;
+    background-attachment:fixed;
+    background-size:cover;
+}
+.theFont {
+    font-family: "Palatino Linotype", "Book Antiqua", Palatino, serif;
+    letter-spacing: 2px;
+    word-spacing: 2px;
+    color: black;
+    font-weight: normal;
+    text-decoration: none;
+    font-style: normal;
+    font-variant: normal;
+    text-transform: none;
+}
 
 
 
