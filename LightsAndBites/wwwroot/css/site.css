@@ -101,3 +101,6 @@ h2 {
 .resize {
     max-width: 40%;
 }
+.topnav-right{
+    float:right;
+}
