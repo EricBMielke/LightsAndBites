@@ -7,5 +7,6 @@ namespace LightsAndBites.Classes
 {
     public class Recommendation
     {
+
     }
 }

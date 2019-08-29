@@ -34,6 +34,9 @@ namespace LightsAndBites.Controllers
         // GET: UserProfiles/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            var thisUserName = User.Identity.Name;
+            var thisUser = _context.UserProfile.FirstOrDefault(u => u.Email == thisUserName);
+            id = thisUser.Id;
             if (id == null)
             {
                 return NotFound();

@@ -13,7 +13,6 @@ namespace LightsAndBites.Models
         [Display(Name = "First Name")]
         public string FirstName { get; set; }
 
-
         public bool isSuperAdmin { get; set; }
         //email
         //id ref user table

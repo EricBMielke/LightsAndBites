@@ -30,13 +30,7 @@
                     <li class="nav-item">
 
                         <a class="nav-link" href="/Recommendations/Index">Home <span class="sr-only">(current)</span></a>
-                        @*@{
-                            @using Microsoft.AspNetCore.Identity
-                            
-                            var user = await UserManager.GetUserAsync(User);
-                            var userId = user?.Id;
-                        }
-                        <a class="nav-link" href="/UserProfiles/Details/@userId">Profile <span class="sr-only">(current)</span></a>*@
+                        <a class="nav-link" href="/UserProfiles/Details/">Profile <span class="sr-only">(current)</span></a>
                     </li>
 
                 </ul>
