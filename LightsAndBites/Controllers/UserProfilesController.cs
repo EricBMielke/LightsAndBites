@@ -28,6 +28,10 @@ namespace LightsAndBites.Controllers
         // GET: UserProfiles
         public async Task<IActionResult> Index()
         {
+            if (User.IsInRole("Admin"))
+            {
+                return RedirectToAction(nameof(Index), "Recommendations");
+            }
             return View(await _context.UserProfile.ToListAsync());
         }
 
